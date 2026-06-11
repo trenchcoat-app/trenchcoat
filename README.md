@@ -7,7 +7,7 @@
 * [Go](https://go.dev/)
 
 ### .env
-Create a .env file in the root of the repository based on .env.example.
+Create a .env file in the root of the repository based on `.env.example`
 
 ```
 POSTGRES_USER=                  # Database username
@@ -22,18 +22,18 @@ docker compose -f docker-compose.db.yaml up -d
 ```
 
 ### Backend
-1. Ensure the PostgreSQL container is running.
-2. Move to the backend directory `cd backend`.
-3. Start the Gin API server.
+1. Ensure the PostgreSQL container is running
+2. Move to the backend directory
+3. Start the Gin API server
 ```bash
 cd backend
 go run main.go
 ```
 
 ### Frontend
-1. Move to the frontend directory `cd frontend`.
-2. Install dependencies `npm install`
-3. Start the development server.
+1. Move to the frontend directory
+2. Install dependencies with `npm`
+3. Start the development server
 ```bash
 cd frontend
 npm install
