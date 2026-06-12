@@ -1,34 +1,37 @@
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { createRouter, createRootRoute, createRoute, Outlet, Link } from "@tanstack/react-router";
+import App from "./App";
+import About from "./pages/About";
 
-import type { ReactNode } from "react";
-import { QueryClient } from "@tanstack/react-query";
-import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
-import TanstackQueryProvider, {
-    getContext,
-} from "./integrations/tanstack-query/root-provider";
+const rootRoute = createRootRoute({
+    component: () => (
+        <>
+            <nav style={{ display: "flex", gap: "1rem", padding: "1rem", borderBottom: "1px solid #ccc" }}>
+                <Link to="/">Home</Link>
+                <Link to="/about">About</Link>
+            </nav>
+            <Outlet />
+        </>
+    ),
+});
 
-export function getRouter() {
-    const context = getContext();
+const indexRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/",
+    component: App,
+});
 
-    const router = createTanStackRouter({
-        routeTree,
-        context,
-        scrollRestoration: true,
-        defaultPreload: "intent",
-        defaultPreloadStaleTime: 0,
-    });
+const aboutRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/about",
+    component: About,
+});
 
-    setupRouterSsrQueryIntegration({
-        router,
-        queryClient: context.queryClient,
-    });
+const routeTree = rootRoute.addChildren([indexRoute, aboutRoute]);
 
-    return router;
-}
+export const router = createRouter({ routeTree });
 
 declare module "@tanstack/react-router" {
     interface Register {
-        router: ReturnType<typeof getRouter>;
+        router: typeof router;
     }
 }
