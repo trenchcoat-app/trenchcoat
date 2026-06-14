@@ -30,7 +30,7 @@ docker compose -f docker-compose.db.yaml up -d
 3. Start the Gin API server
 ```bash
 cd backend
-go run main.go
+go run cmd/main.go
 ```
 
 ### Frontend
