@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "codegen": "npm run codegen:gen:bundle && npm run codegen:gen:backend && npm run codegen:gen:frontend",
-    "codegen:fresh": "npm run clean && npm run codegen",
+    "codegen:fresh": "npm run codegen:clean && npm run codegen",
     "codegen:clean": "rm -f openapi/bundled.yaml backend/internal/api/openapi.gen.go && rm -rf frontend/src/api",
     "codegen:gen:bundle": "npx @redocly/cli bundle openapi/openapi.yaml -o openapi/bundled.yaml",
     "codegen:gen:backend": "cd backend && go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 --config=oapi-codegen.yaml ../openapi/bundled.yaml",
