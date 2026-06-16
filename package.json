@@ -2,11 +2,20 @@
   "name": "divvy-root",
   "private": true,
   "scripts": {
+    "initialize": "conc \"npm run initialize:backend\" \"npm run initialize:frontend\"",
+    "initialize:backend": "cd ./backend/ && go mod tidy",
+    "initialize:frontend": "cd ./frontend/ && npm install",
+    "dev": "conc \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd ./backend/ && go run ./cmd",
+    "dev:frontend": "cd ./frontend/ && npm run dev",
     "codegen": "npm run codegen:gen:bundle && npm run codegen:gen:backend && npm run codegen:gen:frontend",
     "codegen:fresh": "npm run codegen:clean && npm run codegen",
     "codegen:clean": "rm -f openapi/bundled.yaml backend/internal/api/openapi.gen.go && rm -rf frontend/src/api",
     "codegen:gen:bundle": "npx @redocly/cli bundle openapi/openapi.yaml -o openapi/bundled.yaml",
     "codegen:gen:backend": "cd backend && go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 --config=oapi-codegen.yaml ../openapi/bundled.yaml",
     "codegen:gen:frontend": "cd frontend && npm run codegen"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
   }
 }
