@@ -16,6 +16,7 @@ POSTGRES_PASSWORD=              # Database password
 POSTGRES_DB=                    # Database name
 POSTGRES_HOST=                  # Database host (optional, defaults to localhost)
 POSTGRES_PORT=                  # Database port (optional, defaults to 5432)
+VITE_BACKEND_URL=               # Backend API server URL (e.g., http://localhost:8080)
 ```
 
 ### Database
