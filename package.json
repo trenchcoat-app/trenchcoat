@@ -8,7 +8,7 @@
     "dev": "conc \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd ./backend/ && go run ./cmd",
     "dev:frontend": "cd ./frontend/ && npm run dev",
-    "codegen": "npm run codegen:gen:bundle && npm run codegen:gen:backend && npm run codegen:gen:frontend",
+    "codegen": "npm run codegen:gen:bundle && conc \"npm run codegen:gen:backend\" \"npm run codegen:gen:frontend\"",
     "codegen:fresh": "npm run codegen:clean && npm run codegen",
     "codegen:clean": "rm -f openapi/bundled.yaml backend/internal/api/openapi.gen.go && rm -rf frontend/src/api",
     "codegen:gen:bundle": "npx @redocly/cli bundle openapi/openapi.yaml -o openapi/bundled.yaml",
