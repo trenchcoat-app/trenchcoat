@@ -18,6 +18,7 @@ POSTGRES_PASSWORD=              # Database password
 POSTGRES_DB=                    # Database name
 POSTGRES_HOST=                  # Database host (optional, defaults to localhost)
 POSTGRES_PORT=                  # Database port (optional, defaults to 5432)
+VITE_BACKEND_URL=               # Backend API server URL (e.g., http://localhost:8080)
 ```
 
 ### Database
@@ -73,3 +74,19 @@ If you prefer to manage the services individually:
    npm install
    npm run dev
    ```
+
+## Code Generation
+
+The repository uses a multi-file OpenAPI specification pipeline to bundle specifications and automatically generate backend server stubs and frontend Tanstack Query hooks. All generated files should be under `.gitignore` to prevent having redundant information committed to VCS. Please raise an issue if a generated file somehow slips past `.gitignore`.
+
+To bundle the OpenAPI specification and run all code generators:
+
+```bash
+npm run codegen
+```
+
+To clean up all existing generated files and run a fresh build from scratch:
+
+```bash
+npm run codegen:fresh
+```

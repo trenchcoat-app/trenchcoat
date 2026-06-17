@@ -1,0 +1,8 @@
+openapi: 3.0.3
+info:
+  title: Divvy API
+  version: 1.0.0
+  description: API for Divvy.
+paths:
+  /api/v1/ping:
+    $ref: './paths/ping.yaml'

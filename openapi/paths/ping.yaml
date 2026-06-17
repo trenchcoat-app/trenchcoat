@@ -1,0 +1,11 @@
+get:
+  summary: Ping
+  description: Returns a simple pong message to test connectivity.
+  operationId: ping
+  responses:
+    '200':
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/PingResponse.yaml'
