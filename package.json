@@ -1,0 +1,15 @@
+{
+  "name": "divvy-root",
+  "private": true,
+  "scripts": {
+    "init": "conc \"npm run init:backend\" \"npm run init:frontend\"",
+    "init:backend": "cd ./backend/ && go mod tidy",
+    "init:frontend": "cd ./frontend/ && npm install",
+    "dev": "conc \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd ./backend/ && go run ./cmd",
+    "dev:frontend": "cd ./frontend/ && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
