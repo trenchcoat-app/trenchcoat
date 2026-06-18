@@ -1,0 +1,18 @@
+type: object
+required:
+  - email
+  - password
+  - name
+properties:
+  email:
+    type: string
+    format: email
+  password:
+    type: string
+    format: password
+  name:
+    type: string
+  autoSignIn:
+    type: boolean
+    default: false
+    description: "Specifies whether to automatically sign in and create a session for the user upon successful registration."

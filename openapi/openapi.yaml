@@ -5,4 +5,6 @@ info:
   description: API for Divvy.
 paths:
   /api/v1/ping:
-    $ref: './paths/ping.yaml'
+    $ref: "./paths/ping.yaml"
+  /api/v1/auth/sign-up:
+    $ref: "./paths/auth/sign-up.yaml"
