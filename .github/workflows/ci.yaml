@@ -22,6 +22,26 @@ jobs:
         with:
           go-version-file: backend/go.mod
 
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+
+      - name: install root dependencies
+        run: npm install
+        working-directory: .
+
+      - name: install frontend dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: ensure output directories exist
+        run: mkdir -p internal/api
+
+      - name: generate code
+        run: npm run codegen
+        working-directory: .
+
       - name: run go mod tidy
         run: go mod tidy
 
