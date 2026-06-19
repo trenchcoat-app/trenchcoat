@@ -18,7 +18,7 @@ jobs:
         working-directory: backend
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-backend
 
@@ -36,14 +36,15 @@ jobs:
         working-directory: backend
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-go@v6
         with:
           go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
 
       - name: download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: openapi-gen-go
           path: backend/internal/api/
@@ -67,14 +68,15 @@ jobs:
         working-directory: backend
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-go@v6
         with:
           go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
 
       - name: download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: openapi-gen-go
           path: backend/internal/api/
