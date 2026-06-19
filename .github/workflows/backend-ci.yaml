@@ -14,6 +14,7 @@ jobs:
         working-directory: backend
 
     steps:
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-backend
 
       - name: run go mod tidy
@@ -34,6 +35,7 @@ jobs:
         working-directory: backend
 
     steps:
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup-backend
 
       - name: run go test

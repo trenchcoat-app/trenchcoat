@@ -1,15 +1,13 @@
-name: 'setup backend'
-description: 'checkout, setup Go/Node, install deps, and generate backend code'
+name: setup backend
+description: setup Go, Node, install deps, and generate backend code
 runs:
-  using: 'composite'
+  using: composite
   steps:
-    - uses: actions/checkout@v6
-
-    - uses: actions/setup-go@v6
+    - uses: actions/setup-go@v5
       with:
         go-version-file: backend/go.mod
 
-    - uses: actions/setup-node@v6
+    - uses: actions/setup-node@v4
       with:
         node-version: '25'
 
