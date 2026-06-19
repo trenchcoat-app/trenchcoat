@@ -23,7 +23,7 @@ jobs:
       - uses: ./.github/actions/setup-backend
 
       - name: upload generated code
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: openapi-gen-go
           path: backend/internal/api/openapi.gen.go
