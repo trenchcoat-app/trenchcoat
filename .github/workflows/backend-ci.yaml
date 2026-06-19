@@ -31,15 +31,11 @@ jobs:
         run: npm install
         working-directory: .
 
-      - name: install frontend dependencies
-        run: npm install
-        working-directory: frontend
-
       - name: ensure output directories exist
         run: mkdir -p internal/api
 
       - name: generate code
-        run: npm run codegen
+        run: npm run codegen:gen:backend
         working-directory: .
 
       - name: run go mod tidy
@@ -77,15 +73,11 @@ jobs:
         run: npm install
         working-directory: .
 
-      - name: install frontend dependencies
-        run: npm install
-        working-directory: frontend
-
       - name: ensure output directories exist
         run: mkdir -p internal/api
 
       - name: generate code
-        run: npm run codegen
+        run: npm run codegen:gen:backend
         working-directory: .
 
       - name: run go test
