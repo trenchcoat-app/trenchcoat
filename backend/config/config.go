@@ -16,7 +16,12 @@ type Config struct {
 	CORS_ALLOWED_ORIGINS []string
 }
 
-var AppConfig Config
+var defaultConfig = Config{
+	POSTGRES_HOST:        "localhost",
+	POSTGRES_PORT:        "5432",
+	CORS_ALLOWED_ORIGINS: []string{"http://localhost:5173"},
+}
+var AppConfig = defaultConfig
 
 func Init() error {
 	err := godotenv.Load("../.env")
@@ -28,9 +33,9 @@ func Init() error {
 		POSTGRES_USER:        getEnvOrPanic("POSTGRES_USER"),
 		POSTGRES_PASSWORD:    getEnvOrPanic("POSTGRES_PASSWORD"),
 		POSTGRES_DB:          getEnvOrPanic("POSTGRES_DB"),
-		POSTGRES_HOST:        getEnvOrDefault("POSTGRES_HOST", "localhost"),
-		POSTGRES_PORT:        getEnvOrDefault("POSTGRES_PORT", "5432"),
-		CORS_ALLOWED_ORIGINS: strings.Split(getEnvOrDefault("CORS_ALLOWED_ORIGINS", "http://localhost:5173"), ","),
+		POSTGRES_HOST:        getEnvOrDefault("POSTGRES_HOST", defaultConfig.POSTGRES_HOST),
+		POSTGRES_PORT:        getEnvOrDefault("POSTGRES_PORT", defaultConfig.POSTGRES_PORT),
+		CORS_ALLOWED_ORIGINS: getEnvOrDefaultSlice("CORS_ALLOWED_ORIGINS", defaultConfig.CORS_ALLOWED_ORIGINS),
 	}
 
 	return nil
@@ -47,6 +52,13 @@ func getEnvOrPanic(key string) string {
 func getEnvOrDefault(key, fallback string) string {
 	if val := os.Getenv(key); val != "" {
 		return val
+	}
+	return fallback
+}
+
+func getEnvOrDefaultSlice(key string, fallback []string) []string {
+	if val := os.Getenv(key); val != "" {
+		return strings.Split(val, ",")
 	}
 	return fallback
 }

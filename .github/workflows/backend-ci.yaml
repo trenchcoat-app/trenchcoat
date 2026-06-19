@@ -1,0 +1,85 @@
+name: backend-ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-backend
+
+      - name: upload generated code
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-gen-go
+          path: backend/internal/api/openapi.gen.go
+
+  tidy:
+    needs: setup
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+
+      - name: download generated code
+        uses: actions/download-artifact@v8
+        with:
+          name: openapi-gen-go
+          path: backend/internal/api/
+
+      - name: run go mod tidy
+        run: go mod tidy
+
+      - name: check for diff
+        run: |
+          if [ -n "$(git status --porcelain go.mod go.sum)" ]; then
+            echo "go.mod or go.sum is not tidy. Run 'go mod tidy' and commit the changes."
+            git diff go.mod go.sum
+            exit 1
+          fi
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+
+      - name: download generated code
+        uses: actions/download-artifact@v8
+        with:
+          name: openapi-gen-go
+          path: backend/internal/api/
+
+      - name: run go test
+        run: go test ./...
