@@ -35,7 +35,7 @@ jobs:
         run: mkdir -p internal/api
 
       - name: generate code
-        run: npm run codegen:gen:backend
+        run: npm run codegen:gen:bundle && npm run codegen:gen:backend
         working-directory: .
 
       - name: run go mod tidy
@@ -77,7 +77,7 @@ jobs:
         run: mkdir -p internal/api
 
       - name: generate code
-        run: npm run codegen:gen:backend
+        run: npm run codegen:gen:bundle && npm run codegen:gen:backend
         working-directory: .
 
       - name: run go test
