@@ -23,6 +23,7 @@
         "paths": {
             "@api/*": ["./src/api/*"],
             "@components/*": ["./src/components/*"],
+            "@config/*": ["./src/config/*"],
             "@router/*": ["./src/router/*"]
         }
     },
