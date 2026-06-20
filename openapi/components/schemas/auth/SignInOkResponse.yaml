@@ -7,4 +7,3 @@ properties:
     $ref: "./Session.yaml"
   account:
     $ref: "./Account.yaml"
-
