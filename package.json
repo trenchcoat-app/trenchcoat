@@ -2,7 +2,7 @@
   "name": "divvy-root",
   "private": true,
   "scripts": {
-    "init": "conc \"npm run init:backend\" \"npm run init:frontend\"",
+    "init": "npm run codegen:fresh && conc \"npm run init:backend\" \"npm run init:frontend\"",
     "init:backend": "cd ./backend/ && go mod tidy",
     "init:frontend": "npm install -w frontend",
     "dev": "conc \"npm run dev:backend\" \"npm run dev:frontend\"",
