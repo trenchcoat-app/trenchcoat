@@ -16,13 +16,7 @@ export const aboutRoute = createRoute({
 export const signupRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/signup",
-    component: Signup
-})
+    component: Signup,
+});
 
-export const routeTree = rootRoute.addChildren([
-    navbarRoute.addChildren([
-        indexRoute, 
-        aboutRoute
-    ]),
-    signupRoute,
-]);
+export const routeTree = rootRoute.addChildren([navbarRoute.addChildren([indexRoute, aboutRoute]), signupRoute]);

@@ -9,5 +9,5 @@ const RootLayout = () => {
 };
 
 export const rootRoute = createRootRoute({
-    component: RootLayout
+    component: RootLayout,
 });
