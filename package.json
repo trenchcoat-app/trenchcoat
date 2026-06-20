@@ -9,7 +9,7 @@
     "dev:backend": "cd ./backend/ && go run ./cmd",
     "dev:frontend": "npm run dev -w frontend",
     "format": "conc \"npm run format:api\" \"npm run format:frontend\" \"npm run format:backend\"",
-    "format:api": "prettier -w ./openapi/",
+    "format:openapi": "prettier -w ./openapi/",
     "format:frontend": "npm run format -w frontend",
     "format:backend": "cd ./backend/ && gofmt -w -s .",
     "codegen": "npm run codegen:gen:bundle && conc \"npm run codegen:gen:backend\" \"npm run codegen:gen:frontend\"",
