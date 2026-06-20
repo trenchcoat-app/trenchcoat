@@ -15,4 +15,4 @@ properties:
   autoSignIn:
     type: boolean
     default: false
-    description: "Specifies whether to automatically sign in and create a session for the user upon successful registration."
+    description: "Specifies whether to automatically sign in and create a session for the account upon successful registration."

@@ -1,6 +1,6 @@
 post:
   summary: Sign-Up
-  description: Creates a new user.
+  description: Creates a new account.
   operationId: signUp
   requestBody:
     required: true
@@ -10,7 +10,7 @@ post:
           $ref: "../../components/schemas/auth/SignUpBody.yaml"
   responses:
     "201":
-      description: Successfully created a new user
+      description: Successfully created a new account
       content:
         application/json:
           schema:

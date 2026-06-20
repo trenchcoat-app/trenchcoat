@@ -1,6 +1,6 @@
 post:
   summary: Sign-In
-  description: Create a new session for the user.
+  description: Create a new session for the account.
   operationId: signIn
   requestBody:
     required: true

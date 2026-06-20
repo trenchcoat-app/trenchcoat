@@ -1,6 +1,6 @@
 post:
   summary: Sign-Out
-  description: Invalidates the user's active session.
+  description: Invalidates the account's active session.
   operationId: signOut
   responses:
     '204':
