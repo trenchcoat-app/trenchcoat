@@ -1,8 +1,6 @@
 import { createRoute } from "@tanstack/react-router";
 import { rootRoute } from "@router/layouts/RootLayout";
-import { Home } from "@components/pages/Home";
-import { About } from "@components/pages/About";
-import { Signup } from "@components/pages/Signup";
+import { Home, About, Signup } from "@components/pages";
 import { navbarRoute } from "./layouts/NavbarLayout";
 
 export const indexRoute = createRoute({
