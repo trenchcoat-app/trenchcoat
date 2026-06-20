@@ -1,0 +1,47 @@
+post:
+  summary: Sign-Up
+  description: Creates a new account.
+  operationId: signUp
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/auth/SignUpBody.yaml"
+  responses:
+    "201":
+      description: Successfully created a new account
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/auth/SignUpOkResponse.yaml"
+    "400":
+      description: Bad Request (e.g., malformed JSON payload)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "409":
+      description: Conflict (e.g., email address is already taken)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "422":
+      description: Unprocessable Entity (e.g., password does not meet security requirements)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "429":
+      description: Too Many Requests (rate limit exceeded)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "500":
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"

@@ -1,0 +1,19 @@
+post:
+  summary: Sign-Out
+  description: Invalidates the account's active session.
+  operationId: signOut
+  responses:
+    "204":
+      description: Successfully signed out and session invalidated.
+    "401":
+      description: Unauthorized (invalid or missing session token)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "500":
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"

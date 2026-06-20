@@ -1,0 +1,17 @@
+type: object
+required:
+  - token
+  - expiresAt
+  - accountId
+properties:
+  token:
+    type: string
+    format: uuid
+    description: Session token for authentication.
+  expiresAt:
+    type: string
+    format: date-time
+    description: Session expiration timestamp.
+  accountId:
+    type: string
+    format: uuid

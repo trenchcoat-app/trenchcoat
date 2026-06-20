@@ -16,7 +16,7 @@
     "codegen:fresh": "npm run codegen:clean && npm run codegen",
     "codegen:clean": "rm -f openapi/bundled.yaml backend/internal/api/openapi.gen.go && rm -rf frontend/src/api",
     "codegen:gen:bundle": "redocly bundle openapi/openapi.yaml -o openapi/bundled.yaml",
-    "codegen:gen:backend": "cd backend && go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 --config=oapi-codegen.yaml ../openapi/bundled.yaml",
+    "codegen:gen:backend": "cd backend && mkdir -p './internal/api/' && go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 --config=oapi-codegen.yaml ../openapi/bundled.yaml",
     "codegen:gen:frontend": "npm run codegen -w frontend"
   },
   "devDependencies": {
