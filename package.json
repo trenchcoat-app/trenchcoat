@@ -20,7 +20,7 @@
     "codegen:gen:frontend": "npm run codegen -w frontend"
   },
   "devDependencies": {
-    "@redocly/cli": "^2.33.2",
+    "@redocly/cli": "^2.34.0",
     "concurrently": "^10.0.3",
     "prettier": "^3.8.4"
   },
