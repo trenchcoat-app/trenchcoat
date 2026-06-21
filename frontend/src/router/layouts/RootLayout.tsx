@@ -2,7 +2,7 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 const RootLayout = () => {
     return (
-        <main style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <main>
             <Outlet />
         </main>
     );
