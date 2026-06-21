@@ -1,4 +1,4 @@
-import { Ping } from "@components/shared/ping";
+import { Ping } from "@components/shared/Ping";
 
 export const Home = () => {
     return (
