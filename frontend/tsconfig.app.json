@@ -21,7 +21,10 @@
         "erasableSyntaxOnly": true,
         "noFallthroughCasesInSwitch": true,
         "paths": {
-            "@api/*": ["./src/api/*"]
+            "@api/*": ["./src/api/*"],
+            "@components/*": ["./src/components/*"],
+            "@config/*": ["./src/config/*"],
+            "@router/*": ["./src/router/*"]
         }
     },
     "include": ["src"]
