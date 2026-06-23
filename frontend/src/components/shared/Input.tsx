@@ -7,8 +7,6 @@ interface InputProps extends ComponentProps<"input"> {
 }
 
 export const Input = ({ id, ref, label, errors, ...props }: InputProps) => {
-    console.log(errors);
-
     const generatedId = useId();
     const inputId = id ?? generatedId;
 
