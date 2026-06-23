@@ -23,47 +23,48 @@ func (s *Server) SignIn(c *gin.Context) {
 		return
 	}
 
-	var errorDetails []struct {
-		Field   string `json:"field"`
-		Message string `json:"message"`
-	}
-
 	emailStr := strings.TrimSpace(string(body.Email))
-	if emailStr == "" {
-		errorDetails = append(errorDetails, struct {
-			Field   string `json:"field"`
-			Message string `json:"message"`
-		}{Field: "email", Message: "Email is required"})
+
+	{
+		validationErrorDetails := checkSignInValidationErrors(emailStr, body.Password)
+
+		if len(validationErrorDetails) > 0 {
+			c.JSON(http.StatusUnprocessableEntity, api.ErrorResponse{
+				Code:    "VALIDATION_FAILED",
+				Message: "Request validation failed.",
+				Details: &validationErrorDetails,
+			})
+			return
+		}
 	}
 
-	if body.Password == "" {
-		errorDetails = append(errorDetails, struct {
-			Field   string `json:"field"`
-			Message string `json:"message"`
-		}{Field: "password", Message: "Password is required"})
+	type AccountRow struct {
+		ID           openapi_types.UUID `db:"id"`
+		DisplayName  string             `db:"display_name"`
+		PasswordHash string             `db:"password_hash"`
+		Status       string             `db:"status"`
 	}
 
-	if len(errorDetails) > 0 {
-		c.JSON(http.StatusUnprocessableEntity, api.ErrorResponse{
-			Code:    "VALIDATION_FAILED",
-			Message: "Request validation failed.",
-			Details: &errorDetails,
+	sql := `
+            SELECT id, display_name, password_hash, status
+            FROM account
+            WHERE email = $1
+        `
+
+	rows, err := s.DB.Query(
+		c.Request.Context(),
+		sql,
+		strings.ToLower(emailStr),
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, api.ErrorResponse{
+			Code:    "INTERNAL_SERVER_ERROR",
+			Message: "Database query failed: " + err.Error(),
 		})
 		return
 	}
 
-	var (
-		userID       openapi_types.UUID
-		displayName  string
-		passwordHash string
-		status       string
-	)
-
-	err := s.DB.QueryRow(
-		c.Request.Context(),
-		"SELECT id, display_name, password_hash, status FROM account WHERE email = $1",
-		strings.ToLower(emailStr),
-	).Scan(&userID, &displayName, &passwordHash, &status)
+	account, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[AccountRow])
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusUnauthorized, api.ErrorResponse{
@@ -79,16 +80,15 @@ func (s *Server) SignIn(c *gin.Context) {
 		return
 	}
 
-	if status != "active" {
+	if account.Status != "active" {
 		c.JSON(http.StatusUnauthorized, api.ErrorResponse{
 			Code:    "INVALID_CREDENTIALS",
 			Message: "Invalid email or password.",
-			// Keep error message vague for security, but allow rejection if disabled
 		})
 		return
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(body.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(account.PasswordHash), []byte(body.Password))
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, api.ErrorResponse{
 			Code:    "INVALID_CREDENTIALS",
@@ -97,7 +97,9 @@ func (s *Server) SignIn(c *gin.Context) {
 		return
 	}
 
+	// NOTE: Should probably be extracted elsewhere, this information feels too hidden inside the sign-in handler
 	expiresAt := time.Now().Add(24 * time.Hour)
+
 	var sessionToken openapi_types.UUID
 	err = s.DB.QueryRow(
 		c.Request.Context(),
@@ -105,7 +107,7 @@ func (s *Server) SignIn(c *gin.Context) {
 		expiresAt,
 		c.ClientIP(),
 		c.GetHeader("User-Agent"),
-		userID,
+		account.ID,
 	).Scan(&sessionToken, &expiresAt)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, api.ErrorResponse{
@@ -117,14 +119,31 @@ func (s *Server) SignIn(c *gin.Context) {
 
 	c.JSON(http.StatusOK, api.SignInOkResponse{
 		Account: api.Account{
-			Id:          userID,
+			Id:          account.ID,
 			Email:       body.Email,
-			DisplayName: &displayName,
+			DisplayName: &account.DisplayName,
 		},
 		Session: api.Session{
 			Token:     sessionToken,
 			ExpiresAt: expiresAt,
-			AccountId: userID,
+			AccountId: account.ID,
 		},
 	})
+}
+
+func checkSignInValidationErrors(email string, password string) (errorDetails []api.ErrorResponseDetail) {
+	if email == "" {
+		errorDetails = append(errorDetails, struct {
+			Field   string `json:"field"`
+			Message string `json:"message"`
+		}{Field: "email", Message: "Email is required"})
+	}
+
+	if password == "" {
+		errorDetails = append(errorDetails, struct {
+			Field   string `json:"field"`
+			Message string `json:"message"`
+		}{Field: "password", Message: "Password is required"})
+	}
+	return
 }
