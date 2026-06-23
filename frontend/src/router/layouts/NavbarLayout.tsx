@@ -1,6 +1,6 @@
-import { Navbar } from "@components/features/Navbar";
+import { Navbar } from "@/components/features/Navbar";
 import { createRoute, Outlet } from "@tanstack/react-router";
-import { rootRoute } from "@router/layouts/RootLayout";
+import { rootRoute } from "@/router/layouts/RootLayout";
 
 const NavbarLayout = () => {
     return (
