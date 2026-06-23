@@ -11,16 +11,5 @@ properties:
     description: "A human-readable description of the error."
   details:
     type: array
-    description: "Optional list of validation errors per field."
     items:
-      type: object
-      required:
-        - field
-        - message
-      properties:
-        field:
-          type: string
-          description: "The request body field that caused the validation error."
-        message:
-          type: string
-          description: "Description of the validation failure for this field."
+      $ref: "./ErrorResponseDetail.yaml"

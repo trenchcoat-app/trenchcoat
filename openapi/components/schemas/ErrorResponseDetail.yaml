@@ -1,0 +1,12 @@
+type: object
+description: "Optional list of validation errors per field."
+required:
+  - field
+  - message
+properties:
+  field:
+    type: string
+    description: "The request body field that caused the validation error."
+  message:
+    type: string
+    description: "Description of the validation failure for this field."
