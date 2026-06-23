@@ -10,7 +10,7 @@ properties:
   password:
     type: string
     format: password
-  name:
+  displayName:
     type: string
   autoSignIn:
     type: boolean
