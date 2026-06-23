@@ -26,5 +26,5 @@ func main() {
 	database := db.OpenDB()
 	defer database.Close()
 
-	server.Run()
+	server.Run(database)
 }

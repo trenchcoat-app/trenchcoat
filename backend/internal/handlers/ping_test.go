@@ -16,7 +16,7 @@ import (
 func TestPingRoute(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
-	router := server.GetRouter()
+	router := server.GetRouter(nil)
 
 	httpRecorder := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/api/v1/ping", nil)

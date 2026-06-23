@@ -8,9 +8,10 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func GetRouter() *gin.Engine {
+func GetRouter(db *pgxpool.Pool) *gin.Engine {
 	router := gin.Default()
 
 	corsConfig := cors.Config{
@@ -21,14 +22,14 @@ func GetRouter() *gin.Engine {
 	}
 	router.Use(cors.New(corsConfig))
 
-	srv := handlers.NewServer()
+	srv := handlers.NewServer(db)
 	api.RegisterHandlers(router, srv)
 
 	return router
 }
 
-func Run() {
-	router := GetRouter()
+func Run(db *pgxpool.Pool) {
+	router := GetRouter(db)
 
 	if err := router.Run(); err != nil {
 		log.Fatal(err)
