@@ -12,7 +12,7 @@ export const SignupForm = () => {
     const defaultValues: SignUpBody & { confirmPassword: string } = {
         email: "",
         password: "",
-        name: "",
+        displayName: "",
         confirmPassword: "",
     }
 
@@ -53,7 +53,7 @@ export const SignupForm = () => {
             </form.Field>
             
             <form.Field 
-                name="name"
+                name="displayName"
                 validators={{
                     onBlur: requiredFieldValidator,
                 }}
