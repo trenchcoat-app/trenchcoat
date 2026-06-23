@@ -1,0 +1,30 @@
+.button-wrapper {
+    display: flex;
+    padding: 0.2em 1em 0.2em 1em;
+}
+
+.button {
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    border-style: none;
+    font-weight: bold;
+    background: #4f46e5;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.button:hover {
+    background: #4338ca;
+}
+
+.button:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #9ca3af;
+}
