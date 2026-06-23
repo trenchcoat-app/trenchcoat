@@ -114,9 +114,14 @@ export const SignupForm = () => {
                 )}
             </form.Field>
 
-            <Button type="submit" disabled={mutation.isPending}>
-                {mutation.isPending ? "..." : "Sign Up"}
-            </Button>
+            <form.Subscribe
+                selector={(state) => [state.canSubmit, state.isSubmitting]}
+                children={([canSubmit, isSubmitting]) => (
+                <Button type="submit" disabled={!canSubmit}>
+                    {isSubmitting ? '...' : 'Submit'}
+                </Button>
+                )}
+            />
         </form>
     );
 };
