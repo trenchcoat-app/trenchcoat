@@ -14,7 +14,7 @@ export const SignupForm = () => {
         password: "",
         displayName: "",
         confirmPassword: "",
-    }
+    };
 
     const form = useForm({
         defaultValues,
@@ -31,7 +31,7 @@ export const SignupForm = () => {
                 form.handleSubmit();
             }}
         >
-            <form.Field 
+            <form.Field
                 name="email"
                 validators={{
                     onBlur: requiredFieldValidator,
@@ -51,8 +51,8 @@ export const SignupForm = () => {
                     />
                 )}
             </form.Field>
-            
-            <form.Field 
+
+            <form.Field
                 name="displayName"
                 validators={{
                     onBlur: requiredFieldValidator,
@@ -72,7 +72,7 @@ export const SignupForm = () => {
                 )}
             </form.Field>
 
-            <form.Field 
+            <form.Field
                 name="password"
                 validators={{
                     onBlur: requiredFieldValidator,
@@ -117,9 +117,9 @@ export const SignupForm = () => {
             <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
-                <Button type="submit" disabled={!canSubmit}>
-                    {isSubmitting ? '...' : 'Submit'}
-                </Button>
+                    <Button type="submit" disabled={!canSubmit}>
+                        {isSubmitting ? "..." : "Submit"}
+                    </Button>
                 )}
             />
         </form>

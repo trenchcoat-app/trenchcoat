@@ -2,8 +2,8 @@ import { useId, type ComponentProps } from "react";
 import "./Input.css";
 
 interface InputProps extends ComponentProps<"input"> {
-    label?: string
-    errors?: (string | undefined)[]
+    label?: string;
+    errors?: (string | undefined)[];
 }
 
 export const Input = ({ id, ref, label, errors, ...props }: InputProps) => {
@@ -15,16 +15,15 @@ export const Input = ({ id, ref, label, errors, ...props }: InputProps) => {
 
     return (
         <div className="input-wrapper">
-            {label && <label htmlFor={inputId} className="input-label">{label}</label>}
-            <input
-                id={inputId}
-                className={`input ${hasErrors ? "input-invalid" : ""}`}
-                ref={ref} 
-                {...props}
-            />
+            {label && (
+                <label htmlFor={inputId} className="input-label">
+                    {label}
+                </label>
+            )}
+            <input id={inputId} className={`input ${hasErrors ? "input-invalid" : ""}`} ref={ref} {...props} />
             <div id={`${inputId}-error`} className="input-error">
                 <p>{hasErrors ? activeErrors[0] : ""}</p>
             </div>
         </div>
     );
-}
+};

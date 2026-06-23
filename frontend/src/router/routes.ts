@@ -14,9 +14,4 @@ export const signupRoute = createRoute({
     component: Signup,
 });
 
-export const routeTree = rootRoute.addChildren([
-    navbarRoute.addChildren([
-        indexRoute,
-        signupRoute,
-    ]),
-]);
+export const routeTree = rootRoute.addChildren([navbarRoute.addChildren([indexRoute, signupRoute])]);

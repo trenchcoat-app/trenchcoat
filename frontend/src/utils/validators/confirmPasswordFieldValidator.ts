@@ -6,4 +6,3 @@ export const confirmPasswordFieldValidator: Validator = ({ value, fieldApi }: { 
     if (value !== password) return "Passwords must match";
     return undefined;
 };
-
