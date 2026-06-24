@@ -1,5 +1,10 @@
 import { SignUpForm } from "@/components/features/SignUpForm";
+import "./SignUp.css"
 
 export const SignUp = () => {
-    return <SignUpForm />;
+    return (
+        <div className="page-wrapper">
+            <SignUpForm />
+        </div>
+    );
 };

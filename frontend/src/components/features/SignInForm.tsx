@@ -1,10 +1,12 @@
 import { signInMutation } from "@/api/@tanstack/react-query.gen";
 import type { SignInBody, SignInOkResponse } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
+import { Link } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { Input, Button } from "@/components/shared";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
+import "./SignInForm.css"
 
 export const SignInForm = () => {
     const { t } = useTranslation();
@@ -33,7 +35,10 @@ export const SignInForm = () => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
+            className="form"
         >
+            <h1 className="form-title">{t("auth:SIGNIN_TITLE")}</h1>
+
             <form.Field name="email">
                 {(field) => (
                     <Input
@@ -71,6 +76,10 @@ export const SignInForm = () => {
                     </Button>
                 )}
             />
+
+            <div>
+                <span className="footnote">{t("auth:DONT_HAVE_AN_ACCOUNT")}{" "}<Link to="/signup">{t("auth:SIGNUP")}</Link></span>
+            </div>
         </form>
     );
 };
