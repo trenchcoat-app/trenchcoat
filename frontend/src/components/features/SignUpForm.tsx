@@ -63,7 +63,6 @@ export const SignUpForm = () => {
                 {(field) => (
                     <Input
                         name={field.name}
-                        autoComplete={field.name}
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
@@ -83,7 +82,6 @@ export const SignUpForm = () => {
                 {(field) => (
                     <Input
                         name={field.name}
-                        autoComplete={field.name}
                         type="password"
                         value={field.state.value}
                         onBlur={field.handleBlur}
@@ -104,7 +102,6 @@ export const SignUpForm = () => {
                 {(field) => (
                     <Input
                         name={field.name}
-                        autoComplete={field.name}
                         type="password"
                         value={field.state.value}
                         onBlur={field.handleBlur}

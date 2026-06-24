@@ -46,7 +46,6 @@ export const SignInForm = () => {
                 {(field) => (
                     <Input
                         name={field.name}
-                        autoComplete={field.name}
                         type="password"
                         value={field.state.value}
                         onBlur={field.handleBlur}
