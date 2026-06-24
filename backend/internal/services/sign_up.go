@@ -18,7 +18,7 @@ func isValidEmail(email string) bool {
 }
 
 func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBody) (errorDetails []api.ErrorResponseDetail) {
-	nameTrimmed := strings.TrimSpace(body.Name)
+	nameTrimmed := strings.TrimSpace(body.DisplayName)
 	if nameTrimmed == "" {
 		errorDetails = append(errorDetails, struct {
 			Field   string `json:"field"`
@@ -46,7 +46,7 @@ func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBod
 
 func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*api.Account, *api.Session, *api_error.ApiError) {
 	emailStr := strings.TrimSpace(string(body.Email))
-	nameTrimmed := strings.TrimSpace(body.Name)
+	nameTrimmed := strings.TrimSpace(body.DisplayName)
 
 	sqlExists := `
 		SELECT EXISTS(SELECT 1 FROM account WHERE email = $1)
