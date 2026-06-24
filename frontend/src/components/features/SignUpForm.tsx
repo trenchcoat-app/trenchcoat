@@ -6,7 +6,7 @@ import type { SignUpBody } from "@/api/types.gen";
 import { requiredFieldValidator, confirmPasswordFieldValidator } from "@/utils/validators";
 import { composeValidators } from "@/utils/validator-util";
 
-export const SignupForm = () => {
+export const SignUpForm = () => {
     const mutation = useMutation(signUpMutation());
 
     const defaultValues: SignUpBody & { confirmPassword: string } = {
