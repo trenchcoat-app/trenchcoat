@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import { Input, Button } from "@/components/shared";
 import type { SignUpBody } from "@/api/types.gen";
-import { requiredFieldValidator, confirmPasswordFieldValidator } from "@/utils/validators";
+import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
 import { composeValidators } from "@/utils/validator-util";
 
 export const SignUpForm = () => {
@@ -75,7 +75,7 @@ export const SignUpForm = () => {
             <form.Field
                 name="password"
                 validators={{
-                    onBlur: requiredFieldValidator,
+                    onBlur: composeValidators(requiredFieldValidator, passwordLengthFieldValidator),
                 }}
             >
                 {(field) => (
