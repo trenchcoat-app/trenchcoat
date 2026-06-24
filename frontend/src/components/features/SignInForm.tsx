@@ -24,9 +24,7 @@ export const SignInForm = () => {
                 form.handleSubmit();
             }}
         >
-            <form.Field
-                name="email"
-            >
+            <form.Field name="email">
                 {(field) => (
                     <Input
                         name={field.name}
@@ -42,9 +40,7 @@ export const SignInForm = () => {
                 )}
             </form.Field>
 
-            <form.Field
-                name="password"
-            >
+            <form.Field name="password">
                 {(field) => (
                     <Input
                         name={field.name}
@@ -70,4 +66,4 @@ export const SignInForm = () => {
             />
         </form>
     );
-}
+};
