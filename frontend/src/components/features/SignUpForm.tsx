@@ -36,7 +36,7 @@ export const SignUpForm = () => {
             <form.Field
                 name="email"
                 validators={{
-                    onBlur: requiredFieldValidator,
+                    onChange: requiredFieldValidator,
                 }}
             >
                 {(field) => (
@@ -57,7 +57,7 @@ export const SignUpForm = () => {
             <form.Field
                 name="displayName"
                 validators={{
-                    onBlur: requiredFieldValidator,
+                    onChange: requiredFieldValidator,
                 }}
             >
                 {(field) => (
@@ -76,7 +76,7 @@ export const SignUpForm = () => {
             <form.Field
                 name="password"
                 validators={{
-                    onBlur: composeValidators(requiredFieldValidator, passwordLengthFieldValidator),
+                    onChange: composeValidators(requiredFieldValidator, passwordLengthFieldValidator),
                 }}
             >
                 {(field) => (
@@ -96,7 +96,7 @@ export const SignUpForm = () => {
             <form.Field
                 name="confirmPassword"
                 validators={{
-                    onBlur: confirmPasswordFieldValidator,
+                    onChange: confirmPasswordFieldValidator,
                 }}
             >
                 {(field) => (
