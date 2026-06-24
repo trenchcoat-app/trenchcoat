@@ -4,7 +4,7 @@ import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import { Input, Button } from "@/components/shared";
 import type { SignUpBody } from "@/api/types.gen";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
-import { composeValidators } from "@/utils/validator-util";
+import { composeValidators, extractErrors, localizeErrors } from "@/utils/validator-util";
 import { useTranslation } from "react-i18next";
 
 export const SignUpForm = () => {
@@ -49,7 +49,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:EMAIL")}
                         placeholder={t("auth:EMAIL_PLACEHOLDER")}
-                        errors={field.state.meta.errors}
+                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
                     />
                 )}
             </form.Field>
@@ -68,7 +68,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:DISPLAY_NAME")}
                         placeholder={t("auth:DISPLAY_NAME")}
-                        errors={field.state.meta.errors}
+                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
                     />
                 )}
             </form.Field>
@@ -88,7 +88,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:PASSWORD")}
                         placeholder={t("auth:PASSWORD")}
-                        errors={field.state.meta.errors}
+                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
                     />
                 )}
             </form.Field>
@@ -108,7 +108,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:CONFIRM_PASSWORD")}
                         placeholder={t("auth:CONFIRM_PASSWORD")}
-                        errors={field.state.meta.errors}
+                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
                     />
                 )}
             </form.Field>

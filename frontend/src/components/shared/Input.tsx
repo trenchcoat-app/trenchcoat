@@ -1,20 +1,16 @@
 import { useId, type ComponentProps } from "react";
-import { useTranslation } from "react-i18next";
 import "./Input.css";
 
 interface InputProps extends ComponentProps<"input"> {
     label?: string;
-    errors?: (string | undefined)[];
+    errors?: string[];
 }
 
-export const Input = ({ id, ref, label, errors, ...props }: InputProps) => {
-    const { t } = useTranslation(['validation']);
-
+export const Input = ({ id, ref, label, errors = [], ...props }: InputProps) => {
     const generatedId = useId();
     const inputId = id ?? generatedId;
 
-    const activeErrors = errors?.filter(Boolean) ?? [];
-    const hasErrors = activeErrors.length > 0;
+    const hasErrors = errors.length > 0;
 
     return (
         <div className="input-wrapper">
@@ -25,7 +21,7 @@ export const Input = ({ id, ref, label, errors, ...props }: InputProps) => {
             )}
             <input id={inputId} className={`input ${hasErrors ? "input-invalid" : ""}`} ref={ref} {...props} />
             <div id={`${inputId}-error`} className="input-error">
-                <p>{hasErrors ? t(activeErrors[0] as string) : ""}</p>
+                {hasErrors && <p>{errors[0]}</p>}
             </div>
         </div>
     );

@@ -37,7 +37,6 @@ export const SignInForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:EMAIL")}
                         placeholder={t("auth:EMAIL_PLACEHOLDER")}
-                        errors={field.state.meta.errors}
                     />
                 )}
             </form.Field>
@@ -52,7 +51,6 @@ export const SignInForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:PASSWORD")}
                         placeholder={t("auth:PASSWORD")}
-                        errors={field.state.meta.errors}
                     />
                 )}
             </form.Field>
