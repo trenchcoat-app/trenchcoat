@@ -96,7 +96,7 @@ export const SignUpForm = () => {
             <form.Field
                 name="confirmPassword"
                 validators={{
-                    onBlur: composeValidators(requiredFieldValidator, confirmPasswordFieldValidator),
+                    onBlur: confirmPasswordFieldValidator,
                 }}
             >
                 {(field) => (
