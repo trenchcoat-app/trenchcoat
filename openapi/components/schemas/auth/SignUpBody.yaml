@@ -2,7 +2,7 @@ type: object
 required:
   - email
   - password
-  - name
+  - displayName
 properties:
   email:
     type: string
@@ -10,7 +10,7 @@ properties:
   password:
     type: string
     format: password
-  name:
+  displayName:
     type: string
   autoSignIn:
     type: boolean
