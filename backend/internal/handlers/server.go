@@ -1,15 +1,15 @@
 package handlers
 
 import (
-	"github.com/jackc/pgx/v5/pgxpool"
+	"trenchcoat/internal/services"
 )
 
 // This struct's main purpose is to implement api.ServerInterface from
 // oapi-codegen's auto-generated code based on the OpenAPI schema.
 type Server struct {
-	DB *pgxpool.Pool
+	AuthService *services.AuthService
 }
 
-func NewServer(db *pgxpool.Pool) *Server {
-	return &Server{DB: db}
+func NewServer(authService *services.AuthService) *Server {
+	return &Server{AuthService: authService}
 }

@@ -5,6 +5,7 @@ import (
 	"trenchcoat/config"
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/handlers"
+	"trenchcoat/internal/services"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,9 @@ func GetRouter(db *pgxpool.Pool) *gin.Engine {
 	}
 	router.Use(cors.New(corsConfig))
 
-	srv := handlers.NewServer(db)
+	authService := services.NewAuthService(db)
+
+	srv := handlers.NewServer(authService)
 	api.RegisterHandlers(router, srv)
 
 	return router
