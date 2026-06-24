@@ -1,19 +1,16 @@
 import type { Validator, ValidatorContext } from "@/types/validator";
+import type { TFunction } from "i18next";
 
-/**
- * Composes multiple validators into a single validator function.
- *
- * Each validator is executed with the same validation context, and any returned
- * error messages (truthy values) are collected into an array.
- *
- * @param validators - A list of validator functions to run in sequence.
- * @returns A single validator function that returns an array of error messages.
- *          If no validators return errors, the array will be empty.
- */
+// Runs multiple validators and collects their results.
 export const composeValidators =
     (...validators: Validator[]) =>
-    (context: ValidatorContext) => {
-        const errors = validators.map((validator) => validator(context)).filter(Boolean);
+    (context: ValidatorContext): (string | undefined)[] =>
+        validators.map((validator) => validator(context));
 
-        return errors;
-    };
+// Narrows a mixed array of validation results down to only the error strings.
+export const extractErrors = (errors: (string | undefined)[]): string[] =>
+    errors.filter((e): e is string => typeof e === "string");
+
+export const localizeErrors = (errors: string[], t: TFunction ): string[] => {
+    return errors.map((key) => t(`validation:${key}`));
+}
