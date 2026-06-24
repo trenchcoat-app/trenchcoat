@@ -11,6 +11,7 @@ export const composeValidators =
 export const extractErrors = (errors: (string | undefined)[]): string[] =>
     errors.filter((e): e is string => typeof e === "string");
 
+// Translates validation error keys into human-readable messages using the "validation" i18n namespace via i18next's TFunction.
 export const localizeErrors = (errors: string[], t: TFunction ): string[] => {
     return errors.map((key) => t(`validation:${key}`));
 }
