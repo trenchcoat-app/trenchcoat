@@ -31,7 +31,7 @@ func (auth *AuthService) ParseAuthToken(authHeader string) (uuid.UUID, *api_erro
 	return tokenUUID, nil
 }
 
-func (auth *AuthService) SignOut(c *gin.Context, tokenUUID uuid.UUID) error {
+func (auth *AuthService) SignOut(c *gin.Context, tokenUUID uuid.UUID) *api_error.ApiError {
 	sql := `
 		DELETE FROM session
 		WHERE token = $1

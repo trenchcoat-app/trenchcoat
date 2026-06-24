@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"strings"
 	"time"
 	"trenchcoat/internal/api"
@@ -20,17 +19,15 @@ type AccountRow struct {
 	Status       string             `db:"status"`
 }
 
-func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*api.Account, *api.Session, error) {
-	account, err := auth.getAccountRow(c, body)
-
-	if err != nil {
-		return nil, nil, err
+func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*api.Account, *api.Session, *api_error.ApiError) {
+	account, apiErr := auth.getAccountRow(c, body)
+	if apiErr != nil {
+		return nil, nil, apiErr
 	}
 
-	sessionToken, expiresAt, err := auth.createSession(c, *account)
-
-	if err != nil {
-		return nil, nil, err
+	sessionToken, expiresAt, apiErr := auth.createSession(c, *account)
+	if apiErr != nil {
+		return nil, nil, apiErr
 	}
 
 	return &api.Account{
@@ -63,12 +60,12 @@ func (auth *AuthService) ValidateSignInCredentials(body api.SignInJSONRequestBod
 	return
 }
 
-func (auth *AuthService) getAccountRow(c *gin.Context, body api.SignInJSONRequestBody) (*AccountRow, error) {
+func (auth *AuthService) getAccountRow(c *gin.Context, body api.SignInJSONRequestBody) (*AccountRow, *api_error.ApiError) {
 	sql := `
-            SELECT id, display_name, password_hash, status
-            FROM account
-            WHERE email = $1
-        `
+		SELECT id, display_name, password_hash, status
+		FROM account
+		WHERE email = $1
+	`
 
 	rows, err := auth.DB.Query(
 		c.Request.Context(),
@@ -81,7 +78,7 @@ func (auth *AuthService) getAccountRow(c *gin.Context, body api.SignInJSONReques
 
 	account, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[AccountRow])
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
+		if err == pgx.ErrNoRows {
 			return nil, api_error.SignInInvalidCredentialsError()
 		}
 		return nil, api_error.InternalServerError("Database query failed: " + err.Error())
@@ -99,7 +96,7 @@ func (auth *AuthService) getAccountRow(c *gin.Context, body api.SignInJSONReques
 	return &account, nil
 }
 
-func (auth *AuthService) createSession(c *gin.Context, account AccountRow) (sessionToken *openapi_types.UUID, expiresAt *time.Time, err error) {
+func (auth *AuthService) createSession(c *gin.Context, account AccountRow) (sessionToken *openapi_types.UUID, expiresAt *time.Time, apiErr *api_error.ApiError) {
 	expiresAt = auth.getNewSessionExpireTime()
 
 	sql := `
@@ -108,7 +105,7 @@ func (auth *AuthService) createSession(c *gin.Context, account AccountRow) (sess
 		RETURNING token, expires_at
 	`
 
-	err = auth.DB.QueryRow(
+	err := auth.DB.QueryRow(
 		c.Request.Context(),
 		sql,
 		expiresAt,
@@ -118,7 +115,7 @@ func (auth *AuthService) createSession(c *gin.Context, account AccountRow) (sess
 	).Scan(&sessionToken, &expiresAt)
 
 	if err != nil {
-		err = api_error.InternalServerError("Failed to create session: " + err.Error())
+		apiErr = api_error.InternalServerError("Failed to create session: " + err.Error())
 	}
 
 	return

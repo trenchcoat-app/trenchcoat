@@ -44,14 +44,18 @@ func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBod
 	return
 }
 
-func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*api.Account, *api.Session, error) {
+func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*api.Account, *api.Session, *api_error.ApiError) {
 	emailStr := strings.TrimSpace(string(body.Email))
 	nameTrimmed := strings.TrimSpace(body.Name)
+
+	sqlExists := `
+		SELECT EXISTS(SELECT 1 FROM account WHERE email = $1)
+	`
 
 	var exists bool
 	err := auth.DB.QueryRow(
 		c.Request.Context(),
-		"SELECT EXISTS(SELECT 1 FROM account WHERE email = $1)",
+		sqlExists,
 		strings.ToLower(emailStr),
 	).Scan(&exists)
 	if err != nil {
@@ -67,16 +71,16 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 		return nil, nil, api_error.InternalServerError("Failed to process password: " + err.Error())
 	}
 
-	userID, err := auth.createAccount(c, emailStr, nameTrimmed, string(hashed))
-	if err != nil {
-		return nil, nil, err
+	userID, apiErr := auth.createAccount(c, emailStr, nameTrimmed, string(hashed))
+	if apiErr != nil {
+		return nil, nil, apiErr
 	}
 
 	var session *api.Session
 	if body.AutoSignIn != nil && *body.AutoSignIn {
-		sessionToken, expiresAt, err := auth.createSession(c, AccountRow{ID: userID})
-		if err != nil {
-			return nil, nil, err
+		sessionToken, expiresAt, apiErr := auth.createSession(c, AccountRow{ID: userID})
+		if apiErr != nil {
+			return nil, nil, apiErr
 		}
 		session = &api.Session{
 			Token:     *sessionToken,
@@ -95,11 +99,18 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 		nil
 }
 
-func (auth *AuthService) createAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, error) {
+func (auth *AuthService) createAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *api_error.ApiError) {
 	var userID openapi_types.UUID
+
+	sql := `
+		INSERT INTO account (email, display_name, password_hash, status)
+		VALUES ($1, $2, $3, 'active')
+		RETURNING id
+	`
+
 	err := auth.DB.QueryRow(
 		c.Request.Context(),
-		"INSERT INTO account (email, display_name, password_hash, status) VALUES ($1, $2, $3, 'active') RETURNING id",
+		sql,
 		strings.ToLower(email),
 		displayName,
 		passwordHash,

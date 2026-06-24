@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"net/http"
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/api_error"
@@ -29,20 +28,10 @@ func (s *Server) SignIn(c *gin.Context) {
 		return
 	}
 
-	account, session, err := s.AuthService.SignIn(c, body)
-
-	if err != nil {
-		var apiErr *api_error.ApiError
-		if errors.As(err, &apiErr) {
-			api_error.HandleApiError(c, *apiErr)
-			return
-		}
-
-		// Fallback
-		c.JSON(http.StatusInternalServerError, api.ErrorResponse{
-			Code:    "INTERNAL_SERVER_ERROR",
-			Message: "Failed to create session: " + err.Error(),
-		})
+	account, session, apiErr := s.AuthService.SignIn(c, body)
+	if apiErr != nil {
+		api_error.HandleApiError(c, *apiErr)
+		return
 	}
 
 	// Write final response
