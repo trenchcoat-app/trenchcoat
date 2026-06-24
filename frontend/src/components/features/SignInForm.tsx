@@ -3,8 +3,10 @@ import type { SignInBody } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Input, Button } from "@/components/shared";
+import { useTranslation } from "react-i18next";
 
 export const SignInForm = () => {
+    const { t } = useTranslation();
     const mutation = useMutation(signInMutation());
 
     const defaultValues: SignInBody = {
@@ -33,8 +35,8 @@ export const SignInForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label="Email"
-                        placeholder="sample@mail.com"
+                        label={t("auth:EMAIL")}
+                        placeholder={t("auth:EMAIL_PLACEHOLDER")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -49,8 +51,8 @@ export const SignInForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label="Password"
-                        placeholder="Password"
+                        label={t("auth:PASSWORD")}
+                        placeholder={t("auth:PASSWORD")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -60,7 +62,7 @@ export const SignInForm = () => {
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
                     <Button type="submit" disabled={!canSubmit}>
-                        {isSubmitting ? "..." : "Submit"}
+                        {isSubmitting ? "..." : t("auth:SIGNIN")}
                     </Button>
                 )}
             />
