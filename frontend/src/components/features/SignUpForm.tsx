@@ -1,11 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
+import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { signUpMutation } from "@/api/@tanstack/react-query.gen";
-import { Input, Button } from "@/components/shared";
 import type { SignUpBody } from "@/api/types.gen";
+import { Input, Button } from "@/components/shared";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
 import { composeValidators, extractErrors, localizeErrors } from "@/utils/validator-util";
-import { useTranslation } from "react-i18next";
+import "./SignUpForm.css";
 
 export const SignUpForm = () => {
     const { t } = useTranslation();
@@ -32,7 +34,10 @@ export const SignUpForm = () => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
-        >
+            className="form"
+        >   
+            <h1 className="form-title">{t("auth:SIGNUP_TITLE")}</h1>
+
             <form.Field
                 name="email"
                 validators={{
@@ -121,6 +126,10 @@ export const SignUpForm = () => {
                     </Button>
                 )}
             />
+
+            <div>
+                <span className="footnote">{t("auth:DONT_HAVE_AN_ACCOUNT")}{" "}<Link to="/signin">{t("auth:SIGNIN")}</Link></span>
+            </div>
         </form>
     );
 };
