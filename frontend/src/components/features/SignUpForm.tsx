@@ -47,8 +47,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label={t("signup:EMAIL")}
-                        placeholder={t("signup:EMAIL_PLACEHOLDER")}
+                        label={t("auth:EMAIL")}
+                        placeholder={t("auth:EMAIL_PLACEHOLDER")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -67,8 +67,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label={t("signup:DISPLAY_NAME")}
-                        placeholder={t("signup:DISPLAY_NAME")}
+                        label={t("auth:DISPLAY_NAME")}
+                        placeholder={t("auth:DISPLAY_NAME")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -88,8 +88,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label={t("signup:PASSWORD")}
-                        placeholder={t("signup:PASSWORD")}
+                        label={t("auth:PASSWORD")}
+                        placeholder={t("auth:PASSWORD")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -109,8 +109,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label={t("signup:CONFIRM_PASSWORD")}
-                        placeholder={t("signup:CONFIRM_PASSWORD")}
+                        label={t("auth:CONFIRM_PASSWORD")}
+                        placeholder={t("auth:CONFIRM_PASSWORD")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -120,7 +120,7 @@ export const SignUpForm = () => {
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
                     <Button type="submit" disabled={!canSubmit}>
-                        {isSubmitting ? "..." : t("signup:SIGNUP")}
+                        {isSubmitting ? "..." : t("auth:SIGNUP")}
                     </Button>
                 )}
             />
