@@ -128,7 +128,7 @@ export const SignUpForm = () => {
             />
 
             <div>
-                <span className="footnote">{t("auth:DONT_HAVE_AN_ACCOUNT")}{" "}<Link to="/signin">{t("auth:SIGNIN")}</Link></span>
+                <span className="footnote">{t("auth:HAVE_AN_ACCOUNT")}{" "}<Link to="/signin">{t("auth:SIGNIN")}</Link></span>
             </div>
         </form>
     );
