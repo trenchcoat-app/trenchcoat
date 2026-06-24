@@ -5,8 +5,10 @@ import { Input, Button } from "@/components/shared";
 import type { SignUpBody } from "@/api/types.gen";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
 import { composeValidators } from "@/utils/validator-util";
+import { useTranslation } from "react-i18next";
 
 export const SignUpForm = () => {
+    const { t } = useTranslation();
     const mutation = useMutation(signUpMutation());
 
     const defaultValues: SignUpBody & { confirmPassword: string } = {
@@ -45,8 +47,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label="Email"
-                        placeholder="sample@mail.com"
+                        label={t("signup:EMAIL")}
+                        placeholder={t("signup:EMAIL_PLACEHOLDER")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -65,8 +67,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label="Display Name"
-                        placeholder="display name"
+                        label={t("signup:DISPLAY_NAME")}
+                        placeholder={t("signup:DISPLAY_NAME")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -86,8 +88,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label="Password"
-                        placeholder="Password"
+                        label={t("signup:PASSWORD")}
+                        placeholder={t("signup:PASSWORD")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -107,8 +109,8 @@ export const SignUpForm = () => {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        label="Confirm Password"
-                        placeholder="Confirm Password"
+                        label={t("signup:CONFIRM_PASSWORD")}
+                        placeholder={t("signup:CONFIRM_PASSWORD")}
                         errors={field.state.meta.errors}
                     />
                 )}
@@ -118,7 +120,7 @@ export const SignUpForm = () => {
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
                     <Button type="submit" disabled={!canSubmit}>
-                        {isSubmitting ? "..." : "Submit"}
+                        {isSubmitting ? "..." : t("signup:SIGNUP")}
                     </Button>
                 )}
             />

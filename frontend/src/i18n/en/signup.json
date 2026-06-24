@@ -1,0 +1,8 @@
+{
+    "SIGNUP": "Sign Up",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "your@mail.com",
+    "DISPLAY_NAME": "Display Name",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password"
+}
