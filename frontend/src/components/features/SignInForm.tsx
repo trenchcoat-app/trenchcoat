@@ -1,13 +1,21 @@
 import { signInMutation } from "@/api/@tanstack/react-query.gen";
-import type { SignInBody } from "@/api/types.gen";
+import type { SignInBody, SignInOkResponse } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Input, Button } from "@/components/shared";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/hooks/useAuth";
 
 export const SignInForm = () => {
     const { t } = useTranslation();
-    const mutation = useMutation(signInMutation());
+    const { setAccount } = useAuth();
+
+    const mutation = useMutation({
+        ...signInMutation(),
+        onSuccess: (data: SignInOkResponse) => {
+            setAccount(data.account)
+        },
+    });
 
     const defaultValues: SignInBody = {
         email: "",
