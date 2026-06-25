@@ -3,7 +3,7 @@ import type { SignInBody, SignInOkResponse } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-import { Input, Button, AuthFormLayout } from "@/components/shared";
+import { Input, Button, AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/shared";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -32,17 +32,12 @@ export const SignInForm = () => {
 
     return (
         <AuthFormLayout
-            title={t("auth:SIGNIN_TITLE")}
             onSubmit={(e) => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
-            note={
-                <p>
-                    {t("auth:DONT_HAVE_AN_ACCOUNT")} <Link to="/signup">{t("auth:SIGNUP")}</Link>
-                </p>
-            }
         >
+            <AuthFormTitle title={t("auth:SIGNIN_TITLE")} />
             <form.Field name="email">
                 {(field) => (
                     <Input
@@ -80,6 +75,9 @@ export const SignInForm = () => {
                     </Button>
                 )}
             />
+            <AuthFormNote>
+                {t("auth:DONT_HAVE_AN_ACCOUNT")} <Link to="/signup">{t("auth:SIGNUP")}</Link>
+            </AuthFormNote>
         </AuthFormLayout>
     );
 };

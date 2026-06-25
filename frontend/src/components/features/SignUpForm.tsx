@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import type { SignUpBody } from "@/api/types.gen";
-import { Input, Button, AuthFormLayout } from "@/components/shared";
+import { Input, Button, AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/shared";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
 import { composeValidators, extractAndLocalizeErrors } from "@/utils/validator-util";
 
@@ -29,17 +29,12 @@ export const SignUpForm = () => {
 
     return (
         <AuthFormLayout
-            title={t("auth:SIGNUP_TITLE")}
             onSubmit={(e) => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
-            note={
-                <p>
-                    {t("auth:HAVE_AN_ACCOUNT")} <Link to="/signin">{t("auth:SIGNIN")}</Link>
-                </p>
-            }
         >
+            <AuthFormTitle title={t("auth:SIGNUP_TITLE")} />
             <form.Field
                 name="email"
                 validators={{
@@ -129,6 +124,9 @@ export const SignUpForm = () => {
                     </Button>
                 )}
             />
+            <AuthFormNote>
+                {t("auth:HAVE_AN_ACCOUNT")} <Link to="/signin">{t("auth:SIGNIN")}</Link>
+            </AuthFormNote>
         </AuthFormLayout>
     );
 };
