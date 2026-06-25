@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 
 export const SignIn = () => {
     return (
-        <div className={styles.pageWrapper}>
+        <div className={`${styles.pageWrapper} ${styles.pageBottomPadding}`}>
             <SignInForm />
         </div>
     );
