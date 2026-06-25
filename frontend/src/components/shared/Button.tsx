@@ -4,7 +4,6 @@ import styles from "./Button.module.css";
 interface ButtonProps extends ComponentProps<"button"> {}
 
 export const Button = ({ ref, onClick, ...props }: ButtonProps) => {
-
     const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
         if (props["aria-disabled"]) {
             e.preventDefault();
@@ -15,12 +14,7 @@ export const Button = ({ ref, onClick, ...props }: ButtonProps) => {
 
     return (
         <div className={styles.buttonWrapper}>
-            <button 
-                className={styles.button} 
-                ref={ref} 
-                onClick={handleClick} 
-                {...props} 
-            />
+            <button className={styles.button} ref={ref} onClick={handleClick} {...props} />
         </div>
     );
 };

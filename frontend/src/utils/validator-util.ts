@@ -7,7 +7,7 @@ export const composeValidators =
     (context: ValidatorContext): string[] | undefined => {
         const results = validators.map((validator) => validator(context));
         const errors = extractErrors(results);
-        
+
         return errors.length ? errors : undefined;
     };
 

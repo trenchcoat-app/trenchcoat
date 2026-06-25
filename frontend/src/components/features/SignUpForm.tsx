@@ -124,10 +124,7 @@ export const SignUpForm = () => {
             <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
-                    <Button 
-                        type="submit" 
-                        aria-disabled={!canSubmit || isSubmitting}
-                    >
+                    <Button type="submit" aria-disabled={!canSubmit || isSubmitting}>
                         {t("auth:SIGNUP")}
                     </Button>
                 )}

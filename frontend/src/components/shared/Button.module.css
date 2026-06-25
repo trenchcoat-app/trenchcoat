@@ -31,12 +31,12 @@
     outline-offset: 2px;
 }
 
-.button[aria-disabled=true] {
+.button[aria-disabled="true"] {
     opacity: 0.5;
     cursor: not-allowed;
     background: var(--button-disabled-color);
 }
 
-.button[aria-disabled=true]:focus-visible {
+.button[aria-disabled="true"]:focus-visible {
     outline: 2px solid var(--button-disabled-color);
 }
