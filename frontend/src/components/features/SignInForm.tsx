@@ -1,7 +1,7 @@
 import { signInMutation } from "@/api/@tanstack/react-query.gen";
 import type { SignInBody, SignInOkResponse } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { Input, Button, AuthFormLayout } from "@/components/shared";
 import { useTranslation } from "react-i18next";
@@ -9,12 +9,14 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const SignInForm = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { setAccount } = useAuth();
 
     const mutation = useMutation({
         ...signInMutation(),
         onSuccess: (data: SignInOkResponse) => {
-            setAccount(data.account)
+            setAccount(data.account);
+            navigate({ to: "/" });
         },
     });
 
