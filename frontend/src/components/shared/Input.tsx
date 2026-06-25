@@ -17,8 +17,9 @@ export const Input = ({ id, ref, label, errors = [], ...props }: InputProps) => 
             {label && (
                 <label 
                     htmlFor={inputId} 
-                    className={styles.inputLabel}>
-                        {label}
+                    className={styles.inputLabel}
+                >
+                    {label}
                 </label>
             )}
             <input 
@@ -27,13 +28,15 @@ export const Input = ({ id, ref, label, errors = [], ...props }: InputProps) => 
                 ref={ref} 
                 aria-describedby={hasErrors ? `${inputId}-error` : undefined}
                 aria-invalid={hasErrors}
-                {...props} />
+                {...props} 
+            />
             {hasErrors && (
                 <div 
                     id={`${inputId}-error`} 
                     className={styles.inputError}
-                    role="alert">
-                        <p>{errors[0]}</p>
+                    role="alert"
+                >
+                    <p>{errors[0]}</p>
                 </div>
             )}
         </div>
