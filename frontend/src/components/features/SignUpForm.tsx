@@ -6,7 +6,7 @@ import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import type { SignUpBody } from "@/api/types.gen";
 import { Input, Button, AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/shared";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
-import { composeValidators, extractAndLocalizeErrors } from "@/utils/validator-util";
+import { extractAndLocalizeErrors } from "@/utils/validator-util";
 
 export const SignUpForm = () => {
     const { t } = useTranslation();
@@ -78,7 +78,8 @@ export const SignUpForm = () => {
             <form.Field
                 name="password"
                 validators={{
-                    onChange: composeValidators(requiredFieldValidator, passwordLengthFieldValidator),
+                    onChange: requiredFieldValidator,
+                    onBlur: passwordLengthFieldValidator,
                 }}
             >
                 {(field) => (
