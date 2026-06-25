@@ -5,7 +5,9 @@ import type { TFunction } from "i18next";
 export const composeValidators =
     (...validators: Validator[]) =>
     (context: ValidatorContext): string[] | undefined => {
-        const errors = validators.map((validator) => validator(context)).filter((e): e is string => e != null);
+        const results = validators.map((validator) => validator(context));
+        const errors = extractErrors(results);
+        
         return errors.length ? errors : undefined;
     };
 
