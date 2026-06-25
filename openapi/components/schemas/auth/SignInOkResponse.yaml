@@ -1,6 +1,5 @@
 type: object
 required:
-  - session
   - account
 properties:
   account:
