@@ -4,7 +4,8 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import type { SignUpBody } from "@/api/types.gen";
-import { Input, Button, AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/shared";
+import { Input, Button } from "@/components/shared";
+import { AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/features/auth";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
 import { extractAndLocalizeErrors } from "@/utils/validator-util";
 

@@ -1,4 +1,4 @@
-import { SignInForm } from "@/components/features/SignInForm";
+import { SignInForm } from "@/components/features/auth";
 import styles from "./page.module.css";
 
 export const SignIn = () => {

@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/components/features/SignUpForm";
+import { SignUpForm } from "@/components/features/auth";
 import styles from "./page.module.css";
 
 export const SignUp = () => {

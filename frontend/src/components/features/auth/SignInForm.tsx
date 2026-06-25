@@ -3,7 +3,8 @@ import type { SignInBody, SignInOkResponse } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-import { Input, Button, AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/shared";
+import { Input, Button } from "@/components/shared";
+import { AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/features/auth";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
 
