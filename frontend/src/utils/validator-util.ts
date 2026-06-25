@@ -4,8 +4,13 @@ import type { TFunction } from "i18next";
 // Runs multiple validators and collects their results.
 export const composeValidators =
     (...validators: Validator[]) =>
-    (context: ValidatorContext): (string | undefined)[] =>
-        validators.map((validator) => validator(context));
+    (context: ValidatorContext): (string[] | undefined) => {
+        const errors = validators
+            .map((validator) => validator(context))
+            .filter((e): e is string => e != null);
+        return errors.length ? errors : undefined;
+    };
+        
 
 // Narrows a mixed array of validation results down to only the error strings.
 export const extractErrors = (errors: (string | undefined)[]): string[] =>

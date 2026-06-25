@@ -1,5 +1,5 @@
 import { useId, type ComponentProps } from "react";
-import "./Input.css";
+import styles from "./Input.module.css";
 
 interface InputProps extends ComponentProps<"input"> {
     label?: string;
@@ -13,14 +13,14 @@ export const Input = ({ id, ref, label, errors = [], ...props }: InputProps) => 
     const hasErrors = errors.length > 0;
 
     return (
-        <div className="input-wrapper">
+        <div className={styles.inputWrapper}>
             {label && (
-                <label htmlFor={inputId} className="input-label">
+                <label htmlFor={inputId} className={styles.inputLabel}>
                     {label}
                 </label>
             )}
-            <input id={inputId} className={`input ${hasErrors ? "input-invalid" : ""}`} ref={ref} {...props} />
-            <div id={`${inputId}-error`} className="input-error">
+            <input id={inputId} className={`${styles.input} ${hasErrors ? styles.inputInvalid : ""}`} ref={ref} {...props} />
+            <div id={`${inputId}-error`} className={styles.inputError}>
                 {hasErrors && <p>{errors[0]}</p>}
             </div>
         </div>

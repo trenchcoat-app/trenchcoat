@@ -3,10 +3,9 @@ import type { SignInBody, SignInOkResponse } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { Link } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-import { Input, Button } from "@/components/shared";
+import { Input, Button, AuthFormLayout } from "@/components/shared";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
-import "./SignInForm.css"
 
 export const SignInForm = () => {
     const { t } = useTranslation();
@@ -30,15 +29,16 @@ export const SignInForm = () => {
     });
 
     return (
-        <form
+        <AuthFormLayout
+            title={t("auth:SIGNIN_TITLE")}
             onSubmit={(e) => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
-            className="form"
+            note={
+                <span>{t("auth:DONT_HAVE_AN_ACCOUNT")}{" "}<Link to="/signup">{t("auth:SIGNUP")}</Link></span>
+            }
         >
-            <h1 className="form-title">{t("auth:SIGNIN_TITLE")}</h1>
-
             <form.Field name="email">
                 {(field) => (
                     <Input
@@ -71,15 +71,11 @@ export const SignInForm = () => {
             <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
-                    <Button type="submit" disabled={!canSubmit}>
-                        {isSubmitting ? "..." : t("auth:SIGNIN")}
+                    <Button type="submit" disabled={!canSubmit || isSubmitting}>
+                        {t("auth:SIGNIN")}
                     </Button>
                 )}
             />
-
-            <div>
-                <span className="footnote">{t("auth:DONT_HAVE_AN_ACCOUNT")}{" "}<Link to="/signup">{t("auth:SIGNUP")}</Link></span>
-            </div>
-        </form>
+        </AuthFormLayout>
     );
 };

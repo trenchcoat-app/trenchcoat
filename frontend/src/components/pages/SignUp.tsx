@@ -1,9 +1,9 @@
 import { SignUpForm } from "@/components/features/SignUpForm";
-import "./SignUp.css"
+import styles from "@/styles/page-layout.module.css";
 
 export const SignUp = () => {
     return (
-        <div className="page-wrapper">
+        <div className={styles.pageWrapper}>
             <SignUpForm />
         </div>
     );
