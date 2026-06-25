@@ -12,6 +12,7 @@
     margin: 0.5em 0;
 }
 
-.note {
+.note p {
     font-size: 0.8em;
+    margin: 0;
 }
