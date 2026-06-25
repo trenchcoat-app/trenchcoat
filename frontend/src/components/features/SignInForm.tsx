@@ -38,7 +38,9 @@ export const SignInForm = () => {
                 form.handleSubmit();
             }}
             note={
-                <span>{t("auth:DONT_HAVE_AN_ACCOUNT")}{" "}<Link to="/signup">{t("auth:SIGNUP")}</Link></span>
+                <span>
+                    {t("auth:DONT_HAVE_AN_ACCOUNT")} <Link to="/signup">{t("auth:SIGNUP")}</Link>
+                </span>
             }
         >
             <form.Field name="email">

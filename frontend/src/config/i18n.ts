@@ -1,10 +1,10 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import type { Resource, ResourceLanguage } from 'i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import type { Resource, ResourceLanguage } from "i18next";
 
 /**
  * Builds the i18next resources object from Vite's eagerly-imported glob modules.
- * 
+ *
  * Expects the following directory structure:
  * src/
  * └── i18n
@@ -19,9 +19,9 @@ function buildResources(modules: Record<string, { default: ResourceLanguage }>):
     const resources: Resource = {};
 
     for (const path in modules) {
-        const parts = path.split('/');
+        const parts = path.split("/");
         const lng = parts[parts.length - 2];
-        const ns = parts[parts.length - 1].replace('.json', '');
+        const ns = parts[parts.length - 1].replace(".json", "");
 
         resources[lng] ??= {};
         resources[lng][ns] = modules[path].default;
@@ -31,10 +31,10 @@ function buildResources(modules: Record<string, { default: ResourceLanguage }>):
 }
 
 i18n.use(initReactI18next).init({
-    lng: 'en',
-    fallbackLng: 'en',
-    resources: buildResources(import.meta.glob('../i18n/**/*.json', { eager: true })),
-    defaultNS: 'common',
+    lng: "en",
+    fallbackLng: "en",
+    resources: buildResources(import.meta.glob("../i18n/**/*.json", { eager: true })),
+    defaultNS: "common",
     interpolation: { escapeValue: false },
 });
 
