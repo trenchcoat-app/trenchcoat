@@ -1,5 +1,5 @@
 import { SignInForm } from "@/components/features/SignInForm";
-import styles from "@/styles/page-layout.module.css";
+import styles from "./page.module.css";
 
 export const SignIn = () => {
     return (
