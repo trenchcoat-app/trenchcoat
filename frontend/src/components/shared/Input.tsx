@@ -15,14 +15,27 @@ export const Input = ({ id, ref, label, errors = [], ...props }: InputProps) => 
     return (
         <div className={styles.inputWrapper}>
             {label && (
-                <label htmlFor={inputId} className={styles.inputLabel}>
-                    {label}
+                <label 
+                    htmlFor={inputId} 
+                    className={styles.inputLabel}>
+                        {label}
                 </label>
             )}
-            <input id={inputId} className={`${styles.input} ${hasErrors ? styles.inputInvalid : ""}`} ref={ref} {...props} />
-            <div id={`${inputId}-error`} className={styles.inputError}>
-                {hasErrors && <p>{errors[0]}</p>}
-            </div>
+            <input 
+                id={inputId} 
+                className={`${styles.input} ${hasErrors ? styles.inputInvalid : ""}`} 
+                ref={ref} 
+                aria-describedby={hasErrors ? `${inputId}-error` : undefined}
+                aria-invalid={hasErrors}
+                {...props} />
+            {hasErrors && (
+                <div 
+                    id={`${inputId}-error`} 
+                    className={styles.inputError}
+                    role="alert">
+                        <p>{errors[0]}</p>
+                </div>
+            )}
         </div>
     );
 };
