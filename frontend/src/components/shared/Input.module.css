@@ -1,12 +1,17 @@
 .inputWrapper {
+    --input-bg: #171717;
+    --input-border: #4f4f4f;
+    --input-focus-box-shadow: rgba(91, 91, 91, 0.4);
+    --input-placeholder-color: #909090;
+    --error-color: #e5484d;
+    --secondary-error-color: rgba(245, 60, 66, 0.4);
+
     display: flex;
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
     font-size: 0.8em;
     padding: 0.2em 1em 0.2em 1em;
-
-    --error-color: #e5484d;
 }
 
 .inputLabel {
@@ -14,10 +19,6 @@
 }
 
 .input {
-    --input-bg: #171717;
-    --input-border: #4f4f4f;
-    --input-focus-box-shadow: rgba(91, 91, 91, 0.4);
-    --input-placeholder-color: #909090;
 
     border-radius: 0.5em;
     padding: 0.5em;
