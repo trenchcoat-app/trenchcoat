@@ -1,4 +1,4 @@
-.input-wrapper {
+.inputWrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -9,7 +9,7 @@
     --error-color: #e5484d;
 }
 
-.input-label {
+.inputLabel {
     font-weight: bold;
 }
 
@@ -38,12 +38,12 @@
     color: var(--input-placeholder-color);
 }
 
-.input-invalid {
+.inputInvalid {
     --input-border: var(--error-color);
     --input-focus-box-shadow: rgba(245, 60, 66, 0.4);
 }
 
-.input-error p {
+.inputError p {
     margin: 0;
     color: var(--error-color);
 }

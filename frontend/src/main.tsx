@@ -7,7 +7,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { router } from "@/router/router";
 import { queryClient } from "@/config/queryClient";
-import "./index.css";
+import "@/styles/global.css";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

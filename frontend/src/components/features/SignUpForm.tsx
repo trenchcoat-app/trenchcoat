@@ -4,10 +4,9 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import type { SignUpBody } from "@/api/types.gen";
-import { Input, Button } from "@/components/shared";
+import { Input, Button, AuthFormLayout } from "@/components/shared";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
 import { composeValidators, extractAndLocalizeErrors } from "@/utils/validator-util";
-import "./SignUpForm.css";
 
 export const SignUpForm = () => {
     const { t } = useTranslation();
@@ -29,15 +28,16 @@ export const SignUpForm = () => {
     });
 
     return (
-        <form
+        <AuthFormLayout
+            title={t("auth:SIGNUP_TITLE")}
             onSubmit={(e) => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
-            className="form"
-        >   
-            <h1 className="form-title">{t("auth:SIGNUP_TITLE")}</h1>
-
+            note={
+                <span>{t("auth:HAVE_AN_ACCOUNT")}{" "}<Link to="/signin">{t("auth:SIGNIN")}</Link></span>
+            }
+        >
             <form.Field
                 name="email"
                 validators={{
@@ -101,6 +101,7 @@ export const SignUpForm = () => {
             <form.Field
                 name="confirmPassword"
                 validators={{
+                    onChangeListenTo: ["password"],
                     onChange: confirmPasswordFieldValidator,
                 }}
             >
@@ -117,19 +118,22 @@ export const SignUpForm = () => {
                     />
                 )}
             </form.Field>
+            <form.Subscribe
+                selector={(state) => state}
+                children={(state) => {
+                    console.log(state.fieldMeta);
+                    return null;
+                }}
+            />
 
             <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
-                    <Button type="submit" disabled={!canSubmit}>
-                        {isSubmitting ? "..." : t("auth:SIGNUP")}
+                    <Button type="submit" disabled={!canSubmit || isSubmitting}>
+                        {t("auth:SIGNUP")}
                     </Button>
                 )}
             />
-
-            <div>
-                <span className="footnote">{t("auth:HAVE_AN_ACCOUNT")}{" "}<Link to="/signin">{t("auth:SIGNIN")}</Link></span>
-            </div>
-        </form>
+        </AuthFormLayout>
     );
 };
