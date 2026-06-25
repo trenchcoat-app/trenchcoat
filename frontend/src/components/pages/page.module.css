@@ -1,5 +1,5 @@
 .pageWrapper {
-    width: 40%;
+    min-width: 40%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -7,26 +7,30 @@
     flex-grow: 1;
 }
 
+.pageBottomPadding {
+    padding-bottom: 10%;
+}
+
 @media (max-width: 1280px) {
     .pageWrapper {
-        width: 60%;
+        min-width: 60%;
     }
 }
 
 @media (max-width: 1024px) {
     .pageWrapper {
-        width: 70%;
+        min-width: 70%;
     }
 }
 
 @media (max-width: 768px) {
     .pageWrapper {
-        width: 80%;
+        min-width: 80%;
     }
 }
 
 @media (max-width: 480px) {
     .pageWrapper {
-        width: 90%;
+        min-width: 90%;
     }
 }
