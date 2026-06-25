@@ -1,0 +1,44 @@
+package auth
+
+import (
+	"time"
+	"trenchcoat/internal/api_error"
+
+	"github.com/gin-gonic/gin"
+	openapi_types "github.com/oapi-codegen/runtime/types"
+)
+
+type Session struct {
+	SessionToken *openapi_types.UUID
+	ExpiresAt    *time.Time
+}
+
+func (auth *AuthService) createSession(c *gin.Context, account accountRow) (session Session, apiErr *api_error.ApiError) {
+	session.ExpiresAt = auth.getNewSessionExpireTime()
+
+	sql := `
+		INSERT INTO session (expires_at, ip_address, user_agent, account_id)
+		VALUES ($1, $2, $3, $4)
+		RETURNING token, expires_at
+	`
+
+	err := auth.DB.QueryRow(
+		c.Request.Context(),
+		sql,
+		session.ExpiresAt,
+		c.ClientIP(),
+		c.GetHeader("User-Agent"),
+		account.ID,
+	).Scan(&session.SessionToken, &session.ExpiresAt)
+
+	if err != nil {
+		apiErr = api_error.InternalServerError("Failed to create session: " + err.Error())
+	}
+
+	return
+}
+
+func (auth *AuthService) getNewSessionExpireTime() *time.Time {
+	expireTime := time.Now().Add(24 * time.Hour)
+	return &expireTime
+}
