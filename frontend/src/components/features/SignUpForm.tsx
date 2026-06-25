@@ -120,13 +120,6 @@ export const SignUpForm = () => {
                     />
                 )}
             </form.Field>
-            <form.Subscribe
-                selector={(state) => state}
-                children={(state) => {
-                    console.log(state.fieldMeta);
-                    return null;
-                }}
-            />
 
             <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
