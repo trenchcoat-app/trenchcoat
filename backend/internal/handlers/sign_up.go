@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/cookie"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,8 +35,9 @@ func (s *Server) SignUp(c *gin.Context) {
 		return
 	}
 
-	if signUpResponse.Session != nil {
-		// TODO: Set cookie
+	if signUpResponse.Session != nil && signUpResponse.Session.SessionToken != nil {
+		// This should happen when body.AutoSignIn == true
+		cookie.SetSessionCookie(c, *signUpResponse.Session.SessionToken, *signUpResponse.Session.ExpiresAt)
 	}
 
 	c.JSON(http.StatusCreated, api.SignUpOkResponse{

@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/cookie"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,7 +35,7 @@ func (s *Server) SignIn(c *gin.Context) {
 		return
 	}
 
-	// TODO: Set cookie
+	cookie.SetSessionCookie(c, *signInResponse.Session.SessionToken, *signInResponse.Session.ExpiresAt)
 
 	// Write final response
 	c.JSON(

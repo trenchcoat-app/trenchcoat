@@ -21,6 +21,8 @@ POSTGRES_HOST=                  # Database host (optional, defaults to localhost
 POSTGRES_PORT=                  # Database port (optional, defaults to 5432)
 VITE_BACKEND_URL=               # Backend API server URL (e.g., http://localhost:8080)
 CORS_ALLOWED_ORIGINS=           # Allowed CORS origins (comma-delimited, e.g., http://localhost:5173)
+COOKIE_SECURE=                  # Set to 'true' in production (cookie requires HTTPS)
+COOKIE_DOMAIN=                  # Cookie domain (optional, leave empty for same-origin)
 ```
 
 ### Database
