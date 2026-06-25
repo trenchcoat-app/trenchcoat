@@ -1,16 +1,15 @@
 .buttonWrapper {
+    --button-bg: #4338ca;
+    --button-disabled-color: #9ca3af;
+
     display: flex;
     width: 100%;
     box-sizing: border-box;
     font-size: 0.8em;
     padding: 0.2em 1em 0.2em 1em;
-    
-    --button-disabled-color: #9ca3af;
 }
 
 .button {
-    --button-bg: #4338ca;
-
     width: 100%;
     margin: 1em 0 1em 0;
     border-radius: 0.5em;
