@@ -6,5 +6,9 @@ interface AuthFormNoteProps {
 }
 
 export const AuthFormNote = ({ children }: AuthFormNoteProps) => {
-    return <div className={styles.note}><p>{children}</p></div>;
+    return (
+        <div className={styles.note}>
+            <p>{children}</p>
+        </div>
+    );
 };
