@@ -28,25 +28,22 @@ func (s *Server) SignIn(c *gin.Context) {
 		return
 	}
 
-	account, session, apiErr := s.AuthService.SignIn(c, body)
+	signInResponse, apiErr := s.AuthService.SignIn(c, body)
 	if apiErr != nil {
 		api_error.HandleApiError(c, *apiErr)
 		return
 	}
+
+	// TODO: Set cookie
 
 	// Write final response
 	c.JSON(
 		http.StatusOK,
 		api.SignInOkResponse{
 			Account: api.Account{
-				Id:          account.Id,
+				Id:          signInResponse.Account.Id,
 				Email:       body.Email,
-				DisplayName: account.DisplayName,
-			},
-			Session: api.Session{
-				Token:     session.Token,
-				ExpiresAt: session.ExpiresAt,
-				AccountId: account.Id,
+				DisplayName: signInResponse.Account.DisplayName,
 			},
 		},
 	)

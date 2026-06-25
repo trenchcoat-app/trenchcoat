@@ -28,18 +28,21 @@ func (s *Server) SignUp(c *gin.Context) {
 		return
 	}
 
-	account, session, apiErr := s.AuthService.SignUp(c, body)
+	signUpResponse, apiErr := s.AuthService.SignUp(c, body)
 	if apiErr != nil {
 		api_error.HandleApiError(c, *apiErr)
 		return
 	}
 
+	if signUpResponse.Session != nil {
+		// TODO: Set cookie
+	}
+
 	c.JSON(http.StatusCreated, api.SignUpOkResponse{
 		Account: api.Account{
-			Id:          account.Id,
-			Email:       account.Email,
-			DisplayName: account.DisplayName,
+			Id:          signUpResponse.Account.Id,
+			Email:       signUpResponse.Account.Email,
+			DisplayName: signUpResponse.Account.DisplayName,
 		},
-		Session: session,
 	})
 }

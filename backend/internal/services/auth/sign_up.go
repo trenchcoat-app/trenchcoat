@@ -1,7 +1,6 @@
-package services
+package auth
 
 import (
-	"regexp"
 	"strings"
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/api_error"
@@ -11,10 +10,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var emailRegex = regexp.MustCompile(`^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$`)
-
-func isValidEmail(email string) bool {
-	return emailRegex.MatchString(strings.ToLower(email))
+type signUpResponse struct {
+	Account *api.Account
+	Session *Session
 }
 
 func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBody) (errorDetails []api.ErrorResponseDetail) {
@@ -24,14 +22,6 @@ func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBod
 			Field   string `json:"field"`
 			Message string `json:"message"`
 		}{Field: "name", Message: "Name cannot be empty"})
-	}
-
-	emailStr := strings.TrimSpace(string(body.Email))
-	if emailStr == "" || !isValidEmail(emailStr) {
-		errorDetails = append(errorDetails, struct {
-			Field   string `json:"field"`
-			Message string `json:"message"`
-		}{Field: "email", Message: "Invalid email format"})
 	}
 
 	if len(body.Password) < 8 {
@@ -44,7 +34,7 @@ func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBod
 	return
 }
 
-func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*api.Account, *api.Session, *api_error.ApiError) {
+func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*signUpResponse, *api_error.ApiError) {
 	emailStr := strings.TrimSpace(string(body.Email))
 	nameTrimmed := strings.TrimSpace(body.DisplayName)
 
@@ -59,44 +49,41 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 		strings.ToLower(emailStr),
 	).Scan(&exists)
 	if err != nil {
-		return nil, nil, api_error.InternalServerError("Failed to query database: " + err.Error())
+		return nil, api_error.InternalServerError("Failed to query database: " + err.Error())
 	}
 
 	if exists {
-		return nil, nil, api_error.SignUpEmailAlreadyExistsError()
+		return nil, api_error.SignUpEmailAlreadyExistsError()
 	}
 
 	hashed, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, nil, api_error.InternalServerError("Failed to process password: " + err.Error())
+		return nil, api_error.InternalServerError("Failed to process password: " + err.Error())
 	}
 
 	userID, apiErr := auth.createAccount(c, emailStr, nameTrimmed, string(hashed))
 	if apiErr != nil {
-		return nil, nil, apiErr
+		return nil, apiErr
 	}
 
-	var session *api.Session
+	var session Session
 	if body.AutoSignIn != nil && *body.AutoSignIn {
-		sessionToken, expiresAt, apiErr := auth.createSession(c, AccountRow{ID: userID})
+		var apiErr *api_error.ApiError
+		session, apiErr = auth.createSession(c, accountRow{ID: userID})
 		if apiErr != nil {
-			return nil, nil, apiErr
-		}
-		session = &api.Session{
-			Token:     *sessionToken,
-			ExpiresAt: *expiresAt,
-			AccountId: userID,
+			return nil, apiErr
 		}
 	}
 
 	displayName := nameTrimmed
-	return &api.Account{
+	return &signUpResponse{
+		&api.Account{
 			Id:          userID,
 			Email:       openapi_types.Email(emailStr),
 			DisplayName: &displayName,
 		},
-		session,
-		nil
+		&session,
+	}, nil
 }
 
 func (auth *AuthService) createAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *api_error.ApiError) {
