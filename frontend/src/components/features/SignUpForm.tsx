@@ -6,7 +6,7 @@ import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import type { SignUpBody } from "@/api/types.gen";
 import { Input, Button } from "@/components/shared";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
-import { composeValidators, extractErrors, localizeErrors } from "@/utils/validator-util";
+import { composeValidators, extractAndLocalizeErrors } from "@/utils/validator-util";
 import "./SignUpForm.css";
 
 export const SignUpForm = () => {
@@ -54,7 +54,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:EMAIL")}
                         placeholder={t("auth:EMAIL_PLACEHOLDER")}
-                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
+                        errors={extractAndLocalizeErrors(field.state.meta.errors, t)}
                     />
                 )}
             </form.Field>
@@ -73,7 +73,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:DISPLAY_NAME")}
                         placeholder={t("auth:DISPLAY_NAME")}
-                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
+                        errors={extractAndLocalizeErrors(field.state.meta.errors, t)}
                     />
                 )}
             </form.Field>
@@ -93,7 +93,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:PASSWORD")}
                         placeholder={t("auth:PASSWORD")}
-                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
+                        errors={extractAndLocalizeErrors(field.state.meta.errors, t)}
                     />
                 )}
             </form.Field>
@@ -113,7 +113,7 @@ export const SignUpForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:CONFIRM_PASSWORD")}
                         placeholder={t("auth:CONFIRM_PASSWORD")}
-                        errors={localizeErrors(extractErrors(field.state.meta.errors), t)}
+                        errors={extractAndLocalizeErrors(field.state.meta.errors, t)}
                     />
                 )}
             </form.Field>

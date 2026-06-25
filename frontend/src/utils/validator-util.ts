@@ -15,3 +15,8 @@ export const extractErrors = (errors: (string | undefined)[]): string[] =>
 export const localizeErrors = (errors: string[], t: TFunction ): string[] => {
     return errors.map((key) => t(`validation:${key}`));
 }
+
+// Wrapper function to call extractErrors and localizeErrors in combination
+export const extractAndLocalizeErrors = (errors: (string | undefined)[], t: TFunction ): string[] => {
+    return localizeErrors(extractErrors(errors), t);
+}
