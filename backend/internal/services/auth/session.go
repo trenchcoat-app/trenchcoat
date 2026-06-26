@@ -2,6 +2,7 @@ package auth
 
 import (
 	"time"
+	"trenchcoat/config"
 	"trenchcoat/internal/api_error"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +15,7 @@ type Session struct {
 }
 
 func (auth *AuthService) createSession(c *gin.Context, account accountRow) (session Session, apiErr *api_error.ApiError) {
-	session.ExpiresAt = auth.getNewSessionExpireTime()
+	session.ExpiresAt = auth.getNewSessionExpireTime(config.AppConfig.SESSION_EXPIRY_SECONDS * int(time.Second))
 
 	sql := `
 		INSERT INTO session (expires_at, ip_address, user_agent, account_id)
@@ -38,7 +39,7 @@ func (auth *AuthService) createSession(c *gin.Context, account accountRow) (sess
 	return
 }
 
-func (auth *AuthService) getNewSessionExpireTime() *time.Time {
-	expireTime := time.Now().Add(24 * time.Hour)
+func (auth *AuthService) getNewSessionExpireTime(offsetSeconds int) *time.Time {
+	expireTime := time.Now().Add(time.Duration(offsetSeconds))
 	return &expireTime
 }
