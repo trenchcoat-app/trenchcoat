@@ -7,7 +7,7 @@ export interface RouterContext {
 
 const RootLayout = () => {
     return (
-        <main style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <main style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
             <Outlet />
         </main>
     );
