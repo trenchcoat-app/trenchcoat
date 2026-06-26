@@ -12,12 +12,13 @@
     "format:openapi": "prettier -w ./openapi/",
     "format:frontend": "npm run format -w frontend",
     "format:backend": "cd ./backend/ && gofmt -w -s .",
-    "codegen": "npm run codegen:gen:bundle && conc \"npm run codegen:gen:backend\" \"npm run codegen:gen:frontend\"",
+    "codegen": "npm run codegen:gen:openapi && npm run codegen:gen:backend && conc \"npm run codegen:gen:mocks\" \"npm run codegen:gen:frontend\"",
     "codegen:fresh": "npm run codegen:clean && npm run codegen",
     "codegen:clean": "rm -f openapi/bundled.yaml backend/internal/api/openapi.gen.go && rm -rf frontend/src/api",
-    "codegen:gen:bundle": "redocly bundle openapi/openapi.yaml -o openapi/bundled.yaml",
+    "codegen:gen:openapi": "redocly bundle openapi/openapi.yaml -o openapi/bundled.yaml",
     "codegen:gen:backend": "cd backend && mkdir -p './internal/api/' && go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 --config=oapi-codegen.yaml ../openapi/bundled.yaml",
-    "codegen:gen:frontend": "npm run codegen -w frontend"
+    "codegen:gen:frontend": "npm run codegen -w frontend",
+    "codegen:gen:mocks": "cd backend && go tool mockery"
   },
   "devDependencies": {
     "@redocly/cli": "^2.34.0",
