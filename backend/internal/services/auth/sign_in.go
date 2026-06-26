@@ -15,12 +15,12 @@ type accountRow struct {
 	Status       string             `db:"status"`
 }
 
-type signInResponse struct {
+type SignInResponse struct {
 	Account *api.Account
 	Session *Session
 }
 
-func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*signInResponse, *api_error.ApiError) {
+func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*SignInResponse, *api_error.ApiError) {
 	account, apiErr := auth.getAccountRow(c, body)
 	if apiErr != nil {
 		return nil, apiErr
@@ -31,7 +31,7 @@ func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) 
 		return nil, apiErr
 	}
 
-	return &signInResponse{
+	return &SignInResponse{
 			&api.Account{
 				Id:          account.ID,
 				Email:       body.Email,
