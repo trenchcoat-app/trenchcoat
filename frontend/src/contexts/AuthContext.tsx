@@ -27,14 +27,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } else {
             localStorage.removeItem(STORAGE_KEY);
         }
-    }, [account])
+    }, [account]);
 
     return (
         <AuthContext.Provider
             value={{
                 account,
                 setAccount,
-                isAuthenticated: !!account
+                isAuthenticated: !!account,
             }}
         >
             {children}

@@ -6,12 +6,12 @@ export const protectedRoute = createRoute({
     id: "protected",
     beforeLoad: ({ context, location }) => {
         if (!context.auth.isAuthenticated) {
-            throw redirect({ 
+            throw redirect({
                 to: "/signin",
                 search: {
-                redirect: location.href,
+                    redirect: location.href,
                 },
             });
         }
     },
-})
+});

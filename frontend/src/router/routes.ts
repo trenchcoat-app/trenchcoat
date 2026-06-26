@@ -20,6 +20,7 @@ export const signInRoute = createRoute({
     component: SignIn,
 });
 
+// prettier-ignore
 export const routeTree = rootRoute.addChildren([
     signUpRoute,
     signInRoute,

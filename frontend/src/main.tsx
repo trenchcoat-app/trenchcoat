@@ -11,8 +11,8 @@ import { useAuth } from "@/hooks/useAuth";
 import "@/styles/global.css";
 
 function InnerApp() {
-    const auth = useAuth()
-    return <RouterProvider router={router} context={{ auth }} />
+    const auth = useAuth();
+    return <RouterProvider router={router} context={{ auth }} />;
 }
 
 createRoot(document.getElementById("root")!).render(
