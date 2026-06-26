@@ -7,6 +7,7 @@ import { Input, Button } from "@/components/shared";
 import { AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/features/auth";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
+import { flushSync } from "react-dom";
 
 export const SignInForm = () => {
     const { t } = useTranslation();
@@ -16,7 +17,10 @@ export const SignInForm = () => {
     const mutation = useMutation({
         ...signInMutation(),
         onSuccess: (data: SignInOkResponse) => {
-            setAccount(data.account);
+            // flush account state update to prevent race condition with protected routes
+            flushSync(() => {
+                setAccount(data.account);
+            });
             navigate({ to: "/" });
         },
     });
