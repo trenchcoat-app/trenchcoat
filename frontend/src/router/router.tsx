@@ -3,4 +3,7 @@ import { routeTree } from "@/router/routes";
 
 export const router = createRouter({
     routeTree,
+    context: {
+        auth: undefined!,
+    },
 });

@@ -1,9 +1,10 @@
 import { createContext, useState, type ReactNode } from "react";
 import type { Account } from "@/api";
 
-interface AuthContextType {
+export interface AuthContextType {
     account: Account | null;
     setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
+    isAuthenticated: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             value={{
                 account,
                 setAccount,
+                isAuthenticated: !!account
             }}
         >
             {children}
