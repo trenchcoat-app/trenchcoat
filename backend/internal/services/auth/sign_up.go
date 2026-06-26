@@ -10,7 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type signUpResponse struct {
+type SignUpResponse struct {
 	Account *api.Account
 	Session *Session
 }
@@ -34,7 +34,7 @@ func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBod
 	return
 }
 
-func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*signUpResponse, *api_error.ApiError) {
+func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*SignUpResponse, *api_error.ApiError) {
 	emailStr := strings.TrimSpace(string(body.Email))
 	nameTrimmed := strings.TrimSpace(body.DisplayName)
 
@@ -76,7 +76,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 	}
 
 	displayName := nameTrimmed
-	return &signUpResponse{
+	return &SignUpResponse{
 		&api.Account{
 			Id:          userID,
 			Email:       openapi_types.Email(emailStr),
