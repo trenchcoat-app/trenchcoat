@@ -8,54 +8,57 @@ import (
 
 	"github.com/go-openapi/testify/v2/assert"
 	"github.com/go-openapi/testify/v2/require"
+	"github.com/oapi-codegen/runtime/types"
 )
 
-func TestValidateSignInCredentials_EmptyEmail(t *testing.T) {
+func TestValidateSignInCredentials(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
-	details := svc.ValidateSignInCredentials(api.SignInJSONRequestBody{
-		Email:    "",
-		Password: "password123",
-	})
+	tests := []struct {
+		name     string
+		email    types.Email
+		password string
+		expected []api.ErrorResponseDetail
+	}{
+		{
+			name:     "empty email",
+			email:    "",
+			password: "password123",
+			expected: []api.ErrorResponseDetail{{Field: "email", Message: "Email is required"}},
+		},
+		{
+			name:     "empty password",
+			email:    "test@example.com",
+			password: "",
+			expected: []api.ErrorResponseDetail{{Field: "password", Message: "Password is required"}},
+		},
+		{
+			name:     "both empty",
+			email:    "",
+			password: "",
+			expected: []api.ErrorResponseDetail{{Field: "email"}, {Field: "password"}},
+		},
+		{
+			name:     "valid",
+			email:    "test@example.com",
+			password: "password123",
+			},
+	}
 
-	require.Len(t, details, 1)
-	assert.Equal(t, "email", details[0].Field)
-	assert.Equal(t, "Email is required", details[0].Message)
-}
-
-func TestValidateSignInCredentials_EmptyPassword(t *testing.T) {
-	svc := auth.NewAuthService(nil)
-
-	details := svc.ValidateSignInCredentials(api.SignInJSONRequestBody{
-		Email:    "test@example.com",
-		Password: "",
-	})
-
-	require.Len(t, details, 1)
-	assert.Equal(t, "password", details[0].Field)
-	assert.Equal(t, "Password is required", details[0].Message)
-}
-
-func TestValidateSignInCredentials_BothEmpty(t *testing.T) {
-	svc := auth.NewAuthService(nil)
-
-	details := svc.ValidateSignInCredentials(api.SignInJSONRequestBody{
-		Email:    "",
-		Password: "",
-	})
-
-	require.Len(t, details, 2)
-	assert.Equal(t, "email", details[0].Field)
-	assert.Equal(t, "password", details[1].Field)
-}
-
-func TestValidateSignInCredentials_Valid(t *testing.T) {
-	svc := auth.NewAuthService(nil)
-
-	details := svc.ValidateSignInCredentials(api.SignInJSONRequestBody{
-		Email:    "test@example.com",
-		Password: "password123",
-	})
-
-	assert.Len(t, details, 0)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			details := svc.ValidateSignInCredentials(api.SignInJSONRequestBody{
+				Email:    tt.email,
+				Password: tt.password,
+			})
+			require.Len(t, details, len(tt.expected))
+			for i, e := range tt.expected {
+				assert.Equal(t, e.Field, details[i].Field)
+				if e.Message != "" {
+					assert.Equal(t, e.Message, details[i].Message)
+				}
+			}
+		})
+	}
 }

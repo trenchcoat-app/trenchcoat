@@ -8,71 +8,71 @@ import (
 
 	"github.com/go-openapi/testify/v2/assert"
 	"github.com/go-openapi/testify/v2/require"
+	"github.com/oapi-codegen/runtime/types"
 )
 
-func TestValidateSignUpCredentials_EmptyName(t *testing.T) {
+func TestValidateSignUpCredentials(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
-	details := svc.ValidateSignUpCredentials(api.SignUpJSONRequestBody{
-		Email:       "test@example.com",
-		Password:    "password123",
-		DisplayName: "",
-	})
+	tests := []struct {
+		name        string
+		email       types.Email
+		password    string
+		displayName string
+		expected    []api.ErrorResponseDetail
+	}{
+		{
+			name:        "empty name",
+			email:       "test@example.com",
+			password:    "password123",
+			displayName: "",
+			expected:    []api.ErrorResponseDetail{{Field: "name", Message: "Name cannot be empty"}},
+		},
+		{
+			name:        "empty name after trim",
+			email:       "test@example.com",
+			password:    "password123",
+			displayName: "   ",
+			expected:    []api.ErrorResponseDetail{{Field: "name"}},
+		},
+		{
+			name:        "short password",
+			email:       "test@example.com",
+			password:    "1234567",
+			displayName: "Test User",
+			expected:    []api.ErrorResponseDetail{{Field: "password", Message: "Password must be at least 8 characters long"}},
+		},
+		{
+			name:        "valid",
+			email:       "test@example.com",
+			password:    "password123",
+			displayName: "Test User",
+			expected:    nil,
+		},
+		{
+			name:        "both invalid",
+			email:       "test@example.com",
+			password:    "short",
+			displayName: "",
+			expected:    []api.ErrorResponseDetail{{Field: "name"}, {Field: "password"}},
+		},
+	}
 
-	require.Len(t, details, 1)
-	assert.Equal(t, "name", details[0].Field)
-	assert.Equal(t, "Name cannot be empty", details[0].Message)
-}
-
-func TestValidateSignUpCredentials_EmptyNameAfterTrim(t *testing.T) {
-	svc := auth.NewAuthService(nil)
-
-	details := svc.ValidateSignUpCredentials(api.SignUpJSONRequestBody{
-		Email:       "test@example.com",
-		Password:    "password123",
-		DisplayName: "   ",
-	})
-
-	require.Len(t, details, 1)
-	assert.Equal(t, "name", details[0].Field)
-}
-
-func TestValidateSignUpCredentials_ShortPassword(t *testing.T) {
-	svc := auth.NewAuthService(nil)
-
-	details := svc.ValidateSignUpCredentials(api.SignUpJSONRequestBody{
-		Email:       "test@example.com",
-		Password:    "1234567",
-		DisplayName: "Test User",
-	})
-
-	require.Len(t, details, 1)
-	assert.Equal(t, "password", details[0].Field)
-	assert.Equal(t, "Password must be at least 8 characters long", details[0].Message)
-}
-
-func TestValidateSignUpCredentials_Valid(t *testing.T) {
-	svc := auth.NewAuthService(nil)
-
-	details := svc.ValidateSignUpCredentials(api.SignUpJSONRequestBody{
-		Email:       "test@example.com",
-		Password:    "password123",
-		DisplayName: "Test User",
-	})
-
-	assert.Len(t, details, 0)
-}
-
-func TestValidateSignUpCredentials_BothInvalid(t *testing.T) {
-	svc := auth.NewAuthService(nil)
-
-	details := svc.ValidateSignUpCredentials(api.SignUpJSONRequestBody{
-		Email:       "test@example.com",
-		Password:    "short",
-		DisplayName: "",
-	})
-
-	require.Len(t, details, 2)
-	assert.Equal(t, "name", details[0].Field)
-	assert.Equal(t, "password", details[1].Field)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			details := svc.ValidateSignUpCredentials(api.SignUpJSONRequestBody{
+				Email:       tt.email,
+				Password:    tt.password,
+				DisplayName: tt.displayName,
+			})
+			require.Len(t, details, len(tt.expected))
+			for i, e := range tt.expected {
+				assert.Equal(t, e.Field, details[i].Field)
+				if e.Message != "" {
+					assert.Equal(t, e.Message, details[i].Message)
+				}
+			}
+		})
+	}
 }
