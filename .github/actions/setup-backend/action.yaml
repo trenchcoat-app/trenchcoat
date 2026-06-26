@@ -23,6 +23,6 @@ runs:
       working-directory: backend
 
     - name: generate code
-      run: npm run codegen:gen:bundle && npm run codegen:gen:backend
+      run: npm run codegen:gen:openapi && npm run codegen:gen:backend
       shell: bash
       working-directory: .
