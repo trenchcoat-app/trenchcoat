@@ -8,7 +8,7 @@ import (
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
-type accountRow struct {
+type AccountRow struct {
 	ID           openapi_types.UUID `db:"id"`
 	DisplayName  string             `db:"display_name"`
 	PasswordHash string             `db:"password_hash"`

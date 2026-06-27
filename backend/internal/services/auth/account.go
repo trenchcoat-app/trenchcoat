@@ -10,7 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (auth *AuthService) GetAccountRow(c *gin.Context, body api.SignInJSONRequestBody) (*accountRow, *api_error.ApiError) {
+func (auth *AuthService) GetAccountRow(c *gin.Context, body api.SignInJSONRequestBody) (*AccountRow, *api_error.ApiError) {
 	sql := `
 		SELECT id, display_name, password_hash, status
 		FROM account
@@ -26,7 +26,7 @@ func (auth *AuthService) GetAccountRow(c *gin.Context, body api.SignInJSONReques
 		return nil, api_error.InternalServerError("Database query failed: " + err.Error())
 	}
 
-	account, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[accountRow])
+	account, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[AccountRow])
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, api_error.SignInInvalidCredentialsError()
