@@ -68,7 +68,6 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 
 	var session Session
 	if body.AutoSignIn != nil && *body.AutoSignIn {
-		var apiErr *httperror.HttpError
 		session, apiErr = auth.CreateSession(c, AccountRow{ID: userID})
 		if apiErr != nil {
 			return nil, apiErr
