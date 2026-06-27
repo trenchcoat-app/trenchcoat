@@ -21,12 +21,12 @@ type SignInResponse struct {
 }
 
 func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*SignInResponse, *api_error.ApiError) {
-	account, apiErr := auth.getAccountRow(c, body)
+	account, apiErr := auth.GetAccountRow(c, body)
 	if apiErr != nil {
 		return nil, apiErr
 	}
 
-	session, apiErr := auth.createSession(c, *account)
+	session, apiErr := auth.CreateSession(c, *account)
 	if apiErr != nil {
 		return nil, apiErr
 	}

@@ -61,7 +61,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 		return nil, api_error.InternalServerError("Failed to process password: " + err.Error())
 	}
 
-	userID, apiErr := auth.createAccount(c, emailStr, nameTrimmed, string(hashed))
+	userID, apiErr := auth.CreateAccount(c, emailStr, nameTrimmed, string(hashed))
 	if apiErr != nil {
 		return nil, apiErr
 	}
@@ -69,7 +69,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 	var session Session
 	if body.AutoSignIn != nil && *body.AutoSignIn {
 		var apiErr *api_error.ApiError
-		session, apiErr = auth.createSession(c, accountRow{ID: userID})
+		session, apiErr = auth.CreateSession(c, accountRow{ID: userID})
 		if apiErr != nil {
 			return nil, apiErr
 		}
@@ -86,7 +86,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 	}, nil
 }
 
-func (auth *AuthService) createAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *api_error.ApiError) {
+func (auth *AuthService) CreateAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *api_error.ApiError) {
 	var userID openapi_types.UUID
 
 	sql := `
