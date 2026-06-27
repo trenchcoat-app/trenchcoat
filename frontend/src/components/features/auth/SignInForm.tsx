@@ -1,12 +1,17 @@
-import { signInMutation } from "@/api/@tanstack/react-query.gen";
-import type { ErrorResponse, SignInBody, SignInOkResponse } from "@/api/types.gen";
+import { flushSync } from "react-dom";
+
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
-import { Input, Button } from "@/components/shared";
 import { useTranslation } from "react-i18next";
+
+import { signInMutation } from "@/api/@tanstack/react-query.gen";
+import type { ErrorResponse, SignInBody, SignInOkResponse } from "@/api/types.gen";
+import { Button, Input } from "@/components/shared";
 import { useAuth } from "@/hooks/useAuth";
-import { flushSync } from "react-dom";
+import { extractAndLocalizeErrors } from "@/utils/validator-util";
+import { requiredFieldValidator } from "@/utils/validators";
+
 import styles from "./auth.module.css";
 
 export const SignInForm = () => {
@@ -47,7 +52,12 @@ export const SignInForm = () => {
             }}
         >
             <h1 className={styles.authFormTitle}>{t("auth:SIGNIN_TITLE")}</h1>
-            <form.Field name="email">
+            <form.Field
+                name="email"
+                validators={{
+                    onChange: requiredFieldValidator,
+                }}
+            >
                 {(field) => (
                     <Input
                         name={field.name}
@@ -58,11 +68,17 @@ export const SignInForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:EMAIL")}
                         placeholder={t("auth:EMAIL_PLACEHOLDER")}
+                        errors={extractAndLocalizeErrors(field.state.meta.errors, t)}
                     />
                 )}
             </form.Field>
 
-            <form.Field name="password">
+            <form.Field
+                name="password"
+                validators={{
+                    onChange: requiredFieldValidator,
+                }}
+            >
                 {(field) => (
                     <Input
                         name={field.name}
@@ -72,6 +88,7 @@ export const SignInForm = () => {
                         onChange={(e) => field.handleChange(e.target.value)}
                         label={t("auth:PASSWORD")}
                         placeholder={t("auth:PASSWORD")}
+                        errors={extractAndLocalizeErrors(field.state.meta.errors, t)}
                     />
                 )}
             </form.Field>

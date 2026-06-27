@@ -2,11 +2,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+
 import { signUpMutation } from "@/api/@tanstack/react-query.gen";
 import type { ErrorResponse, SignUpBody } from "@/api/types.gen";
-import { Input, Button } from "@/components/shared";
-import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
+import { Button, Input } from "@/components/shared";
 import { extractAndLocalizeErrors } from "@/utils/validator-util";
+import { confirmPasswordFieldValidator, passwordLengthFieldValidator, requiredFieldValidator } from "@/utils/validators";
+
 import styles from "./auth.module.css";
 
 export const SignUpForm = () => {
