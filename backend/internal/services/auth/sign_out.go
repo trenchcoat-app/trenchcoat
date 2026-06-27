@@ -2,7 +2,7 @@ package auth
 
 import (
 	"strings"
-	"trenchcoat/internal/httperror"
+	"trenchcoat/internal/dto/httperror"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
