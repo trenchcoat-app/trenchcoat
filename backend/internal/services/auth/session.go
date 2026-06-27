@@ -40,6 +40,6 @@ func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (sess
 }
 
 func (auth *AuthService) GetNewSessionExpireTime(offsetSeconds int) *time.Time {
-	expireTime := time.Now().Add(time.Duration(offsetSeconds * int(time.Second)))
+	expireTime := time.Now().Add(time.Duration(offsetSeconds) * time.Second)
 	return &expireTime
 }
