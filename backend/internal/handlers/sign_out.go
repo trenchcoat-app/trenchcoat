@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"net/http"
-	"trenchcoat/internal/httperror"
+	"trenchcoat/internal/dto/httperror"
 	"trenchcoat/internal/services/cookie"
 
 	"github.com/gin-gonic/gin"

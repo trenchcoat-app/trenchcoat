@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"trenchcoat/internal/api"
+	"trenchcoat/internal/dto/httperror"
 	"trenchcoat/internal/handlers"
-	"trenchcoat/internal/httperror"
 	"trenchcoat/internal/services/auth"
 
 	"github.com/gin-gonic/gin"

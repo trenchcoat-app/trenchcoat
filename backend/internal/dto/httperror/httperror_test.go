@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/httperror"
+	"trenchcoat/internal/dto/httperror"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"

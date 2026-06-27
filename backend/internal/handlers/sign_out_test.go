@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/httperror"
+	"trenchcoat/internal/dto/httperror"
 
 	"trenchcoat/internal/handlers"
 

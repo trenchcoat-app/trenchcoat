@@ -3,7 +3,7 @@ package auth
 import (
 	"strings"
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/httperror"
+	"trenchcoat/internal/dto/httperror"
 
 	"github.com/gin-gonic/gin"
 	openapi_types "github.com/oapi-codegen/runtime/types"
