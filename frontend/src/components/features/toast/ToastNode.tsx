@@ -1,22 +1,23 @@
-import type { Toast } from "@/contexts/ToastContext";
 import { Info, Ban, Check, TriangleAlert, X } from "lucide-react";
+import type { Toast } from "@/contexts/ToastContext";
+import { useToast } from "@/hooks/useToast";
 
 import styles from "./ToastNode.module.css";
-import { useToast } from "@/hooks/useToast";
 
 export const ToastNode = ({ toast } : {toast: Toast}) => {
     const { removeToast } = useToast();
 
+    const iconSize = 16;
     const renderIcon = () => {
         switch (toast.type) {
             case "success":
-                return <Check size={16}/>;
+                return <Check size={iconSize}/>;
             case "error":
-                return <Ban size={16}/>;
+                return <Ban size={iconSize}/>;
             case "warning":
-                return <TriangleAlert size={16}/>;
+                return <TriangleAlert size={iconSize}/>;
             case "info":
-                return <Info size={16}/>;
+                return <Info size={iconSize}/>;
             default:
                 return null;
         }
@@ -33,7 +34,6 @@ export const ToastNode = ({ toast } : {toast: Toast}) => {
             <button
                 className={styles.closeButton}
                 onClick={() => removeToast(toast.id)}
-                aria-label="Close toast"
             >
                 <X size={16} />
             </button>
