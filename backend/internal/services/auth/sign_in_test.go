@@ -42,7 +42,7 @@ func TestValidateSignInCredentials(t *testing.T) {
 			name:     "valid",
 			email:    "test@example.com",
 			password: "password123",
-			},
+		},
 	}
 
 	for _, tt := range tests {
