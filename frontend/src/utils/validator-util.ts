@@ -1,4 +1,4 @@
-import type { Validator, ValidatorContext } from "@/types/validator";
+import type { Validator, ValidatorContext } from "@/utils/validators/validator";
 import type { TFunction } from "i18next";
 
 // Runs multiple validators and collects their results.
