@@ -25,7 +25,7 @@ export const SignInForm = () => {
         },
         onError: (error: ErrorResponse) => {
             throw error;
-        }
+        },
     });
 
     const defaultValues: SignInBody = {
@@ -85,7 +85,9 @@ export const SignInForm = () => {
                 )}
             />
             <div className={styles.authFormNote}>
-                <p>{t("auth:DONT_HAVE_AN_ACCOUNT")} <Link to="/signup">{t("auth:SIGNUP")}</Link></p>
+                <p>
+                    {t("auth:DONT_HAVE_AN_ACCOUNT")} <Link to="/signup">{t("auth:SIGNUP")}</Link>
+                </p>
             </div>
         </form>
     );

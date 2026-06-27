@@ -15,7 +15,7 @@ export const SignUpForm = () => {
         ...signUpMutation(),
         onError: (error: ErrorResponse) => {
             throw error;
-        }
+        },
     });
 
     const defaultValues: SignUpBody & { confirmPassword: string } = {
@@ -133,7 +133,9 @@ export const SignUpForm = () => {
                 )}
             />
             <div className={styles.authFormNote}>
-                <p>{t("auth:HAVE_AN_ACCOUNT")} <Link to="/signin">{t("auth:SIGNIN")}</Link></p>
+                <p>
+                    {t("auth:HAVE_AN_ACCOUNT")} <Link to="/signin">{t("auth:SIGNIN")}</Link>
+                </p>
             </div>
         </form>
     );
