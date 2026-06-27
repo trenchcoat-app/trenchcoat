@@ -3,7 +3,7 @@ package auth
 import (
 	"time"
 	"trenchcoat/config"
-	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/httperror"
 
 	"github.com/gin-gonic/gin"
 	openapi_types "github.com/oapi-codegen/runtime/types"
@@ -14,7 +14,7 @@ type Session struct {
 	ExpiresAt    *time.Time
 }
 
-func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (session Session, apiErr *api_error.ApiError) {
+func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (session Session, apiErr *httperror.HttpError) {
 	session.ExpiresAt = auth.GetNewSessionExpireTime(config.AppConfig.SESSION_EXPIRY_SECONDS)
 
 	sql := `
@@ -33,7 +33,7 @@ func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (sess
 	).Scan(&session.SessionToken, &session.ExpiresAt)
 
 	if err != nil {
-		apiErr = api_error.InternalServerError("Failed to create session: " + err.Error())
+		apiErr = httperror.InternalServerError("Failed to create session: " + err.Error())
 	}
 
 	return

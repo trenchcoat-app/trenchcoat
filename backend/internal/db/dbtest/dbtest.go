@@ -79,7 +79,7 @@ func startContainer() (*TestDB, error) {
 	}
 
 	_, filename, _, _ := runtime.Caller(0)
-	migrationsDir := filepath.Join(filepath.Dir(filename), 	"..", "migrations")
+	migrationsDir := filepath.Join(filepath.Dir(filename), "..", "migrations")
 
 	err = goose.Up(sqlDB, migrationsDir)
 	if err != nil {

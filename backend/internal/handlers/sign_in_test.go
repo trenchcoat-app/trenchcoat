@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/api_error"
 	"trenchcoat/internal/handlers"
+	"trenchcoat/internal/httperror"
 	"trenchcoat/internal/services/auth"
 
 	"github.com/gin-gonic/gin"
@@ -151,7 +151,7 @@ func TestSignIn_AuthError(t *testing.T) {
 		Return(nil)
 	mockAuth.EXPECT().
 		SignIn(mock.Anything, mock.Anything).
-		Return(nil, api_error.SignInInvalidCredentialsError())
+		Return(nil, httperror.SignInInvalidCredentialsError())
 
 	srv := handlers.NewServer(mockAuth)
 

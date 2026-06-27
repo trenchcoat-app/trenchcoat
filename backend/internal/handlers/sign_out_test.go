@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/httperror"
 
 	"trenchcoat/internal/handlers"
 
@@ -94,7 +94,7 @@ func TestSignOut_MissingAuth(t *testing.T) {
 	mockAuth := NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ParseAuthToken("").
-		Return(uuid.Nil, api_error.SignOutUnauthorizedError("Missing authorization token."))
+		Return(uuid.Nil, httperror.SignOutUnauthorizedError("Missing authorization token."))
 
 	srv := handlers.NewServer(mockAuth)
 
@@ -150,7 +150,7 @@ func TestSignOut_SessionNotFound(t *testing.T) {
 	mockAuth := NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		SignOut(mock.Anything, token).
-		Return(api_error.SignOutSessionNotFoundError())
+		Return(httperror.SignOutSessionNotFoundError())
 
 	srv := handlers.NewServer(mockAuth)
 

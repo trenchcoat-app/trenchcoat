@@ -2,7 +2,7 @@ package auth
 
 import (
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/httperror"
 
 	"github.com/gin-gonic/gin"
 	openapi_types "github.com/oapi-codegen/runtime/types"
@@ -20,7 +20,7 @@ type SignInResponse struct {
 	Session *Session
 }
 
-func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*SignInResponse, *api_error.ApiError) {
+func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*SignInResponse, *httperror.HttpError) {
 	account, apiErr := auth.GetAccountRow(c, body)
 	if apiErr != nil {
 		return nil, apiErr

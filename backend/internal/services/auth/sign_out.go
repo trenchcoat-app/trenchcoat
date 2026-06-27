@@ -2,15 +2,15 @@ package auth
 
 import (
 	"strings"
-	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/httperror"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
-func (auth *AuthService) ParseAuthToken(authHeader string) (uuid.UUID, *api_error.ApiError) {
+func (auth *AuthService) ParseAuthToken(authHeader string) (uuid.UUID, *httperror.HttpError) {
 	if authHeader == "" {
-		return uuid.Nil, api_error.SignOutUnauthorizedError("Missing authorization token.")
+		return uuid.Nil, httperror.SignOutUnauthorizedError("Missing authorization token.")
 	}
 
 	tokenStr := authHeader
@@ -20,18 +20,18 @@ func (auth *AuthService) ParseAuthToken(authHeader string) (uuid.UUID, *api_erro
 	tokenStr = strings.TrimSpace(tokenStr)
 
 	if tokenStr == "" {
-		return uuid.Nil, api_error.SignOutUnauthorizedError("Missing authorization token.")
+		return uuid.Nil, httperror.SignOutUnauthorizedError("Missing authorization token.")
 	}
 
 	tokenUUID, err := uuid.Parse(tokenStr)
 	if err != nil {
-		return uuid.Nil, api_error.SignOutUnauthorizedError("Invalid authorization token format.")
+		return uuid.Nil, httperror.SignOutUnauthorizedError("Invalid authorization token format.")
 	}
 
 	return tokenUUID, nil
 }
 
-func (auth *AuthService) SignOut(c *gin.Context, tokenUUID uuid.UUID) *api_error.ApiError {
+func (auth *AuthService) SignOut(c *gin.Context, tokenUUID uuid.UUID) *httperror.HttpError {
 	sql := `
 		DELETE FROM session
 		WHERE token = $1
@@ -39,11 +39,11 @@ func (auth *AuthService) SignOut(c *gin.Context, tokenUUID uuid.UUID) *api_error
 
 	cmdTag, err := auth.DB.Exec(c.Request.Context(), sql, tokenUUID)
 	if err != nil {
-		return api_error.InternalServerError("Failed to invalidate session: " + err.Error())
+		return httperror.InternalServerError("Failed to invalidate session: " + err.Error())
 	}
 
 	if cmdTag.RowsAffected() == 0 {
-		return api_error.SignOutSessionNotFoundError()
+		return httperror.SignOutSessionNotFoundError()
 	}
 
 	return nil

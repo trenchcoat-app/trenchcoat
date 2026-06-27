@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/api_error"
 	"trenchcoat/internal/handlers"
+	"trenchcoat/internal/httperror"
 	"trenchcoat/internal/services/auth"
 
 	"github.com/gin-gonic/gin"
@@ -196,7 +196,7 @@ func TestSignUp_EmailAlreadyExists(t *testing.T) {
 		Return(nil)
 	mockAuth.EXPECT().
 		SignUp(mock.Anything, mock.Anything).
-		Return(nil, api_error.SignUpEmailAlreadyExistsError())
+		Return(nil, httperror.SignUpEmailAlreadyExistsError())
 
 	srv := handlers.NewServer(mockAuth)
 

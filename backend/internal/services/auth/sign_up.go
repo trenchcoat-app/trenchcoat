@@ -3,7 +3,7 @@ package auth
 import (
 	"strings"
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/httperror"
 
 	"github.com/gin-gonic/gin"
 	openapi_types "github.com/oapi-codegen/runtime/types"
@@ -34,7 +34,7 @@ func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBod
 	return
 }
 
-func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*SignUpResponse, *api_error.ApiError) {
+func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*SignUpResponse, *httperror.HttpError) {
 	emailStr := strings.TrimSpace(string(body.Email))
 	nameTrimmed := strings.TrimSpace(body.DisplayName)
 
@@ -49,16 +49,16 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 		strings.ToLower(emailStr),
 	).Scan(&exists)
 	if err != nil {
-		return nil, api_error.InternalServerError("Failed to query database: " + err.Error())
+		return nil, httperror.InternalServerError("Failed to query database: " + err.Error())
 	}
 
 	if exists {
-		return nil, api_error.SignUpEmailAlreadyExistsError()
+		return nil, httperror.SignUpEmailAlreadyExistsError()
 	}
 
 	hashed, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, api_error.InternalServerError("Failed to process password: " + err.Error())
+		return nil, httperror.InternalServerError("Failed to process password: " + err.Error())
 	}
 
 	userID, apiErr := auth.CreateAccount(c, emailStr, nameTrimmed, string(hashed))
@@ -68,7 +68,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 
 	var session Session
 	if body.AutoSignIn != nil && *body.AutoSignIn {
-		var apiErr *api_error.ApiError
+		var apiErr *httperror.HttpError
 		session, apiErr = auth.CreateSession(c, AccountRow{ID: userID})
 		if apiErr != nil {
 			return nil, apiErr
@@ -86,7 +86,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 	}, nil
 }
 
-func (auth *AuthService) CreateAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *api_error.ApiError) {
+func (auth *AuthService) CreateAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *httperror.HttpError) {
 	var userID openapi_types.UUID
 
 	sql := `
@@ -103,7 +103,7 @@ func (auth *AuthService) CreateAccount(c *gin.Context, email string, displayName
 		passwordHash,
 	).Scan(&userID)
 	if err != nil {
-		return userID, api_error.InternalServerError("Failed to create account: " + err.Error())
+		return userID, httperror.InternalServerError("Failed to create account: " + err.Error())
 	}
 	return userID, nil
 }

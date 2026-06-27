@@ -1,4 +1,4 @@
-package api_error_test
+package httperror_test
 
 import (
 	"encoding/json"
@@ -7,26 +7,26 @@ import (
 	"testing"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/httperror"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"
 	"github.com/go-openapi/testify/v2/require"
 )
 
-func TestHandleApiError(t *testing.T) {
+func TestHandleHttpError(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
-	apiErr := api_error.ApiError{
+	apiErr := httperror.HttpError{
 		Status:  http.StatusConflict,
 		Code:    "EMAIL_ALREADY_EXISTS",
 		Message: "An account with this email address already exists.",
 	}
 
-	api_error.HandleApiError(c, apiErr)
+	httperror.HandleHttpError(c, apiErr)
 
 	assert.Equal(t, http.StatusConflict, w.Code)
 

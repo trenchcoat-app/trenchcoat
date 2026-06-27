@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/api_error"
+	"trenchcoat/internal/httperror"
 	"trenchcoat/internal/services/cookie"
 
 	"github.com/gin-gonic/gin"
@@ -31,7 +31,7 @@ func (s *Server) SignIn(c *gin.Context) {
 
 	signInResponse, apiErr := s.AuthService.SignIn(c, body)
 	if apiErr != nil {
-		api_error.HandleApiError(c, *apiErr)
+		httperror.HandleHttpError(c, *apiErr)
 		return
 	}
 

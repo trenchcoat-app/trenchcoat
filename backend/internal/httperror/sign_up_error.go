@@ -1,9 +1,9 @@
-package api_error
+package httperror
 
 import "net/http"
 
-func SignUpEmailAlreadyExistsError() *ApiError {
-	return &ApiError{
+func SignUpEmailAlreadyExistsError() *HttpError {
+	return &HttpError{
 		Status:  http.StatusConflict,
 		Message: "An account with this email address already exists.",
 		Code:    "EMAIL_ALREADY_EXISTS",
