@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"net/http"
 	"net/http/httptest"
-	"sync"
 	"testing"
 
 	"trenchcoat/internal/api"
@@ -13,23 +12,12 @@ import (
 	"trenchcoat/internal/services/auth"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-openapi/testify/v2/require"
 	"github.com/jackc/pgx/v5/pgxpool"
-)
-
-var (
-	e2ePool     *pgxpool.Pool
-	e2ePoolOnce sync.Once
 )
 
 func GetE2EPool(t *testing.T) *pgxpool.Pool {
 	t.Helper()
-	e2ePoolOnce.Do(func() {
-		var err error
-		e2ePool, _, err = dbtest.SetupDBMain()
-		require.NoError(t, err, "Failed to set up test database")
-	})
-	return e2ePool
+	return dbtest.SetupDB(t)
 }
 
 func SetupE2ERouter(t *testing.T, pool *pgxpool.Pool) *gin.Engine {
