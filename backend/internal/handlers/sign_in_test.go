@@ -176,6 +176,6 @@ func TestSignIn_AuthError(t *testing.T) {
 	var resp api.ErrorResponse
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	require.NoError(t, err)
-	assert.Equal(t, "INTERNAL_SERVER_ERROR", resp.Code)
+	assert.Equal(t, "INVALID_CREDENTIALS", resp.Code)
 	assert.Equal(t, "Invalid email or password.", resp.Message)
 }
