@@ -17,7 +17,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/dbtest"
+	"trenchcoat/internal/db/dbtest"
 	"trenchcoat/internal/services/auth"
 )
 
