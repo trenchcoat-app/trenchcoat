@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { router } from "@/router/router";
 import { queryClient } from "@/config/queryClient";
 import { useAuth } from "@/hooks/useAuth";
+import { ToastProvider } from "@/contexts/ToastContext";
 import "@/styles/global.css";
 
 function InnerApp() {
@@ -19,7 +20,9 @@ createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
-                <InnerApp />
+                <ToastProvider>
+                    <InnerApp />
+                </ToastProvider>
             </AuthProvider>
         </QueryClientProvider>
     </StrictMode>,
