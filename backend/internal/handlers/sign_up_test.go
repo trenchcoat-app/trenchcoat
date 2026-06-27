@@ -24,6 +24,7 @@ import (
 var signUpRoute = "/api/v1/auth/sign-up"
 
 func TestSignUp_SuccessWithoutAutoSignIn(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	userID := uuid.New()
@@ -75,6 +76,7 @@ func TestSignUp_SuccessWithoutAutoSignIn(t *testing.T) {
 }
 
 func TestSignUp_SuccessWithAutoSignIn(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	token := uuid.New()
@@ -128,6 +130,7 @@ func TestSignUp_SuccessWithAutoSignIn(t *testing.T) {
 }
 
 func TestSignUp_BadJSON(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)
@@ -152,6 +155,7 @@ func TestSignUp_BadJSON(t *testing.T) {
 }
 
 func TestSignUp_ValidationError(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)
@@ -188,6 +192,7 @@ func TestSignUp_ValidationError(t *testing.T) {
 }
 
 func TestSignUp_EmailAlreadyExists(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)

@@ -24,6 +24,7 @@ import (
 var signInRoute = "/api/v1/auth/sign-in"
 
 func TestSignIn_Success(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	token := uuid.New()
@@ -82,6 +83,7 @@ func TestSignIn_Success(t *testing.T) {
 }
 
 func TestSignIn_BadJSON(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)
@@ -106,6 +108,7 @@ func TestSignIn_BadJSON(t *testing.T) {
 }
 
 func TestSignIn_ValidationError(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)
@@ -143,6 +146,7 @@ func TestSignIn_ValidationError(t *testing.T) {
 }
 
 func TestSignIn_AuthError(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)

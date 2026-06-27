@@ -22,6 +22,7 @@ import (
 var signOutRoute = "/api/v1/auth/sign-out"
 
 func TestSignOut_SuccessViaCookie(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	token := uuid.New()
@@ -56,6 +57,7 @@ func TestSignOut_SuccessViaCookie(t *testing.T) {
 }
 
 func TestSignOut_SuccessViaAuthHeader(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	token := uuid.New()
@@ -89,6 +91,7 @@ func TestSignOut_SuccessViaAuthHeader(t *testing.T) {
 }
 
 func TestSignOut_MissingAuth(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)
@@ -115,6 +118,7 @@ func TestSignOut_MissingAuth(t *testing.T) {
 }
 
 func TestSignOut_InvalidCookieUUID(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	mockAuth := NewMockAuthServiceInterface(t)
@@ -143,6 +147,7 @@ func TestSignOut_InvalidCookieUUID(t *testing.T) {
 }
 
 func TestSignOut_SessionNotFound(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	token := uuid.New()

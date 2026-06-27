@@ -76,6 +76,7 @@ func newEmail() types.Email {
 // GetAccountRow tests
 
 func TestGetAccountRow_Success(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -99,17 +100,20 @@ func TestGetAccountRow_Success(t *testing.T) {
 }
 
 func TestGetAccountRow_InvalidCredentials(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
-	email := newEmail()
-	seedAccount(t, pool, string(email), "Test User", "correct-password")
-
-	gin.SetMode(gin.TestMode)
-	w := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(w)
-	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
 	t.Run("wrong password", func(t *testing.T) {
+		t.Parallel()
+		email := newEmail()
+		seedAccount(t, pool, string(email), "Test User", "correct-password")
+
+		gin.SetMode(gin.TestMode)
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+		c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
+
 		body := api.SignInJSONRequestBody{
 			Email:    email,
 			Password: "wrong-password",
@@ -120,6 +124,12 @@ func TestGetAccountRow_InvalidCredentials(t *testing.T) {
 	})
 
 	t.Run("unknown email", func(t *testing.T) {
+		t.Parallel()
+		gin.SetMode(gin.TestMode)
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+		c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
+
 		body := api.SignInJSONRequestBody{
 			Email:    newEmail(),
 			Password: "any-password",
@@ -131,6 +141,7 @@ func TestGetAccountRow_InvalidCredentials(t *testing.T) {
 }
 
 func TestGetAccountRow_DisabledAccount(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -162,6 +173,7 @@ func TestGetAccountRow_DisabledAccount(t *testing.T) {
 // CreateAccount tests
 
 func TestCreateAccount_Success(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -187,6 +199,7 @@ func TestCreateAccount_Success(t *testing.T) {
 }
 
 func TestCreateAccount_DuplicateEmail(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -206,6 +219,7 @@ func TestCreateAccount_DuplicateEmail(t *testing.T) {
 // CreateSession tests
 
 func TestCreateSession_Success(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -226,6 +240,7 @@ func TestCreateSession_Success(t *testing.T) {
 // SignIn tests
 
 func TestSignIn_Success(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -251,6 +266,7 @@ func TestSignIn_Success(t *testing.T) {
 }
 
 func TestSignIn_InvalidCredentials(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -272,6 +288,7 @@ func TestSignIn_InvalidCredentials(t *testing.T) {
 }
 
 func TestSignIn_DisabledAccount(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -303,6 +320,7 @@ func TestSignIn_DisabledAccount(t *testing.T) {
 // SignUp tests
 
 func TestSignUp_Success(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -328,6 +346,7 @@ func TestSignUp_Success(t *testing.T) {
 }
 
 func TestSignUp_DuplicateEmail(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -351,6 +370,7 @@ func TestSignUp_DuplicateEmail(t *testing.T) {
 }
 
 func TestSignUp_AutoSignIn(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -378,6 +398,7 @@ func TestSignUp_AutoSignIn(t *testing.T) {
 // SignOut tests
 
 func TestSignOut_Success(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 	email := newEmail()
@@ -401,6 +422,7 @@ func TestSignOut_Success(t *testing.T) {
 }
 
 func TestSignOut_NotFound(t *testing.T) {
+	t.Parallel()
 	pool := getTestPool(t)
 	svc := auth.NewAuthService(pool)
 

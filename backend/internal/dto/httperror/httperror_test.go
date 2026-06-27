@@ -15,6 +15,7 @@ import (
 )
 
 func TestHandleHttpError(t *testing.T) {
+	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
 	w := httptest.NewRecorder()
