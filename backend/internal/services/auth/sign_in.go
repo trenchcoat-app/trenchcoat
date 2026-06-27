@@ -21,14 +21,14 @@ type SignInResponse struct {
 }
 
 func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*SignInResponse, *httperror.HttpError) {
-	account, apiErr := auth.GetAccountRow(c, body)
-	if apiErr != nil {
-		return nil, apiErr
+	account, httpErr := auth.GetAccountRow(c, body)
+	if httpErr != nil {
+		return nil, httpErr
 	}
 
-	session, apiErr := auth.CreateSession(c, *account)
-	if apiErr != nil {
-		return nil, apiErr
+	session, httpErr := auth.CreateSession(c, *account)
+	if httpErr != nil {
+		return nil, httpErr
 	}
 
 	return &SignInResponse{

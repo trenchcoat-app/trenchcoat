@@ -34,8 +34,8 @@ func TestSignIn_Success(t *testing.T) {
 		Password: password,
 	}
 
-	resp, apiErr := svc.SignIn(c, body)
-	require.Nil(t, apiErr)
+	resp, httpErr := svc.SignIn(c, body)
+	require.Nil(t, httpErr)
 	require.NotNil(t, resp)
 	assert.Equal(t, "Signin User", *resp.Account.DisplayName)
 	assert.Equal(t, email, resp.Account.Email)
@@ -59,9 +59,9 @@ func TestSignIn_InvalidCredentials(t *testing.T) {
 		Password: "wrong-password",
 	}
 
-	_, apiErr := svc.SignIn(c, body)
-	require.NotNil(t, apiErr)
-	assert.Equal(t, http.StatusUnauthorized, apiErr.Status)
+	_, httpErr := svc.SignIn(c, body)
+	require.NotNil(t, httpErr)
+	assert.Equal(t, http.StatusUnauthorized, httpErr.Status)
 }
 
 func TestSignIn_DisabledAccount(t *testing.T) {
@@ -89,7 +89,7 @@ func TestSignIn_DisabledAccount(t *testing.T) {
 		Password: "password",
 	}
 
-	_, apiErr := svc.SignIn(c, body)
-	require.NotNil(t, apiErr)
-	assert.Equal(t, http.StatusUnauthorized, apiErr.Status)
+	_, httpErr := svc.SignIn(c, body)
+	require.NotNil(t, httpErr)
+	assert.Equal(t, http.StatusUnauthorized, httpErr.Status)
 }

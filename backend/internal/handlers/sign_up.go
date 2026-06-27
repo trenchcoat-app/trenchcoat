@@ -29,9 +29,9 @@ func (s *Server) SignUp(c *gin.Context) {
 		return
 	}
 
-	signUpResponse, apiErr := s.AuthService.SignUp(c, body)
-	if apiErr != nil {
-		httperror.HandleHttpError(c, *apiErr)
+	signUpResponse, httpErr := s.AuthService.SignUp(c, body)
+	if httpErr != nil {
+		httperror.HandleHttpError(c, httpErr)
 		return
 	}
 

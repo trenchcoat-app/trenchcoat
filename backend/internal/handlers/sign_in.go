@@ -29,9 +29,9 @@ func (s *Server) SignIn(c *gin.Context) {
 		return
 	}
 
-	signInResponse, apiErr := s.AuthService.SignIn(c, body)
-	if apiErr != nil {
-		httperror.HandleHttpError(c, *apiErr)
+	signInResponse, httpErr := s.AuthService.SignIn(c, body)
+	if httpErr != nil {
+		httperror.HandleHttpError(c, httpErr)
 		return
 	}
 

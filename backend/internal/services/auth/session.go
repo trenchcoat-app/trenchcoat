@@ -14,7 +14,7 @@ type Session struct {
 	ExpiresAt    *time.Time
 }
 
-func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (session Session, apiErr *httperror.HttpError) {
+func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (session Session, httpErr *httperror.HttpError) {
 	session.ExpiresAt = auth.GetNewSessionExpireTime(config.AppConfig.SESSION_EXPIRY_SECONDS)
 
 	sql := `
@@ -33,7 +33,7 @@ func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (sess
 	).Scan(&session.SessionToken, &session.ExpiresAt)
 
 	if err != nil {
-		apiErr = httperror.InternalServerError("Failed to create session: " + err.Error())
+		httpErr = httperror.InternalServerError("Failed to create session: " + err.Error())
 	}
 
 	return

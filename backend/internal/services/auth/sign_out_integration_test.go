@@ -28,8 +28,8 @@ func TestSignOut_Success(t *testing.T) {
 	c, _ := gin.CreateTestContext(w)
 	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
-	apiErr := svc.SignOut(c, token)
-	require.Nil(t, apiErr)
+	httpErr := svc.SignOut(c, token)
+	require.Nil(t, httpErr)
 
 	var count int
 	err := pool.QueryRow(
@@ -50,8 +50,8 @@ func TestSignOut_NotFound(t *testing.T) {
 	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
 	token := uuid.New()
-	apiErr := svc.SignOut(c, token)
-	require.NotNil(t, apiErr)
-	assert.Equal(t, http.StatusUnauthorized, apiErr.Status)
-	assert.Equal(t, "UNAUTHORIZED", apiErr.Code)
+	httpErr := svc.SignOut(c, token)
+	require.NotNil(t, httpErr)
+	assert.Equal(t, http.StatusUnauthorized, httpErr.Status)
+	assert.Equal(t, "UNAUTHORIZED", httpErr.Code)
 }

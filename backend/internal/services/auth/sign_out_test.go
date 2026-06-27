@@ -13,18 +13,18 @@ import (
 func TestParseAuthToken_Empty(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
-	_, apiErr := svc.ParseAuthToken("")
-	require.NotNil(t, apiErr)
-	assert.Equal(t, "UNAUTHORIZED", apiErr.Code)
-	assert.Equal(t, "Missing authorization token.", apiErr.Message)
+	_, httpErr := svc.ParseAuthToken("")
+	require.NotNil(t, httpErr)
+	assert.Equal(t, "UNAUTHORIZED", httpErr.Code)
+	assert.Equal(t, "Missing authorization token.", httpErr.Message)
 }
 
 func TestParseAuthToken_BearerPrefix(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
 	token := uuid.New()
-	parsed, apiErr := svc.ParseAuthToken("Bearer " + token.String())
-	require.Nil(t, apiErr)
+	parsed, httpErr := svc.ParseAuthToken("Bearer " + token.String())
+	require.Nil(t, httpErr)
 	assert.Equal(t, token, parsed)
 }
 
@@ -32,8 +32,8 @@ func TestParseAuthToken_BearerLowercase(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
 	token := uuid.New()
-	parsed, apiErr := svc.ParseAuthToken("bearer " + token.String())
-	require.Nil(t, apiErr)
+	parsed, httpErr := svc.ParseAuthToken("bearer " + token.String())
+	require.Nil(t, httpErr)
 	assert.Equal(t, token, parsed)
 }
 
@@ -41,34 +41,34 @@ func TestParseAuthToken_RawUUID(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
 	token := uuid.New()
-	parsed, apiErr := svc.ParseAuthToken(token.String())
-	require.Nil(t, apiErr)
+	parsed, httpErr := svc.ParseAuthToken(token.String())
+	require.Nil(t, httpErr)
 	assert.Equal(t, token, parsed)
 }
 
 func TestParseAuthToken_InvalidUUID(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
-	_, apiErr := svc.ParseAuthToken("not-a-uuid")
-	require.NotNil(t, apiErr)
-	assert.Equal(t, "UNAUTHORIZED", apiErr.Code)
-	assert.Equal(t, "Invalid authorization token format.", apiErr.Message)
+	_, httpErr := svc.ParseAuthToken("not-a-uuid")
+	require.NotNil(t, httpErr)
+	assert.Equal(t, "UNAUTHORIZED", httpErr.Code)
+	assert.Equal(t, "Invalid authorization token format.", httpErr.Message)
 }
 
 func TestParseAuthToken_WhitespaceAfterBearer(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
 	token := uuid.New()
-	parsed, apiErr := svc.ParseAuthToken("Bearer   " + token.String())
-	require.Nil(t, apiErr)
+	parsed, httpErr := svc.ParseAuthToken("Bearer   " + token.String())
+	require.Nil(t, httpErr)
 	assert.Equal(t, token, parsed)
 }
 
 func TestParseAuthToken_BearerOnly(t *testing.T) {
 	svc := auth.NewAuthService(nil)
 
-	_, apiErr := svc.ParseAuthToken("Bearer ")
-	require.NotNil(t, apiErr)
-	assert.Equal(t, "UNAUTHORIZED", apiErr.Code)
-	assert.Equal(t, "Missing authorization token.", apiErr.Message)
+	_, httpErr := svc.ParseAuthToken("Bearer ")
+	require.NotNil(t, httpErr)
+	assert.Equal(t, "UNAUTHORIZED", httpErr.Code)
+	assert.Equal(t, "Missing authorization token.", httpErr.Message)
 }

@@ -27,8 +27,8 @@ func TestCreateAccount_Success(t *testing.T) {
 	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
 	hash := testutil.HashPassword(t, "secure-password")
-	id, apiErr := svc.CreateAccount(c, string(email), "New User", hash)
-	require.Nil(t, apiErr)
+	id, httpErr := svc.CreateAccount(c, string(email), "New User", hash)
+	require.Nil(t, httpErr)
 
 	var storedEmail string
 	var displayName string
@@ -54,9 +54,9 @@ func TestCreateAccount_DuplicateEmail(t *testing.T) {
 	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
 	hash := testutil.HashPassword(t, "password2")
-	_, apiErr := svc.CreateAccount(c, string(email), "Second User", hash)
-	require.NotNil(t, apiErr)
-	assert.Equal(t, http.StatusInternalServerError, apiErr.Status)
+	_, httpErr := svc.CreateAccount(c, string(email), "Second User", hash)
+	require.NotNil(t, httpErr)
+	assert.Equal(t, http.StatusInternalServerError, httpErr.Status)
 }
 
 func TestSignUp_Success(t *testing.T) {
@@ -78,8 +78,8 @@ func TestSignUp_Success(t *testing.T) {
 		AutoSignIn:  &autoSignIn,
 	}
 
-	resp, apiErr := svc.SignUp(c, body)
-	require.Nil(t, apiErr)
+	resp, httpErr := svc.SignUp(c, body)
+	require.Nil(t, httpErr)
 	require.NotNil(t, resp)
 	assert.Equal(t, "New User", *resp.Account.DisplayName)
 	assert.Equal(t, email, resp.Account.Email)
@@ -103,10 +103,10 @@ func TestSignUp_DuplicateEmail(t *testing.T) {
 		DisplayName: "Second User",
 	}
 
-	_, apiErr := svc.SignUp(c, body)
-	require.NotNil(t, apiErr)
-	assert.Equal(t, http.StatusConflict, apiErr.Status)
-	assert.Equal(t, "EMAIL_ALREADY_EXISTS", apiErr.Code)
+	_, httpErr := svc.SignUp(c, body)
+	require.NotNil(t, httpErr)
+	assert.Equal(t, http.StatusConflict, httpErr.Status)
+	assert.Equal(t, "EMAIL_ALREADY_EXISTS", httpErr.Code)
 }
 
 func TestSignUp_AutoSignIn(t *testing.T) {
@@ -128,8 +128,8 @@ func TestSignUp_AutoSignIn(t *testing.T) {
 		AutoSignIn:  &autoSignIn,
 	}
 
-	resp, apiErr := svc.SignUp(c, body)
-	require.Nil(t, apiErr)
+	resp, httpErr := svc.SignUp(c, body)
+	require.Nil(t, httpErr)
 	require.NotNil(t, resp)
 	require.NotNil(t, resp.Session)
 	require.NotNil(t, resp.Session.SessionToken)

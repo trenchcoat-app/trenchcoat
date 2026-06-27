@@ -21,13 +21,13 @@ func TestHandleHttpError(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
-	apiErr := httperror.HttpError{
+	httpErr := httperror.HttpError{
 		Status:  http.StatusConflict,
 		Code:    "EMAIL_ALREADY_EXISTS",
 		Message: "An account with this email address already exists.",
 	}
 
-	httperror.HandleHttpError(c, apiErr)
+	httperror.HandleHttpError(c, &httpErr)
 
 	assert.Equal(t, http.StatusConflict, w.Code)
 

@@ -33,8 +33,8 @@ func TestGetAccountRow_Success(t *testing.T) {
 		Password: "correct-password",
 	}
 
-	account, apiErr := svc.GetAccountRow(c, body)
-	require.Nil(t, apiErr)
+	account, httpErr := svc.GetAccountRow(c, body)
+	require.Nil(t, httpErr)
 	require.NotNil(t, account)
 	assert.Equal(t, "Test User", account.DisplayName)
 	assert.Equal(t, "active", account.Status)
@@ -59,9 +59,9 @@ func TestGetAccountRow_InvalidCredentials(t *testing.T) {
 			Email:    email,
 			Password: "wrong-password",
 		}
-		_, apiErr := svc.GetAccountRow(c, body)
-		require.NotNil(t, apiErr)
-		assert.Equal(t, http.StatusUnauthorized, apiErr.Status)
+		_, httpErr := svc.GetAccountRow(c, body)
+		require.NotNil(t, httpErr)
+		assert.Equal(t, http.StatusUnauthorized, httpErr.Status)
 	})
 
 	t.Run("unknown email", func(t *testing.T) {
@@ -75,9 +75,9 @@ func TestGetAccountRow_InvalidCredentials(t *testing.T) {
 			Email:    testutil.NewEmail(),
 			Password: "any-password",
 		}
-		_, apiErr := svc.GetAccountRow(c, body)
-		require.NotNil(t, apiErr)
-		assert.Equal(t, http.StatusUnauthorized, apiErr.Status)
+		_, httpErr := svc.GetAccountRow(c, body)
+		require.NotNil(t, httpErr)
+		assert.Equal(t, http.StatusUnauthorized, httpErr.Status)
 	})
 }
 
@@ -106,7 +106,7 @@ func TestGetAccountRow_DisabledAccount(t *testing.T) {
 		Password: "any-password",
 	}
 
-	_, apiErr := svc.GetAccountRow(c, body)
-	require.NotNil(t, apiErr)
-	assert.Equal(t, http.StatusUnauthorized, apiErr.Status)
+	_, httpErr := svc.GetAccountRow(c, body)
+	require.NotNil(t, httpErr)
+	assert.Equal(t, http.StatusUnauthorized, httpErr.Status)
 }

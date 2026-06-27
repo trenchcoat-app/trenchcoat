@@ -18,7 +18,7 @@ func (e *HttpError) Error() string {
 }
 
 // Write the matching JSON response of the HttpError to the Gin context
-func HandleHttpError(c *gin.Context, err HttpError) {
+func HandleHttpError(c *gin.Context, err *HttpError) {
 	c.JSON(err.Status, api.ErrorResponse{
 		Code:    err.Code,
 		Message: err.Message,

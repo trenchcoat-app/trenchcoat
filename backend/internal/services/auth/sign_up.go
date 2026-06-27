@@ -61,16 +61,16 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 		return nil, httperror.InternalServerError("Failed to process password: " + err.Error())
 	}
 
-	userID, apiErr := auth.CreateAccount(c, emailStr, nameTrimmed, string(hashed))
-	if apiErr != nil {
-		return nil, apiErr
+	userID, httpErr := auth.CreateAccount(c, emailStr, nameTrimmed, string(hashed))
+	if httpErr != nil {
+		return nil, httpErr
 	}
 
 	var session Session
 	if body.AutoSignIn != nil && *body.AutoSignIn {
-		session, apiErr = auth.CreateSession(c, AccountRow{ID: userID})
-		if apiErr != nil {
-			return nil, apiErr
+		session, httpErr = auth.CreateSession(c, AccountRow{ID: userID})
+		if httpErr != nil {
+			return nil, httpErr
 		}
 	}
 

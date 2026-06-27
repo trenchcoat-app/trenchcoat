@@ -26,8 +26,8 @@ func TestCreateSession_Success(t *testing.T) {
 	c, _ := gin.CreateTestContext(w)
 	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
-	session, apiErr := svc.CreateSession(c, auth.AccountRow{ID: accountID})
-	require.Nil(t, apiErr)
+	session, httpErr := svc.CreateSession(c, auth.AccountRow{ID: accountID})
+	require.Nil(t, httpErr)
 	require.NotNil(t, session.SessionToken)
 	require.NotNil(t, session.ExpiresAt)
 	assert.WithinDuration(t, time.Now().Add(24*time.Hour), *session.ExpiresAt, time.Minute)
