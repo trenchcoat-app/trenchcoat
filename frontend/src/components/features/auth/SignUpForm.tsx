@@ -3,15 +3,20 @@ import { useForm } from "@tanstack/react-form";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { signUpMutation } from "@/api/@tanstack/react-query.gen";
-import type { SignUpBody } from "@/api/types.gen";
+import type { ErrorResponse, SignUpBody } from "@/api/types.gen";
 import { Input, Button } from "@/components/shared";
-import { AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/features/auth";
 import { requiredFieldValidator, confirmPasswordFieldValidator, passwordLengthFieldValidator } from "@/utils/validators";
 import { extractAndLocalizeErrors } from "@/utils/validator-util";
+import styles from "./auth.module.css";
 
 export const SignUpForm = () => {
     const { t } = useTranslation();
-    const mutation = useMutation(signUpMutation());
+    const mutation = useMutation({
+        ...signUpMutation(),
+        onError: (error: ErrorResponse) => {
+            throw error;
+        }
+    });
 
     const defaultValues: SignUpBody & { confirmPassword: string } = {
         email: "",
@@ -29,13 +34,14 @@ export const SignUpForm = () => {
     });
 
     return (
-        <AuthFormLayout
+        <form
+            className={styles.authForm}
             onSubmit={(e) => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
         >
-            <AuthFormTitle title={t("auth:SIGNUP_TITLE")} />
+            <h1 className={styles.authFormTitle}>{t("auth:SIGNUP_TITLE")}</h1>
             <form.Field
                 name="email"
                 validators={{
@@ -126,9 +132,9 @@ export const SignUpForm = () => {
                     </Button>
                 )}
             />
-            <AuthFormNote>
-                {t("auth:HAVE_AN_ACCOUNT")} <Link to="/signin">{t("auth:SIGNIN")}</Link>
-            </AuthFormNote>
-        </AuthFormLayout>
+            <div className={styles.authFormNote}>
+                <p>{t("auth:HAVE_AN_ACCOUNT")} <Link to="/signin">{t("auth:SIGNIN")}</Link></p>
+            </div>
+        </form>
     );
 };

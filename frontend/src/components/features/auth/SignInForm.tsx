@@ -1,13 +1,13 @@
 import { signInMutation } from "@/api/@tanstack/react-query.gen";
-import type { SignInBody, SignInOkResponse } from "@/api/types.gen";
+import type { ErrorResponse, SignInBody, SignInOkResponse } from "@/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { Input, Button } from "@/components/shared";
-import { AuthFormLayout, AuthFormTitle, AuthFormNote } from "@/components/features/auth";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
 import { flushSync } from "react-dom";
+import styles from "./auth.module.css";
 
 export const SignInForm = () => {
     const { t } = useTranslation();
@@ -23,6 +23,9 @@ export const SignInForm = () => {
             });
             navigate({ to: "/" });
         },
+        onError: (error: ErrorResponse) => {
+            throw error;
+        }
     });
 
     const defaultValues: SignInBody = {
@@ -36,13 +39,14 @@ export const SignInForm = () => {
     });
 
     return (
-        <AuthFormLayout
+        <form
+            className={styles.authForm}
             onSubmit={(e) => {
                 e.preventDefault();
                 form.handleSubmit();
             }}
         >
-            <AuthFormTitle title={t("auth:SIGNIN_TITLE")} />
+            <h1 className={styles.authFormTitle}>{t("auth:SIGNIN_TITLE")}</h1>
             <form.Field name="email">
                 {(field) => (
                     <Input
@@ -80,9 +84,9 @@ export const SignInForm = () => {
                     </Button>
                 )}
             />
-            <AuthFormNote>
-                {t("auth:DONT_HAVE_AN_ACCOUNT")} <Link to="/signup">{t("auth:SIGNUP")}</Link>
-            </AuthFormNote>
-        </AuthFormLayout>
+            <div className={styles.authFormNote}>
+                <p>{t("auth:DONT_HAVE_AN_ACCOUNT")} <Link to="/signup">{t("auth:SIGNUP")}</Link></p>
+            </div>
+        </form>
     );
 };
