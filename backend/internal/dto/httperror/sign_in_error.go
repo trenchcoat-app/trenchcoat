@@ -2,7 +2,7 @@ package httperror
 
 import "net/http"
 
-func SignInInvalidCredentialsError() *HttpError {
+func SignInInvalidCredentialsError() *HTTPError {
 	// Keep message intentionally vague for security
-	return &HttpError{Status: http.StatusUnauthorized, Message: "Invalid email or password.", Code: "INVALID_CREDENTIALS"}
+	return &HTTPError{Status: http.StatusUnauthorized, Message: "Invalid email or password.", Code: "INVALID_CREDENTIALS"}
 }

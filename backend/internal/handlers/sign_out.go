@@ -11,7 +11,7 @@ import (
 
 func (s *Server) SignOut(c *gin.Context) {
 	var tokenUUID uuid.UUID
-	var httpErr *httperror.HttpError
+	var httpErr *httperror.HTTPError
 
 	tokenStr, err := cookie.GetSessionToken(c)
 	if err == nil && tokenStr != "" {

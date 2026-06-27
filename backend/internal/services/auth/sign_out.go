@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (auth *AuthService) ParseAuthToken(authHeader string) (uuid.UUID, *httperror.HttpError) {
+func (auth *AuthService) ParseAuthToken(authHeader string) (uuid.UUID, *httperror.HTTPError) {
 	if authHeader == "" {
 		return uuid.Nil, httperror.SignOutUnauthorizedError("Missing authorization token.")
 	}
@@ -31,7 +31,7 @@ func (auth *AuthService) ParseAuthToken(authHeader string) (uuid.UUID, *httperro
 	return tokenUUID, nil
 }
 
-func (auth *AuthService) SignOut(c *gin.Context, tokenUUID uuid.UUID) *httperror.HttpError {
+func (auth *AuthService) SignOut(c *gin.Context, tokenUUID uuid.UUID) *httperror.HTTPError {
 	sql := `
 		DELETE FROM session
 		WHERE token = $1

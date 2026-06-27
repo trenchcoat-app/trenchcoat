@@ -21,7 +21,7 @@ func TestHandleHttpError(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
-	httpErr := httperror.HttpError{
+	httpErr := httperror.HTTPError{
 		Status:  http.StatusConflict,
 		Code:    "EMAIL_ALREADY_EXISTS",
 		Message: "An account with this email address already exists.",

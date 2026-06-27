@@ -11,9 +11,9 @@ import (
 
 type AuthServiceInterface interface {
 	ValidateSignInCredentials(body api.SignInJSONRequestBody) []api.ErrorResponseDetail
-	SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*auth.SignInResponse, *httperror.HttpError)
+	SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*auth.SignInResponse, *httperror.HTTPError)
 	ValidateSignUpCredentials(body api.SignUpJSONRequestBody) []api.ErrorResponseDetail
-	SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*auth.SignUpResponse, *httperror.HttpError)
-	ParseAuthToken(authHeader string) (uuid.UUID, *httperror.HttpError)
-	SignOut(c *gin.Context, tokenUUID uuid.UUID) *httperror.HttpError
+	SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*auth.SignUpResponse, *httperror.HTTPError)
+	ParseAuthToken(authHeader string) (uuid.UUID, *httperror.HTTPError)
+	SignOut(c *gin.Context, tokenUUID uuid.UUID) *httperror.HTTPError
 }

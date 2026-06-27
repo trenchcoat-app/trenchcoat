@@ -14,7 +14,7 @@ type Session struct {
 	ExpiresAt    *time.Time
 }
 
-func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (session Session, httpErr *httperror.HttpError) {
+func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (session Session, httpErr *httperror.HTTPError) {
 	session.ExpiresAt = auth.GetNewSessionExpireTime(config.AppConfig.SESSION_EXPIRY_SECONDS)
 
 	sql := `

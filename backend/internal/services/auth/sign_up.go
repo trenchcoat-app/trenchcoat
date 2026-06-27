@@ -18,23 +18,17 @@ type SignUpResponse struct {
 func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBody) (errorDetails []api.ErrorResponseDetail) {
 	nameTrimmed := strings.TrimSpace(body.DisplayName)
 	if nameTrimmed == "" {
-		errorDetails = append(errorDetails, struct {
-			Field   string `json:"field"`
-			Message string `json:"message"`
-		}{Field: "name", Message: "Name cannot be empty"})
+		errorDetails = append(errorDetails, api.ErrorResponseDetail{Field: "name", Message: "Name cannot be empty"})
 	}
 
 	if len(body.Password) < 8 {
-		errorDetails = append(errorDetails, struct {
-			Field   string `json:"field"`
-			Message string `json:"message"`
-		}{Field: "password", Message: "Password must be at least 8 characters long"})
+		errorDetails = append(errorDetails, api.ErrorResponseDetail{Field: "password", Message: "Password must be at least 8 characters long"})
 	}
 
 	return
 }
 
-func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*SignUpResponse, *httperror.HttpError) {
+func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) (*SignUpResponse, *httperror.HTTPError) {
 	emailStr := strings.TrimSpace(string(body.Email))
 	nameTrimmed := strings.TrimSpace(body.DisplayName)
 
@@ -85,7 +79,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 	}, nil
 }
 
-func (auth *AuthService) CreateAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *httperror.HttpError) {
+func (auth *AuthService) CreateAccount(c *gin.Context, email string, displayName string, passwordHash string) (openapi_types.UUID, *httperror.HTTPError) {
 	var userID openapi_types.UUID
 
 	sql := `

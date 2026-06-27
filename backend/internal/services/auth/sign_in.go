@@ -20,7 +20,7 @@ type SignInResponse struct {
 	Session *Session
 }
 
-func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*SignInResponse, *httperror.HttpError) {
+func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) (*SignInResponse, *httperror.HTTPError) {
 	account, httpErr := auth.GetAccountRow(c, body)
 	if httpErr != nil {
 		return nil, httpErr
@@ -47,17 +47,11 @@ func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) 
 
 func (auth *AuthService) ValidateSignInCredentials(body api.SignInJSONRequestBody) (errorDetails []api.ErrorResponseDetail) {
 	if body.Email == "" {
-		errorDetails = append(errorDetails, struct {
-			Field   string `json:"field"`
-			Message string `json:"message"`
-		}{Field: "email", Message: "Email is required"})
+		errorDetails = append(errorDetails, api.ErrorResponseDetail{Field: "email", Message: "Email is required"})
 	}
 
 	if body.Password == "" {
-		errorDetails = append(errorDetails, struct {
-			Field   string `json:"field"`
-			Message string `json:"message"`
-		}{Field: "password", Message: "Password is required"})
+		errorDetails = append(errorDetails, api.ErrorResponseDetail{Field: "password", Message: "Password is required"})
 	}
 	return
 }

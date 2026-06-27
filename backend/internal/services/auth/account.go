@@ -10,7 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (auth *AuthService) GetAccountRow(c *gin.Context, body api.SignInJSONRequestBody) (*AccountRow, *httperror.HttpError) {
+func (auth *AuthService) GetAccountRow(c *gin.Context, body api.SignInJSONRequestBody) (*AccountRow, *httperror.HTTPError) {
 	sql := `
 		SELECT id, display_name, password_hash, status
 		FROM account
