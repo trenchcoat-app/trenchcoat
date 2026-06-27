@@ -1,0 +1,24 @@
+.toastNode {
+    background-color: blue;
+    display: flex;
+    width: 20em;
+    gap: 2em;
+    padding: 0.75em 1em 0.75em 1em;
+}
+
+.info {
+    background-color: var(--info-color);
+}
+
+.success {
+    background-color: var(--success-color);
+}
+
+.error {
+    background-color: var(--error-color);
+}
+
+.message {
+    margin: 0;
+    flex-grow: 1;
+}

@@ -1,5 +1,6 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import type { AuthContextType } from "@/contexts/AuthContext";
+import { ToastContainer } from "@/components/features/toast/ToastContainer";
 
 export interface RouterContext {
     auth: AuthContextType;
@@ -7,9 +8,13 @@ export interface RouterContext {
 
 const RootLayout = () => {
     return (
-        <main style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
-            <Outlet />
-        </main>
+        <>
+            <main style={{ display: "flex", flexDirection: "column", minHeight: "100%", flexGrow: "1" }}>
+                <Outlet />
+            </main>
+
+            <ToastContainer />
+        </>
     );
 };
 
