@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/services/testUtil"
+	"trenchcoat/internal/services/testutil"
 
 	"github.com/go-openapi/testify/v2/assert"
 	"github.com/go-openapi/testify/v2/require"
@@ -15,26 +15,25 @@ import (
 
 func TestE2E_SignIn_Success(t *testing.T) {
 	t.Parallel()
-	pool := testUtil.GetE2EPool(t)
-	router := testUtil.SetupE2ERouter(t, pool)
+	pool := testutil.GetE2EPool(t)
+	router := testutil.SetupE2ERouter(t, pool)
 
-	email := testUtil.NewEmail()
+	email := testutil.NewEmail()
 	password := "secure-password"
 
-	_, err := testUtil.SeedAccount(pool, string(email), "E2E User", password)
-	require.NoError(t, err)
+	testutil.SeedAccount(t, pool, string(email), "E2E User", password)
 
 	body := api.SignInJSONRequestBody{
 		Email:    email,
 		Password: password,
 	}
 	bodyBytes, _ := json.Marshal(body)
-	w := testUtil.PerformRequest(router, "POST", "/api/v1/auth/sign-in", bodyBytes)
+	w := testutil.PerformRequest(router, "POST", "/api/v1/auth/sign-in", bodyBytes)
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	var resp api.SignInOkResponse
-	err = json.Unmarshal(w.Body.Bytes(), &resp)
+	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	require.NoError(t, err)
 	assert.Equal(t, email, resp.Account.Email)
 	assert.Equal(t, "E2E User", *resp.Account.DisplayName)

@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"trenchcoat/internal/services/testUtil"
+	"trenchcoat/internal/services/testutil"
 
 	"github.com/go-openapi/testify/v2/assert"
 	"github.com/go-openapi/testify/v2/require"
@@ -14,20 +14,18 @@ import (
 
 func TestE2E_SignOut_ViaCookie(t *testing.T) {
 	t.Parallel()
-	pool := testUtil.GetE2EPool(t)
-	router := testUtil.SetupE2ERouter(t, pool)
+	pool := testutil.GetE2EPool(t)
+	router := testutil.SetupE2ERouter(t, pool)
 
-	email := testUtil.NewEmail()
-	accountID, err := testUtil.SeedAccount(pool, string(email), "E2E User", "secure-password")
-	require.NoError(t, err)
-	token, err := testUtil.SeedSession(pool, accountID)
-	require.NoError(t, err)
+	email := testutil.NewEmail()
+	accountID := testutil.SeedAccount(t, pool, string(email), "E2E User", "secure-password")
+	token := testutil.SeedSession(t, pool, accountID)
 
 	cookie := &http.Cookie{
 		Name:  "sid",
 		Value: token.String(),
 	}
-	w := testUtil.PerformRequest(router, "POST", "/api/v1/auth/sign-out", nil, cookie)
+	w := testutil.PerformRequest(router, "POST", "/api/v1/auth/sign-out", nil, cookie)
 
 	assert.Equal(t, http.StatusNoContent, w.Code)
 
@@ -41,14 +39,12 @@ func TestE2E_SignOut_ViaCookie(t *testing.T) {
 
 func TestE2E_SignOut_ViaAuthHeader(t *testing.T) {
 	t.Parallel()
-	pool := testUtil.GetE2EPool(t)
-	router := testUtil.SetupE2ERouter(t, pool)
+	pool := testutil.GetE2EPool(t)
+	router := testutil.SetupE2ERouter(t, pool)
 
-	email := testUtil.NewEmail()
-	accountID, err := testUtil.SeedAccount(pool, string(email), "E2E User", "secure-password")
-	require.NoError(t, err)
-	token, err := testUtil.SeedSession(pool, accountID)
-	require.NoError(t, err)
+	email := testutil.NewEmail()
+	accountID := testutil.SeedAccount(t, pool, string(email), "E2E User", "secure-password")
+	token := testutil.SeedSession(t, pool, accountID)
 
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest("POST", "/api/v1/auth/sign-out", nil)
