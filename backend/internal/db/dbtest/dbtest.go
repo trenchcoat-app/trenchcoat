@@ -25,7 +25,7 @@ type TestDB struct {
 func SetupDB(t testing.TB) *pgxpool.Pool {
 	t.Helper()
 
-	db, err := startContainer()
+	db, err := startContainer(t)
 	require.NoError(t, err, "Failed to start postgres container")
 
 	t.Cleanup(db.cleanup)
@@ -33,15 +33,7 @@ func SetupDB(t testing.TB) *pgxpool.Pool {
 	return db.Pool
 }
 
-func SetupDBMain() (*pgxpool.Pool, func(), error) {
-	db, err := startContainer()
-	if err != nil {
-		return nil, nil, err
-	}
-	return db.Pool, db.cleanup, nil
-}
-
-func startContainer() (*TestDB, error) {
+func startContainer(t testing.TB) (*TestDB, error) {
 	ctx := context.Background()
 
 	container, err := postgres.Run(ctx, "postgres:18.4",
@@ -54,38 +46,27 @@ func startContainer() (*TestDB, error) {
 				WithStartupTimeout(60*time.Second),
 		),
 	)
-	if err != nil {
-		return nil, err
-	}
+	require.NoError(t, err, "Failed to run postgres container")
 
 	connStr, err := container.ConnectionString(ctx, "sslmode=disable")
-	if err != nil {
-		return nil, err
-	}
+	require.NoError(t, err, "Failed to retrieve postgres connection string")
 
 	pool, err := pgxpool.New(ctx, connStr)
-	if err != nil {
-		return nil, err
-	}
+	require.NoError(t, err, "Failed to create new postgres pool")
 
 	sqlDB, err := sql.Open("pgx", connStr)
-	if err != nil {
-		return nil, err
-	}
+	require.NoError(t, err, "Failed to open postgres connection via connection string")
 
 	err = goose.SetDialect("postgres")
-	if err != nil {
-		return nil, err
-	}
+	require.NoError(t, err, "Failed to set Goose dialect")
 
 	_, filename, _, _ := runtime.Caller(0)
 	migrationsDir := filepath.Join(filepath.Dir(filename), "..", "migrations")
 
 	err = goose.Up(sqlDB, migrationsDir)
-	if err != nil {
-		return nil, err
-	}
+	require.NoError(t, err, "Failed to apply migrations via Goose")
 
+	// We do the following inline instead of extracting the function to get access to pool and sqlDB without params
 	cleanup := func() {
 		pool.Close()
 		sqlDB.Close()
