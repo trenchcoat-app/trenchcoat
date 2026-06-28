@@ -1,0 +1,22 @@
+.title {
+    font-size: 12em;
+    line-height: 1;
+    margin: 0;
+}
+
+.message {
+    font-size: 2em;
+    line-height: 1;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
