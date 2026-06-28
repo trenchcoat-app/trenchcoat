@@ -8,12 +8,16 @@ import styles from "./ToastContainer.module.css";
 export const ToastContainer = () => {
     const { toasts } = useToast();
     return (
-        <div className={styles.toastContainer}>
-            <AnimatePresence>
-                {toasts.map((toast) => (
-                    <ToastNode key={toast.id} toast={toast}/>
-                ))}
-            </AnimatePresence>
-        </div>
-    )
+        <>
+            {toasts.length > 0 && (
+                <div className={styles.toastContainer}>
+                    <AnimatePresence>
+                        {toasts.map((toast) => (
+                            <ToastNode key={toast.id} toast={toast} />
+                        ))}
+                    </AnimatePresence>
+                </div>
+            )}
+        </>
+    );
 }
