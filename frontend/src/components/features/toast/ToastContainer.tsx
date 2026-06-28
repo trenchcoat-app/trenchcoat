@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 
-import { useToast } from "@/hooks/useToast"
+import { useToast } from "@/hooks/useToast";
 import { ToastNode } from "@/components/features/toast/ToastNode";
 
 import styles from "./ToastContainer.module.css";
@@ -20,4 +20,4 @@ export const ToastContainer = () => {
             )}
         </>
     );
-}
+};

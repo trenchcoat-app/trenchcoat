@@ -6,7 +6,7 @@ import pageStyles from "./pages.module.css";
 
 export const NotFound = () => {
     const { t } = useTranslation();
-    
+
     return (
         <div className={`${pageStyles.pageWrapper} ${pageStyles.pageBottomPadding} ${pageStyles.pageCenterContent}`}>
             <div className={notFoundStyles.wrapper}>
@@ -15,5 +15,5 @@ export const NotFound = () => {
                 <Link to="/">{t("BACK_TO_HOME")}</Link>
             </div>
         </div>
-    )
-}
+    );
+};
