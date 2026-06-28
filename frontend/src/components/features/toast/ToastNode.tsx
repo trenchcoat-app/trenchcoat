@@ -31,7 +31,7 @@ export const ToastNode = ({ toast } : {toast: Toast}) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20, scale: 0.9 }}
-            transition={{ duration: 0.35, ease: [0.21, 1.02, 0.73, 1] }}
+            transition={{ duration: 0.1, ease: [0.21, 1.02, 0.73, 1] }}
         >
             <div className={styles.icon}>{renderIcon()}</div>
             
