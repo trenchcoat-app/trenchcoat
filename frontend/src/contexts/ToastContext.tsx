@@ -1,5 +1,7 @@
 import { createContext, useState, type ReactNode } from "react";
 
+const TOAST_DURATION = 4000;
+
 const toastTypes = ["info", "error", "success", "warning"] as const;
 export type ToastType = (typeof toastTypes)[number];
 
@@ -26,7 +28,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         const newToast: Toast = {
             id,
             ...toast,
-            duration: 4000,
+            duration: TOAST_DURATION,
         };
 
         setToasts((prev) => [...prev, newToast]);
