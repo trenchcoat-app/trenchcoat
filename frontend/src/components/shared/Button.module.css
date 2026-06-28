@@ -1,0 +1,42 @@
+.buttonWrapper {
+    --button-bg: #4338ca;
+    --button-disabled-color: #9ca3af;
+
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 0.8em;
+    padding: 0.2em 1em 0.2em 1em;
+}
+
+.button {
+    width: 100%;
+    margin: 1em 0 1em 0;
+    border-radius: 0.5em;
+    padding: 0.75em 1em;
+    border-style: none;
+    font-weight: bold;
+    background: var(--button-bg);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.button:hover {
+    background: #4338ca;
+}
+
+.button:focus-visible {
+    outline: 2px solid var(--button-bg);
+    outline-offset: 2px;
+}
+
+.button[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--button-disabled-color);
+}
+
+.button[aria-disabled="true"]:focus-visible {
+    outline: 2px solid var(--button-disabled-color);
+}

@@ -1,0 +1,17 @@
+:root {
+    --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+    --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, Consolas, monospace;
+
+    --text: #d9d9d9;
+    --bg: #141414;
+
+    --error-color: #e5484d;
+    --secondary-error-color: rgba(245, 60, 66, 0.4);
+    --success-color: #16a34a;
+    --secondary-error-color: rgba(22, 163, 74, 0.15);
+    --info-color: #2563eb;
+    --secondary-info-color: rgba(37, 99, 235, 0.15);
+    --warning-color: #bc7802;
+    --secondary-warning-color: rgba(245, 158, 11, 0.15);
+}

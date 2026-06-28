@@ -1,0 +1,5 @@
+{
+    "PASSWORDS_MUST_MATCH_ERROR": "Passwords must match",
+    "PASSWORD_LENGTH_ERROR": "Password must be at least 8 characters",
+    "REQUIRED_FIELD_ERROR": "This field is required"
+}
