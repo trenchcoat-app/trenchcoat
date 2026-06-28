@@ -1,14 +1,14 @@
 import { createContext, useState, type ReactNode } from "react";
 
-const toastTypes = ["info", "error", "success", "warning"] as const
+const toastTypes = ["info", "error", "success", "warning"] as const;
 export type ToastType = (typeof toastTypes)[number];
 
 export type Toast = {
     id: string;
-    type: ToastType
+    type: ToastType;
     message: string;
     duration: number;
-}
+};
 
 interface ToastContextType {
     toasts: Toast[];
@@ -26,26 +26,19 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         const newToast: Toast = {
             id,
             ...toast,
-            duration: 4000
-        }
+            duration: 4000,
+        };
 
-        setToasts((prev) => [
-            ...prev,
-            newToast
-        ]);
+        setToasts((prev) => [...prev, newToast]);
 
         setTimeout(() => {
             removeToast(id);
         }, newToast.duration);
-    }
+    };
 
     const removeToast = (id: string) => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
     };
 
-    return (
-        <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
-            {children}
-        </ToastContext.Provider>
-    )
-}
+    return <ToastContext.Provider value={{ toasts, addToast, removeToast }}>{children}</ToastContext.Provider>;
+};
