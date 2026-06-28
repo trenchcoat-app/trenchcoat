@@ -1,6 +1,7 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import type { AuthContextType } from "@/contexts/AuthContext";
 import { ToastContainer } from "@/components/features/toast/ToastContainer";
+import { NotFound } from "@/components/pages/NotFound";
 
 export interface RouterContext {
     auth: AuthContextType;
@@ -20,4 +21,5 @@ const RootLayout = () => {
 
 export const rootRoute = createRootRouteWithContext<RouterContext>()({
     component: () => <RootLayout />,
+    notFoundComponent: NotFound
 });
