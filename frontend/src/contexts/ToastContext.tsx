@@ -12,11 +12,11 @@ export type Toast = {
     duration: number;
 };
 
-interface ToastTimer {
+type ToastTimer = {
     timeoutId: ReturnType<typeof setTimeout>;
     startedAt: number;
     remaining: number;
-}
+};
 
 interface ToastContextType {
     toasts: Toast[];
@@ -34,6 +34,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 
     const removeToast = (id: string) => {
         timers.current.delete(id);
+
         setToasts((prev) => prev.filter((t) => t.id !== id));
     };
 
@@ -73,9 +74,5 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         });
     };
 
-    return (
-        <ToastContext.Provider value={{ toasts, addToast, removeToast, pauseToast, resumeToast }}>
-            {children}
-        </ToastContext.Provider>
-    );
+    return <ToastContext.Provider value={{ toasts, addToast, removeToast, pauseToast, resumeToast }}>{children}</ToastContext.Provider>;
 };
