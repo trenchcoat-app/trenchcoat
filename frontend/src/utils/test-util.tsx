@@ -3,26 +3,24 @@ import type { RenderOptions } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactElement, ReactNode } from "react";
 
-const createTestQueryClient = () =>
-    new QueryClient({
+// Replacement for React Testing Library's `render` that wraps components
+// with QueryClientProvider. Use this for tests involving TanStack Query hooks.
+export const renderWithQueryClient = ( ui: ReactElement, options?: Omit<RenderOptions, "wrapper"> ) => {
+    const queryClient = new QueryClient({
         defaultOptions: {
             queries: { retry: false },
             mutations: { retry: false },
         },
     });
 
-// Wraps components with QueryClientProvider which is needed for tests on components that use TanStack Query.
-const QueryClientWrapper = ({ children }: { children: ReactNode }) => {
-    const queryClient = createTestQueryClient();
-    return (
+    const QueryClientWrapper = ({ children }: { children: ReactNode }) => (
         <QueryClientProvider client={queryClient}>
             {children}
         </QueryClientProvider>
     );
+
+    return rtlRender(ui, {
+        wrapper: QueryClientWrapper,
+        ...options,
+    });
 };
-
-const customRender = (ui: ReactElement, options?: Omit<RenderOptions, "wrapper">) =>
-    rtlRender(ui, { wrapper: QueryClientWrapper, ...options });
-
-export * from "@testing-library/react";
-export { customRender as render };

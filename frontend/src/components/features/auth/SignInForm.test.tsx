@@ -1,7 +1,7 @@
 // SignInForm.test.tsx
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { render } from "@/utils/test-util";
+import { renderWithQueryClient } from "@/utils/test-util";
 import { vi, describe, it, expect } from "vitest";
 
 import { SignInForm } from "./SignInForm";
@@ -19,7 +19,7 @@ vi.mock("@/hooks/useAuth", () => ({
 describe("SignInForm", () => {
     it("logs in successfully", async () => {
         const user = userEvent.setup();
-        render(<SignInForm />);
+        renderWithQueryClient(<SignInForm />);
 
         await user.type(screen.getByPlaceholderText("auth:EMAIL_PLACEHOLDER"), "test@example.com");
         await user.type(screen.getByPlaceholderText("auth:PASSWORD"), "hunter2");
