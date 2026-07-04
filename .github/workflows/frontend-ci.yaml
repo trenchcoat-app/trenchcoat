@@ -43,6 +43,11 @@ jobs:
         with:
           name: openapi-gen-tanstack-ts
           path: frontend/src/api/
+      
+      - name: install frontend workspace dependencies
+        run: npm install
+        shell: bash
+        working-directory: .
 
       - name: run vitest
         run: npm run test
