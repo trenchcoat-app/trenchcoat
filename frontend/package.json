@@ -13,7 +13,7 @@
         "preview": "vite preview",
         "format": "prettier . --write",
         "codegen": "openapi-ts",
-        "test": "vitest"
+        "test": "vitest run"
     },
     "dependencies": {
         "@tanstack/react-form": "^1.33.0",
