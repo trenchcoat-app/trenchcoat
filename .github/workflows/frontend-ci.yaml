@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: openapi-gen-tanstack-ts
-          path: frontend/internal/api/
+          path: frontend/src/api/
 
   test:
     needs: setup
@@ -42,7 +42,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: openapi-gen-tanstack-ts
-          path: frontend/internal/api/
+          path: frontend/src/api/
 
       - name: run vitest
         run: npm run test
