@@ -1,0 +1,19 @@
+type: object
+required:
+  - splitOwner
+  - amount
+  - percentOfTotal
+  - splitType
+properties:
+  splitOwner:
+    type: string
+    format: uuid
+    description: "Account ID of the user responsible for this portion of the item."
+  amount:
+    type: integer
+    description: Amount in the smallest currency unit (e.g. cents).
+  percentOfTotal:
+    type: number
+    format: float
+  splitType:
+    $ref: ./TransactionItemSplitTypeEnum.yaml"
