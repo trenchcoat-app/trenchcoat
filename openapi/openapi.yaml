@@ -14,3 +14,5 @@ paths:
     $ref: "./paths/auth/sign-out.yaml"
   /api/v1/transactions:
     $ref: "./paths/transactions/transactions.yaml"
+  /api/v1/transactions/{id}:
+    $ref: "./paths/transactions/transactions-id.yaml"

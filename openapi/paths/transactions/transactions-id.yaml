@@ -1,38 +1,31 @@
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: Transaction ID
+    schema:
+      type: string
+      format: uuid
+
 get:
-  summary: Get-Transactions
-  description: Retrieve a list of transaction summaries.
-  operationId: getTransactions
-  parameters:
-    - name: limit
-      in: query
-      required: false
-      description: Maximum number of transactions to return.
-      schema:
-        type: integer
-        default: 20
-        minimum: 1
-        maximum: 100
-    - name: cursor
-      in: query
-      required: false
-      description: Cursor for fetching the next page of results.
-      schema:
-        type: string
+  summary: Get-Transaction
+  description: Retrieve a single transaction.
+  operationId: getTransaction
   responses:
     "200":
-      description: Successfully retrieved transactions
+      description: Successfully retrieved transaction
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/transactions/TransactionList.yaml"
+            $ref: "../../components/schemas/transactions/Transaction.yaml"
     "401":
       description: Unauthorized (i.e. missing or invalid credentials)
       content:
         application/json:
           schema:
             $ref: "../../components/schemas/ErrorResponse.yaml"
-    "429":
-      description: Too Many Requests (rate limit exceeded)
+    "404":
+      description: Transaction not found
       content:
         application/json:
           schema:
@@ -43,10 +36,10 @@ get:
         application/json:
           schema:
             $ref: "../../components/schemas/ErrorResponse.yaml"
-post:
-  summary: Create-Transaction
-  description: Create a new transaction.
-  operationId: createTransaction
+put:
+  summary: Update-Transaction
+  description: Update an existing transaction.
+  operationId: updateTransaction
   requestBody:
     required: true
     content:
