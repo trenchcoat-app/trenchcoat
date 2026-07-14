@@ -14,6 +14,8 @@ properties:
     description: Amount in the smallest currency unit (e.g. cents).
   currencyCode:
     type: string
+    description: Three-letter currency code compliant with ISO 4217.
+    example: USD
   title:
     type: string
   notes:
