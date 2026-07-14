@@ -1,0 +1,18 @@
+type: object
+required:
+  - name
+  - amount
+  - splits
+properties:
+  id:
+    type: string
+    format: uuid
+  name:
+    type: string
+  amount:
+    type: integer
+    description: Amount in the smallest currency unit (e.g. cents).
+  splits:
+    type: array
+    items:
+      $ref: "./UpdateTransactionItemSplit.yaml"
