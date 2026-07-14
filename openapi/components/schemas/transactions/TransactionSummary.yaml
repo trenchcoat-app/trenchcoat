@@ -1,0 +1,17 @@
+type: object
+required:
+  - id
+  - amount
+  - currencyCode
+  - title
+properties:
+  id:
+    type: string
+    format: uuid
+  amount:
+    type: integer
+    description: Amount in the smallest currency unit (e.g. cents).
+  currencyCode:
+    type: string
+  title:
+    type: string

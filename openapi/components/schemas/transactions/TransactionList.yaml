@@ -1,0 +1,12 @@
+type: object
+required:
+  - transactions
+properties:
+  transactions:
+    type: array
+    items:
+      $ref: "./TransactionSummary.yaml"
+  nextCursor:
+    type: string
+    nullable: true
+    description: Cursor to retrieve the next page of transactions. Null if there are no more results.
