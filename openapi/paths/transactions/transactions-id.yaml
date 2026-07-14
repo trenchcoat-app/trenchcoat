@@ -19,7 +19,13 @@ get:
           schema:
             $ref: "../../components/schemas/transactions/Transaction.yaml"
     "401":
-      description: Unauthorized (i.e. missing or invalid credentials)
+      description: Unauthorized (i.e. incorrect credentials)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "403":
+      description: Forbidden (user does not have permission to view this transaction)
       content:
         application/json:
           schema:
@@ -48,7 +54,7 @@ put:
           $ref: "../../components/schemas/transactions/Transaction.yaml"
   responses:
     "200":
-      description: Successfully created a new transaction
+      description: Successfully updated transaction
       content:
         application/json:
           schema:
@@ -61,6 +67,24 @@ put:
             $ref: "../../components/schemas/ErrorResponse.yaml"
     "401":
       description: Unauthorized (i.e. incorrect credentials)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "403":
+      description: Forbidden (user does not have permission to modify this transaction)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "404":
+      description: Transaction not found
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "409":
+      description: Conflict (e.g., transaction was modified by another request)
       content:
         application/json:
           schema:

@@ -1,6 +1,6 @@
 get:
   summary: Get-Transactions
-  description: Retrieve a list of transaction summaries.
+  description: Retrieve a list of transaction summaries that the authenticated user has permission to view.
   operationId: getTransactions
   parameters:
     - name: limit
@@ -26,7 +26,7 @@ get:
           schema:
             $ref: "../../components/schemas/transactions/TransactionList.yaml"
     "401":
-      description: Unauthorized (i.e. missing or invalid credentials)
+      description: Unauthorized (i.e. incorrect credentials)
       content:
         application/json:
           schema:
