@@ -16,4 +16,4 @@ properties:
     type: number
     format: float
   splitType:
-    $ref: ./TransactionItemSplitTypeEnum.yaml"
+    $ref: "./TransactionItemSplitTypeEnum.yaml"

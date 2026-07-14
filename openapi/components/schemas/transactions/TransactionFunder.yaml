@@ -1,0 +1,16 @@
+type: object
+required:
+  - id
+  - funderId
+  - amount
+properties:
+  id:
+    type: string
+    format: uuid
+  funderId:
+    type: string
+    format: uuid
+    description: Account ID of the user who contributed to the payment of the transaction.
+  amount:
+    type: integer
+    description: Amount in the smallest currency unit (e.g. cents).

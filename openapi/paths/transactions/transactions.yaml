@@ -1,0 +1,47 @@
+post:
+  summary: Create-Transaction
+  description: Create a new transaction.
+  operationId: createTransaction
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/transactions/CreateTransactionBody.yaml"
+  responses:
+    "200":
+      description: Successfully created a new transaction
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/transactions/TransactionOkResponse.yaml"
+    "400":
+      description: Bad Request (e.g., malformed JSON payload)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "401":
+      description: Unauthorized (i.e. incorrect credentials)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "422":
+      description: Unprocessable Entity (e.g. input validation failed)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "429":
+      description: Too Many Requests (rate limit exceeded)
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
+    "500":
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/ErrorResponse.yaml"
