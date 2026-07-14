@@ -7,7 +7,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../../components/schemas/transactions/CreateTransactionBody.yaml"
+          $ref: "../../components/schemas/transactions/Transaction.yaml"
   responses:
     "200":
       description: Successfully created a new transaction
