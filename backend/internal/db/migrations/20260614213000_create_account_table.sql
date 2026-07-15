@@ -4,7 +4,7 @@ CREATE TYPE account_status AS ENUM('active', 'disabled');
 CREATE TABLE IF NOT EXISTS account (
   id UUID PRIMARY KEY DEFAULT uuidv7(),
   email TEXT NOT NULL UNIQUE,
-  display_name TEXT NOT NULL,
+  username TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,
   status account_status NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
