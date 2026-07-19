@@ -11,6 +11,7 @@ import (
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/dto/httperror"
 	"trenchcoat/internal/handlers"
+	"trenchcoat/internal/interfaces/mocks"
 	"trenchcoat/internal/services/auth"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ func TestSignIn_Success(t *testing.T) {
 	var email types.Email = "test@example.com"
 	displayName := "Test User"
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ValidateSignInCredentials(mock.Anything).
 		Return(nil).
@@ -86,7 +87,7 @@ func TestSignIn_BadJSON(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 
 	srv := handlers.NewServer(mockAuth)
 
@@ -111,7 +112,7 @@ func TestSignIn_ValidationError(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ValidateSignInCredentials(mock.Anything).
 		Return([]api.ErrorResponseDetail{
@@ -149,7 +150,7 @@ func TestSignIn_AuthError(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ValidateSignInCredentials(mock.Anything).
 		Return(nil)

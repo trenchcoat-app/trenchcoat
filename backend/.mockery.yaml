@@ -3,11 +3,11 @@
 
 issue-845-fix: true
 packages:
-  trenchcoat/internal/handlers:
+  trenchcoat/internal/interfaces:
     interfaces:
       AuthServiceInterface:
         config:
           with-expecter: true
-          filename: mock_auth_test.go
-          outpkg: handlers_test
-          dir: ./internal/handlers
+          filename: mock_auth.go
+          outpkg: mocks
+          dir: ./internal/interfaces/mocks

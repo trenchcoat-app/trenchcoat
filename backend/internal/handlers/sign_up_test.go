@@ -11,6 +11,7 @@ import (
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/dto/httperror"
 	"trenchcoat/internal/handlers"
+	"trenchcoat/internal/interfaces/mocks"
 	"trenchcoat/internal/services/auth"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ func TestSignUp_SuccessWithoutAutoSignIn(t *testing.T) {
 	displayName := "New User"
 	password := "password123"
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ValidateSignUpCredentials(mock.Anything).
 		Return(nil)
@@ -85,7 +86,7 @@ func TestSignUp_SuccessWithAutoSignIn(t *testing.T) {
 	displayName := "New User"
 	password := "password123"
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ValidateSignUpCredentials(mock.Anything).
 		Return(nil)
@@ -133,7 +134,7 @@ func TestSignUp_BadJSON(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 
 	srv := handlers.NewServer(mockAuth)
 
@@ -158,7 +159,7 @@ func TestSignUp_ValidationError(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ValidateSignUpCredentials(mock.Anything).
 		Return([]api.ErrorResponseDetail{
@@ -195,7 +196,7 @@ func TestSignUp_EmailAlreadyExists(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ValidateSignUpCredentials(mock.Anything).
 		Return(nil)

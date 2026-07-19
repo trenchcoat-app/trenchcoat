@@ -11,6 +11,7 @@ import (
 	"trenchcoat/internal/dto/httperror"
 
 	"trenchcoat/internal/handlers"
+	"trenchcoat/internal/interfaces/mocks"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"
@@ -27,7 +28,7 @@ func TestSignOut_SuccessViaCookie(t *testing.T) {
 
 	token := uuid.New()
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		SignOut(mock.Anything, token).
 		Return(nil)
@@ -62,7 +63,7 @@ func TestSignOut_SuccessViaAuthHeader(t *testing.T) {
 
 	token := uuid.New()
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ParseAuthToken("Bearer "+token.String()).
 		Return(token, nil)
@@ -94,7 +95,7 @@ func TestSignOut_MissingAuth(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		ParseAuthToken("").
 		Return(uuid.Nil, httperror.SignOutUnauthorizedError("Missing authorization token."))
@@ -121,7 +122,7 @@ func TestSignOut_InvalidCookieUUID(t *testing.T) {
 	t.Parallel()
 	gin.SetMode(gin.TestMode)
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 
 	srv := handlers.NewServer(mockAuth)
 
@@ -152,7 +153,7 @@ func TestSignOut_SessionNotFound(t *testing.T) {
 
 	token := uuid.New()
 
-	mockAuth := NewMockAuthServiceInterface(t)
+	mockAuth := mocks.NewMockAuthServiceInterface(t)
 	mockAuth.EXPECT().
 		SignOut(mock.Anything, token).
 		Return(httperror.SignOutSessionNotFoundError())

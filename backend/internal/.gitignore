@@ -2,4 +2,5 @@
 api/
 
 # We ignore code autogenerate by mockery
+mocks/
 mock_*.go
