@@ -15,7 +15,7 @@ type Session struct {
 }
 
 func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (session Session, httpErr *httperror.HTTPError) {
-	session.ExpiresAt = auth.GetNewSessionExpireTime(config.AppConfig.SESSION_EXPIRY_SECONDS)
+	session.ExpiresAt = auth.getNewSessionExpireTime(config.AppConfig.SESSION_EXPIRY_SECONDS)
 
 	sql := `
 		INSERT INTO session (expires_at, ip_address, user_agent, account_id)
@@ -39,7 +39,7 @@ func (auth *AuthService) CreateSession(c *gin.Context, account AccountRow) (sess
 	return
 }
 
-func (auth *AuthService) GetNewSessionExpireTime(offsetSeconds int) *time.Time {
+func (auth *AuthService) getNewSessionExpireTime(offsetSeconds int) *time.Time {
 	expireTime := time.Now().Add(time.Duration(offsetSeconds) * time.Second)
 	return &expireTime
 }
