@@ -1,4 +1,4 @@
-package handlers
+package interfaces
 
 import (
 	"trenchcoat/internal/api"
