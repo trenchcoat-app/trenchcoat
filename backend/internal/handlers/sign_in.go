@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/dto/httperror"
-	"trenchcoat/internal/services/cookie"
+	"trenchcoat/internal/utils/cookie"
 
 	"github.com/gin-gonic/gin"
 )

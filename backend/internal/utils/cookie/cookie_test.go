@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
-	"trenchcoat/internal/services/cookie"
+	"trenchcoat/internal/utils/cookie"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"trenchcoat/internal/services/auth"
-	"trenchcoat/internal/services/testutil"
+	"trenchcoat/internal/utils/testutils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"
@@ -16,10 +16,10 @@ import (
 
 func TestCreateSession_Success(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
-	accountID := testutil.SeedAccount(t, pool, string(email), "Session User", "password")
+	email := testutils.NewEmail()
+	accountID := testutils.SeedAccount(t, pool, string(email), "Session User", "password")
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()

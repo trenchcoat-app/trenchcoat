@@ -8,7 +8,7 @@ import (
 
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/services/auth"
-	"trenchcoat/internal/services/testutil"
+	"trenchcoat/internal/utils/testutils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"
@@ -18,10 +18,10 @@ import (
 
 func TestGetAccountRow_Success(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
-	testutil.SeedAccount(t, pool, string(email), "Test User", "correct-password")
+	email := testutils.NewEmail()
+	testutils.SeedAccount(t, pool, string(email), "Test User", "correct-password")
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
@@ -42,13 +42,13 @@ func TestGetAccountRow_Success(t *testing.T) {
 
 func TestGetAccountRow_InvalidCredentials(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
 
 	t.Run("wrong password", func(t *testing.T) {
 		t.Parallel()
-		email := testutil.NewEmail()
-		testutil.SeedAccount(t, pool, string(email), "Test User", "correct-password")
+		email := testutils.NewEmail()
+		testutils.SeedAccount(t, pool, string(email), "Test User", "correct-password")
 
 		gin.SetMode(gin.TestMode)
 		w := httptest.NewRecorder()
@@ -72,7 +72,7 @@ func TestGetAccountRow_InvalidCredentials(t *testing.T) {
 		c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
 		body := api.SignInJSONRequestBody{
-			Email:    testutil.NewEmail(),
+			Email:    testutils.NewEmail(),
 			Password: "any-password",
 		}
 		_, httpErr := svc.GetAccountRow(c, body)
@@ -83,10 +83,10 @@ func TestGetAccountRow_InvalidCredentials(t *testing.T) {
 
 func TestGetAccountRow_DisabledAccount(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
-	hash := testutil.HashPassword(t, "any-password")
+	email := testutils.NewEmail()
+	hash := testutils.HashPassword(t, "any-password")
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()

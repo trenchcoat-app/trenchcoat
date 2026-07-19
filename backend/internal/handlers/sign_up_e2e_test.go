@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"trenchcoat/internal/api"
-	"trenchcoat/internal/services/testutil"
+	"trenchcoat/internal/utils/testutils"
 
 	"github.com/go-openapi/testify/v2/assert"
 	"github.com/go-openapi/testify/v2/require"
@@ -15,18 +15,18 @@ import (
 
 func TestE2E_SignUp_Success(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
-	router := testutil.SetupE2ERouter(t, pool)
+	pool := testutils.GetE2EPool(t)
+	router := testutils.SetupE2ERouter(t, pool)
 
 	autoSignIn := false
 	body := api.SignUpJSONRequestBody{
-		Email:       testutil.NewEmail(),
+		Email:       testutils.NewEmail(),
 		Password:    "secure-password",
 		DisplayName: "E2E User",
 		AutoSignIn:  &autoSignIn,
 	}
 	bodyBytes, _ := json.Marshal(body)
-	w := testutil.PerformRequest(router, "POST", "/api/v1/auth/sign-up", bodyBytes)
+	w := testutils.PerformRequest(router, "POST", "/api/v1/auth/sign-up", bodyBytes)
 
 	assert.Equal(t, http.StatusCreated, w.Code)
 
@@ -43,18 +43,18 @@ func TestE2E_SignUp_Success(t *testing.T) {
 
 func TestE2E_SignUp_SuccessWithAutoSignIn(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
-	router := testutil.SetupE2ERouter(t, pool)
+	pool := testutils.GetE2EPool(t)
+	router := testutils.SetupE2ERouter(t, pool)
 
 	autoSignIn := true
 	body := api.SignUpJSONRequestBody{
-		Email:       testutil.NewEmail(),
+		Email:       testutils.NewEmail(),
 		Password:    "secure-password",
 		DisplayName: "E2E User",
 		AutoSignIn:  &autoSignIn,
 	}
 	bodyBytes, _ := json.Marshal(body)
-	w := testutil.PerformRequest(router, "POST", "/api/v1/auth/sign-up", bodyBytes)
+	w := testutils.PerformRequest(router, "POST", "/api/v1/auth/sign-up", bodyBytes)
 
 	assert.Equal(t, http.StatusCreated, w.Code)
 

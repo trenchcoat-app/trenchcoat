@@ -8,7 +8,7 @@ import (
 
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/services/auth"
-	"trenchcoat/internal/services/testutil"
+	"trenchcoat/internal/utils/testutils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"
@@ -17,16 +17,16 @@ import (
 
 func TestCreateAccount_Success(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
+	email := testutils.NewEmail()
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
-	hash := testutil.HashPassword(t, "secure-password")
+	hash := testutils.HashPassword(t, "secure-password")
 	id, httpErr := svc.CreateAccount(c, string(email), "New User", hash)
 	require.Nil(t, httpErr)
 
@@ -43,17 +43,17 @@ func TestCreateAccount_Success(t *testing.T) {
 
 func TestCreateAccount_DuplicateEmail(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
-	testutil.SeedAccount(t, pool, string(email), "First User", "password1")
+	email := testutils.NewEmail()
+	testutils.SeedAccount(t, pool, string(email), "First User", "password1")
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 	c.Request = httptest.NewRequest(http.MethodPost, "/", nil)
 
-	hash := testutil.HashPassword(t, "password2")
+	hash := testutils.HashPassword(t, "password2")
 	_, httpErr := svc.CreateAccount(c, string(email), "Second User", hash)
 	require.NotNil(t, httpErr)
 	assert.Equal(t, http.StatusInternalServerError, httpErr.Status)
@@ -61,9 +61,9 @@ func TestCreateAccount_DuplicateEmail(t *testing.T) {
 
 func TestSignUp_Success(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
+	email := testutils.NewEmail()
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
@@ -87,10 +87,10 @@ func TestSignUp_Success(t *testing.T) {
 
 func TestSignUp_DuplicateEmail(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
-	testutil.SeedAccount(t, pool, string(email), "First User", "password1")
+	email := testutils.NewEmail()
+	testutils.SeedAccount(t, pool, string(email), "First User", "password1")
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
@@ -111,9 +111,9 @@ func TestSignUp_DuplicateEmail(t *testing.T) {
 
 func TestSignUp_AutoSignIn(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
+	email := testutils.NewEmail()
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()

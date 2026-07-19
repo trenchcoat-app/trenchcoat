@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 	"trenchcoat/internal/dto/httperror"
-	"trenchcoat/internal/services/cookie"
+	"trenchcoat/internal/utils/cookie"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"

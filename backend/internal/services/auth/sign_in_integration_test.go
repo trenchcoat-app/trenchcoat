@@ -8,7 +8,7 @@ import (
 
 	"trenchcoat/internal/api"
 	"trenchcoat/internal/services/auth"
-	"trenchcoat/internal/services/testutil"
+	"trenchcoat/internal/utils/testutils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/testify/v2/assert"
@@ -18,11 +18,11 @@ import (
 
 func TestSignIn_Success(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
+	email := testutils.NewEmail()
 	password := "the-password"
-	testutil.SeedAccount(t, pool, string(email), "Signin User", password)
+	testutils.SeedAccount(t, pool, string(email), "Signin User", password)
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
@@ -44,10 +44,10 @@ func TestSignIn_Success(t *testing.T) {
 
 func TestSignIn_InvalidCredentials(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
-	testutil.SeedAccount(t, pool, string(email), "Test User", "correct-password")
+	email := testutils.NewEmail()
+	testutils.SeedAccount(t, pool, string(email), "Test User", "correct-password")
 
 	gin.SetMode(gin.TestMode)
 	w := httptest.NewRecorder()
@@ -66,10 +66,10 @@ func TestSignIn_InvalidCredentials(t *testing.T) {
 
 func TestSignIn_DisabledAccount(t *testing.T) {
 	t.Parallel()
-	pool := testutil.GetE2EPool(t)
+	pool := testutils.GetE2EPool(t)
 	svc := auth.NewAuthService(pool)
-	email := testutil.NewEmail()
-	hash := testutil.HashPassword(t, "password")
+	email := testutils.NewEmail()
+	hash := testutils.HashPassword(t, "password")
 
 	var id uuid.UUID
 	err := pool.QueryRow(
