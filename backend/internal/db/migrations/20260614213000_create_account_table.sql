@@ -5,8 +5,7 @@ CREATE TYPE account_auth_provider AS ENUM('email'); -- extendable to add provide
 CREATE TABLE IF NOT EXISTS account (
   id UUID PRIMARY KEY DEFAULT uuidv7(),
   email TEXT NOT NULL UNIQUE,
-  username TEXT UNIQUE,
-  verified BOOLEAN NOT NULL DEFAULT false,
+  verified BOOLEAN,
   status account_status NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -26,8 +25,15 @@ CREATE TABLE IF NOT EXISTS account_auth (
   )
 );
 
+CREATE TABLE IF NOT EXISTS account_profile (
+  account_id UUID PRIMARY KEY REFERENCES account (id) ON DELETE CASCADE,
+  username TEXT UNIQUE,
+  avatar_url TEXT,
+);
+
 -- +goose Down
+DROP TABLE IF EXISTS account_profile;
 DROP TABLE IF EXISTS account_auth;
-DROP TYPE IF EXISTS account_auth_provider;
 DROP TABLE IF EXISTS account;
+DROP TYPE IF EXISTS account_auth_provider;
 DROP TYPE IF EXISTS account_status;
