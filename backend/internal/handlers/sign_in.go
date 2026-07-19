@@ -41,11 +41,7 @@ func (s *Server) SignIn(c *gin.Context) {
 	c.JSON(
 		http.StatusOK,
 		api.SignInOkResponse{
-			Account: api.Account{
-				Id:          signInResponse.Account.Id,
-				Email:       body.Email,
-				DisplayName: signInResponse.Account.DisplayName,
-			},
+			Account: *signInResponse.Account,
 		},
 	)
 }
