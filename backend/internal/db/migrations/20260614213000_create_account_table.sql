@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS account (
 
 CREATE TABLE IF NOT EXISTS account_auth (
   id UUID PRIMARY KEY DEFAULT uuidv7(),
-  account_id UUID UNIQUE REFERENCES account (id) ON DELETE CASCADE,
+  account_id UUID REFERENCES account (id) ON DELETE CASCADE,
   provider account_auth_provider NOT NULL,
   provider_user_id TEXT, -- null for email account_auth_provider
   password_hash TEXT, -- non-null for email account_auth_provider
@@ -22,13 +22,15 @@ CREATE TABLE IF NOT EXISTS account_auth (
   CONSTRAINT chk_provider_fields CHECK (
     (provider = 'email' AND password_hash IS NOT NULL AND provider_user_id IS NULL) OR
     (provider != 'email' AND password_hash IS NULL AND provider_user_id IS NOT NULL)
-  )
+  ),
+  CONSTRAINT unique_account_provider UNIQUE (account_id, provider)
 );
 
 CREATE TABLE IF NOT EXISTS account_profile (
   account_id UUID PRIMARY KEY REFERENCES account (id) ON DELETE CASCADE,
   username TEXT UNIQUE,
   avatar_url TEXT,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- +goose Down
