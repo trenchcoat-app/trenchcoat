@@ -22,7 +22,7 @@ POSTGRES_PORT=                  # Database port (optional, defaults to 5432)
 VITE_BACKEND_URL=               # Backend API server URL (e.g., http://localhost:8080)
 CORS_ALLOWED_ORIGINS=           # Allowed CORS origins (comma-delimited, e.g., http://localhost:5173)
 SESSION_COOKIE_SECURE=          # Set to 'true' in production (cookie requires HTTPS)
-SESSION_COOKIE_DOMAIN=          # Cookie domain (optional, leave empty for same-origin)
+SESSION_COOKIE_DOMAIN=          # Cookie domain, should be the frontend domain in prod (optional, leave empty for same-origin)
 ```
 
 ### Database

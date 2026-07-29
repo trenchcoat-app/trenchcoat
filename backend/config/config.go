@@ -23,6 +23,12 @@ type Config struct {
 	SESSION_EXPIRY_SECONDS   int
 }
 
+/**
+ * Default configuration is made to seamlessly work with local dev environments.
+ * For production environments, the following **must** be changed:
+ *  - SESSION_COOKIE_SECURE: Should be true to require HTTPS
+ *  - SESSION_COOKIE_DOMAIN: Should be the frontend domain in prod
+ */
 var defaultConfig = Config{
 	POSTGRES_HOST:            "localhost",
 	POSTGRES_PORT:            "5432",
