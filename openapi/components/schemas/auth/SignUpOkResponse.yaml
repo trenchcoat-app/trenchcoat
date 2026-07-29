@@ -2,9 +2,6 @@ type: object
 required:
   - account
 properties:
-  session:
-    description: "The newly created authentication session. Only returned if autoSignIn was set to true in the request body."
-    $ref: "./Session.yaml"
   account:
     description: "The newly created account."
     $ref: "./Account.yaml"

@@ -81,5 +81,8 @@ jobs:
           name: openapi-gen-go
           path: backend/internal/api/
 
+      - name: generate mocks
+        run: npm run codegen:gen:mocks
+
       - name: run go test
         run: go test ./...

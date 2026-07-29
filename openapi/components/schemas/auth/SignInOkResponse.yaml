@@ -1,9 +1,6 @@
 type: object
 required:
-  - session
   - account
 properties:
-  session:
-    $ref: "./Session.yaml"
   account:
     $ref: "./Account.yaml"
