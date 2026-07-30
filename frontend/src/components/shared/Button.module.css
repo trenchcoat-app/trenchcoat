@@ -1,5 +1,6 @@
 .buttonWrapper {
     --button-bg: #4338ca;
+    --button-hover-bg: #3730a3;
     --button-disabled-color: #9ca3af;
 
     display: flex;
@@ -23,7 +24,7 @@
 }
 
 .button:hover {
-    background: #4338ca;
+    background: var(--button-hover-bg);
 }
 
 .button:focus-visible {
