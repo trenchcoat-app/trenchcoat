@@ -23,6 +23,10 @@ VITE_BACKEND_URL=               # Backend API server URL (e.g., http://localhost
 CORS_ALLOWED_ORIGINS=           # Allowed CORS origins (comma-delimited, e.g., http://localhost:5173)
 SESSION_COOKIE_SECURE=          # Set to 'true' in production (cookie requires HTTPS)
 SESSION_COOKIE_DOMAIN=          # Cookie domain, should be the frontend domain in prod (optional, leave empty for same-origin)
+SESSION_COOKIE_NAME=            # Session cookie name (optional, defaults to "sid")
+SESSION_COOKIE_SAME_SITE=       # SameSite cookie attribute (optional, defaults to "Lax")
+SESSION_COOKIE_PATH=            # Cookie path (optional, defaults to "/")
+SESSION_EXPIRY_SECONDS=         # Session TTL in seconds (optional, defaults to 86400s)
 ```
 
 ### Database
