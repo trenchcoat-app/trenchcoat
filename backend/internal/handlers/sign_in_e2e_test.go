@@ -36,7 +36,7 @@ func TestE2E_SignIn_Success(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	require.NoError(t, err)
 	assert.Equal(t, email, resp.Account.Email)
-	assert.Equal(t, "E2E User", *resp.Account.DisplayName)
+	assert.Equal(t, "E2E User", resp.Account.DisplayName)
 	assert.NotEqual(t, uuid.UUID{}, resp.Account.Id)
 
 	cookies := w.Result().Cookies()

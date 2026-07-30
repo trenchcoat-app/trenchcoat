@@ -18,7 +18,7 @@ type SignUpResponse struct {
 func (auth *AuthService) ValidateSignUpCredentials(body api.SignUpJSONRequestBody) (errorDetails []api.ErrorResponseDetail) {
 	nameTrimmed := strings.TrimSpace(body.DisplayName)
 	if nameTrimmed == "" {
-		errorDetails = append(errorDetails, api.ErrorResponseDetail{Field: "name", Message: "Name cannot be empty"})
+		errorDetails = append(errorDetails, api.ErrorResponseDetail{Field: "displayName", Message: "Name cannot be empty"})
 	}
 
 	if len(body.Password) < 8 {
@@ -73,7 +73,7 @@ func (auth *AuthService) SignUp(c *gin.Context, body api.SignUpJSONRequestBody) 
 		&api.Account{
 			Id:          userID,
 			Email:       openapi_types.Email(emailStr),
-			DisplayName: &displayName,
+			DisplayName: displayName,
 		},
 		&session,
 	}, nil

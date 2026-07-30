@@ -26,14 +26,14 @@ func TestValidateSignUpCredentials(t *testing.T) {
 			email:       "test@example.com",
 			password:    "password123",
 			displayName: "",
-			expected:    []api.ErrorResponseDetail{{Field: "name", Message: "Name cannot be empty"}},
+			expected:    []api.ErrorResponseDetail{{Field: "displayName", Message: "Name cannot be empty"}},
 		},
 		{
 			name:        "empty name after trim",
 			email:       "test@example.com",
 			password:    "password123",
 			displayName: "   ",
-			expected:    []api.ErrorResponseDetail{{Field: "name"}},
+			expected:    []api.ErrorResponseDetail{{Field: "displayName"}},
 		},
 		{
 			name:        "short password",
@@ -54,7 +54,7 @@ func TestValidateSignUpCredentials(t *testing.T) {
 			email:       "test@example.com",
 			password:    "short",
 			displayName: "",
-			expected:    []api.ErrorResponseDetail{{Field: "name"}, {Field: "password"}},
+			expected:    []api.ErrorResponseDetail{{Field: "displayName"}, {Field: "password"}},
 		},
 	}
 

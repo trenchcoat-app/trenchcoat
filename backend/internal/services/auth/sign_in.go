@@ -35,7 +35,7 @@ func (auth *AuthService) SignIn(c *gin.Context, body api.SignInJSONRequestBody) 
 			&api.Account{
 				Id:          account.ID,
 				Email:       body.Email,
-				DisplayName: &account.DisplayName,
+				DisplayName: account.DisplayName,
 			},
 			&Session{
 				SessionToken: session.SessionToken,
