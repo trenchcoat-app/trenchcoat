@@ -6,9 +6,8 @@ interface InputProps extends ComponentProps<"input"> {
     errors?: string[];
 }
 
-export const Input = ({ id, ref, label, errors = [], ...props }: InputProps) => {
-    const generatedId = useId();
-    const inputId = id ?? generatedId;
+export const Input = ({ id, ref, label, errors = [], className, ...props }: InputProps) => {
+    const inputId = id ?? useId();
 
     const hasErrors = errors.length > 0;
 
@@ -21,7 +20,7 @@ export const Input = ({ id, ref, label, errors = [], ...props }: InputProps) => 
             )}
             <input
                 id={inputId}
-                className={`${styles.input} ${hasErrors ? styles.inputInvalid : ""}`}
+                className={`${styles.input} ${hasErrors ? styles.inputInvalid : ""}${className ?? ""}`}
                 ref={ref}
                 aria-describedby={hasErrors ? `${inputId}-error` : undefined}
                 aria-invalid={hasErrors}
