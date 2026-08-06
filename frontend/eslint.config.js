@@ -22,6 +22,10 @@ export default defineConfig([
                     destructuredArrayIgnorePattern: "^_",
                 },
             ],
+            "@typescript-eslint/no-empty-object-type": [
+                "error",
+                { allowInterfaces: "with-single-extends" },
+            ],
         },
     },
 ]);
