@@ -1,8 +1,8 @@
 import type { AnyFieldApi } from "@tanstack/react-form";
 
-export type ValidatorContext = {
-    value: any;
+export type ValidatorContext<TValue = unknown> = {
+    value: TValue;
     fieldApi: AnyFieldApi;
 };
 
-export type Validator = (context: ValidatorContext) => string | undefined;
+export type Validator<TValue = unknown> = (context: ValidatorContext<TValue>) => string | undefined;
