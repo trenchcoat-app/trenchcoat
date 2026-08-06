@@ -2,24 +2,17 @@ import "@/config/i18n";
 import "@/config/apiClient";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider } from "@tanstack/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { router } from "@/router/router";
+import { AuthProvider } from "@/contexts/AuthProvider";
 import { queryClient } from "@/config/queryClient";
-import { useAuth } from "@/hooks/useAuth";
+import { App } from "@/App";
 import "@/styles/global.css";
-
-function InnerApp() {
-    const auth = useAuth();
-    return <RouterProvider router={router} context={{ auth }} />;
-}
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
-                <InnerApp />
+                <App />
             </AuthProvider>
         </QueryClientProvider>
     </StrictMode>,
