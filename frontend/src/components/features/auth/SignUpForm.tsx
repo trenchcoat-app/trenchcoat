@@ -30,7 +30,7 @@ export const SignUpForm = () => {
     const form = useForm({
         defaultValues,
         onSubmit: ({ value }) => {
-            const { confirmPassword, ...body } = value;
+            const { confirmPassword: _confirmPassword, ...body } = value;
             mutation.mutate({ body });
         },
     });
