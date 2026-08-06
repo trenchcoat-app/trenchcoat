@@ -43,7 +43,7 @@ func TestSignUp_SuccessWithoutAutoSignIn(t *testing.T) {
 			Account: &api.Account{
 				Id:          userID,
 				Email:       email,
-				DisplayName: &displayName,
+				DisplayName: displayName,
 			},
 			Session: nil,
 		}, nil)
@@ -69,7 +69,7 @@ func TestSignUp_SuccessWithoutAutoSignIn(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	require.NoError(t, err)
 	assert.Equal(t, email, resp.Account.Email)
-	assert.Equal(t, displayName, *resp.Account.DisplayName)
+	assert.Equal(t, displayName, resp.Account.DisplayName)
 	assert.Equal(t, userID, resp.Account.Id)
 
 	cookies := w.Result().Cookies()
@@ -96,7 +96,7 @@ func TestSignUp_SuccessWithAutoSignIn(t *testing.T) {
 			Account: &api.Account{
 				Id:          uuid.New(),
 				Email:       email,
-				DisplayName: &displayName,
+				DisplayName: displayName,
 			},
 			Session: &auth.Session{
 				SessionToken: &token,
@@ -163,7 +163,7 @@ func TestSignUp_ValidationError(t *testing.T) {
 	mockAuth.EXPECT().
 		ValidateSignUpCredentials(mock.Anything).
 		Return([]api.ErrorResponseDetail{
-			{Field: "name", Message: "Name cannot be empty"},
+			{Field: "displayName", Message: "Name cannot be empty"},
 			{Field: "password", Message: "Password must be at least 8 characters long"},
 		})
 

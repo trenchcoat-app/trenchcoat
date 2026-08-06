@@ -34,7 +34,7 @@ func TestE2E_SignUp_Success(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	require.NoError(t, err)
 	assert.Equal(t, body.Email, resp.Account.Email)
-	assert.Equal(t, "E2E User", *resp.Account.DisplayName)
+	assert.Equal(t, "E2E User", resp.Account.DisplayName)
 	assert.NotEqual(t, uuid.UUID{}, resp.Account.Id)
 
 	cookies := w.Result().Cookies()
@@ -62,7 +62,7 @@ func TestE2E_SignUp_SuccessWithAutoSignIn(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	require.NoError(t, err)
 	assert.Equal(t, body.Email, resp.Account.Email)
-	assert.Equal(t, "E2E User", *resp.Account.DisplayName)
+	assert.Equal(t, "E2E User", resp.Account.DisplayName)
 
 	cookies := w.Result().Cookies()
 	require.Len(t, cookies, 1)

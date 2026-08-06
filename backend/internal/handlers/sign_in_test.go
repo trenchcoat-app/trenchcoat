@@ -44,7 +44,7 @@ func TestSignIn_Success(t *testing.T) {
 			Account: &api.Account{
 				Id:          uuid.New(),
 				Email:       email,
-				DisplayName: &displayName,
+				DisplayName: displayName,
 			},
 			Session: &auth.Session{
 				SessionToken: &token,
@@ -73,7 +73,7 @@ func TestSignIn_Success(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	require.NoError(t, err)
 	assert.Equal(t, email, resp.Account.Email)
-	assert.Equal(t, "Test User", *resp.Account.DisplayName)
+	assert.Equal(t, "Test User", resp.Account.DisplayName)
 	assert.NotEqual(t, uuid.Nil, resp.Account.Id)
 
 	cookies := w.Result().Cookies()

@@ -81,7 +81,7 @@ func TestSignUp_Success(t *testing.T) {
 	resp, httpErr := svc.SignUp(c, body)
 	require.Nil(t, httpErr)
 	require.NotNil(t, resp)
-	assert.Equal(t, "New User", *resp.Account.DisplayName)
+	assert.Equal(t, "New User", resp.Account.DisplayName)
 	assert.Equal(t, email, resp.Account.Email)
 }
 

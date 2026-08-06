@@ -37,7 +37,7 @@ func TestSignIn_Success(t *testing.T) {
 	resp, httpErr := svc.SignIn(c, body)
 	require.Nil(t, httpErr)
 	require.NotNil(t, resp)
-	assert.Equal(t, "Signin User", *resp.Account.DisplayName)
+	assert.Equal(t, "Signin User", resp.Account.DisplayName)
 	assert.Equal(t, email, resp.Account.Email)
 	require.NotNil(t, resp.Session.SessionToken)
 }
