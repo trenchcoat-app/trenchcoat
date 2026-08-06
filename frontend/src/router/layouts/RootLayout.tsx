@@ -1,13 +1,9 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { Outlet } from "@tanstack/react-router";
 
-const RootLayout = () => {
+export const RootLayout = () => {
     return (
-        <main>
+        <main style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
             <Outlet />
         </main>
     );
 };
-
-export const rootRoute = createRootRoute({
-    component: RootLayout,
-});

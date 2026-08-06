@@ -1,16 +1,19 @@
+import "@/config/i18n";
+import "@/config/apiClient";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider } from "@tanstack/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { router } from "@router/router";
-import { queryClient } from "@config/queryClient";
-import "@config/apiClient";
-import "./index.css";
+import { AuthProvider } from "@/contexts/AuthProvider";
+import { queryClient } from "@/config/queryClient";
+import { App } from "@/App";
+import "@/styles/global.css";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            <AuthProvider>
+                <App />
+            </AuthProvider>
         </QueryClientProvider>
     </StrictMode>,
 );

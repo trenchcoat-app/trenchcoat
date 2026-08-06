@@ -1,8 +1,7 @@
-import { Navbar } from "@components/features/Navbar";
-import { createRoute, Outlet } from "@tanstack/react-router";
-import { rootRoute } from "@router/layouts/RootLayout";
+import { Navbar } from "@/components/features/Navbar";
+import { Outlet } from "@tanstack/react-router";
 
-const NavbarLayout = () => {
+export const NavbarLayout = () => {
     return (
         <>
             <Navbar />
@@ -10,9 +9,3 @@ const NavbarLayout = () => {
         </>
     );
 };
-
-export const navbarRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    id: "navbar-layout",
-    component: NavbarLayout,
-});

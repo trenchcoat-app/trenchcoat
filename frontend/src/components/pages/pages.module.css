@@ -1,0 +1,40 @@
+.pageWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pageCenterContent {
+    justify-content: center;
+}
+
+.pageBottomPadding {
+    padding-bottom: 10%;
+}
+
+@media (max-width: 1280px) {
+    .pageWrapper {
+        min-width: 60%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .pageWrapper {
+        min-width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .pageWrapper {
+        min-width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .pageWrapper {
+        min-width: 90%;
+    }
+}
