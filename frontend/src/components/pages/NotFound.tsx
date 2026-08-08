@@ -11,7 +11,7 @@ export const NotFound = () => {
         <div className={`${pageStyles.pageWrapper} ${pageStyles.pageBottomPadding} ${pageStyles.pageCenterContent}`}>
             <div className={notFoundStyles.wrapper}>
                 <p className={notFoundStyles.title}>404</p>
-                <p className={notFoundStyles.message}>{t("PAGE_NOT_FOUND_MESSAGE")}</p>
+                <p className={notFoundStyles.message}>{t("PAGE_NOT_FOUND")}</p>
                 <Link to="/">{t("BACK_TO_HOME")}</Link>
             </div>
         </div>
