@@ -9,14 +9,25 @@ import { queryClient } from "@/config/queryClient";
 import { App } from "@/App";
 import "@/styles/global.css";
 
-createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <ToastProvider>
-                    <App />
-                </ToastProvider>
-            </AuthProvider>
-        </QueryClientProvider>
-    </StrictMode>,
-);
+async function enableMocking() {
+    if (import.meta.env.VITE_ENABLE_MOCKS !== 'true') {
+        return;
+    }
+    
+    const { worker } = await import('@/mocks/browser');
+    return worker.start();
+}
+
+enableMocking().then(() => {
+    createRoot(document.getElementById("root")!).render(
+        <StrictMode>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                    <ToastProvider>
+                        <App />
+                    </ToastProvider>
+                </AuthProvider>
+            </QueryClientProvider>
+        </StrictMode>,
+    );
+});

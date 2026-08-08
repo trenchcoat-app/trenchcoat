@@ -1,0 +1,57 @@
+name: frontend-ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-frontend
+
+      - name: upload generated code
+        uses: actions/upload-artifact@v7
+        with:
+          name: openapi-gen-tanstack-ts
+          path: frontend/src/api/
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '25'
+
+      - name: download generated code
+        uses: actions/download-artifact@v8
+        with:
+          name: openapi-gen-tanstack-ts
+          path: frontend/src/api/
+      
+      - name: install frontend workspace dependencies
+        run: npm install
+        shell: bash
+        working-directory: .
+
+      - name: run vitest
+        run: npm run test

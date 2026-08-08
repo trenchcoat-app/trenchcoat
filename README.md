@@ -20,6 +20,7 @@ POSTGRES_DB=                    # Database name
 POSTGRES_HOST=                  # Database host (optional, defaults to localhost)
 POSTGRES_PORT=                  # Database port (optional, defaults to 5432)
 VITE_BACKEND_URL=               # Backend API server URL (e.g., http://localhost:8080)
+VITE_ENABLE_MOCKS=              # Enable browser API mocking with MSW ('true' to enable, anything else to disable)
 CORS_ALLOWED_ORIGINS=           # Allowed CORS origins (comma-delimited, e.g., http://localhost:5173)
 SESSION_COOKIE_SECURE=          # Set to 'true' in production (cookie requires HTTPS)
 SESSION_COOKIE_DOMAIN=          # Cookie domain, should be the frontend domain in prod (optional, leave empty for same-origin)

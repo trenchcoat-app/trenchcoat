@@ -1,0 +1,18 @@
+name: setup frontend
+description: setup Node, install deps, and generate frontend code
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v6
+      with:
+        node-version: '25'
+
+    - name: install root dependencies
+      run: npm install
+      shell: bash
+      working-directory: .
+
+    - name: generate code
+      run: npm run codegen:gen:openapi && npm run codegen:gen:frontend
+      shell: bash
+      working-directory: .
